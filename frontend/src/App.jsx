@@ -1,8 +1,25 @@
+/* eslint-disable no-console */
+import { useEffect, useState } from 'react';
+
 import { Button, Container, Stack, Typography } from '@mui/material';
+import axios from 'axios';
 import useDarkMode from 'use-dark-mode';
 
 export const App = () => {
     const { toggle, value } = useDarkMode();
+
+    const [data, setData] = useState('');
+
+    useEffect(() => {
+        axios
+            .get('/api')
+            .then((res) => {
+                setData(res.data);
+            })
+            .catch((e) => {
+                console.log(e);
+            });
+    }, []);
 
     return (
         <Container>
@@ -23,6 +40,9 @@ export const App = () => {
                     information through interactive tools and games. Our mission
                     is to help you practice and master what you&apos;re
                     learning.
+                </Typography>
+                <Typography variant="caption" textAlign="center">
+                    {data}
                 </Typography>
             </Stack>
         </Container>

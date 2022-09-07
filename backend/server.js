@@ -1,9 +1,11 @@
 import express from "express";
 import path from "path";
+import morgan from "morgan";
 
 const app = express();
 
 app.use(express.json());
+app.use(morgan("tiny"));
 
 const __dirname = path.resolve();
 
@@ -27,3 +29,5 @@ app.listen(
         `Server running in ${process.env.NODE_ENV} mode on port ${PORT}`
     )
 );
+
+process.once("SIGTERM", () => process.exit(0));
