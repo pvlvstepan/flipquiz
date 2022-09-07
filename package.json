@@ -8,7 +8,7 @@
         "start-frontend": "yarn --cwd \"frontend\" start",
         "start-dev": "concurrently \"yarn start-backend\" \"yarn start-frontend\"",
         "install-all": "yarn && yarn --cwd frontend",
-        "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false yarn --cwd \"frontend\" && yarn build --cwd \"frontend\""
+        "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false yarn --cwd \"frontend\" && yarn --cwd \"frontend\" build"
     },
     "dependencies": {
         "express": "^4.18.1",
