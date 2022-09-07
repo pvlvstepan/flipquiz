@@ -1,0 +1,26 @@
+name: Check incoming pull request
+on:
+    pull_request:
+        branches:
+            - main
+jobs:
+    test:
+        name: Lint and format the source code
+        runs-on: ubuntu-latest
+        defaults:
+            run:
+                working-directory: ./frontend
+        steps:
+            - uses: actions/checkout@v2
+            - name: Install packages
+              uses: borales/actions-yarn@v3.0.0
+              with:
+                  cmd: install
+            - name: Prettier
+              uses: borales/actions-yarn@v3.0.0
+              with:
+                  cmd: format
+            - name: ESLint
+              uses: borales/actions-yarn@v3.0.0
+              with:
+                  cmd: lint --fix --max-warnings 0
