@@ -11,14 +11,13 @@
         "start": "react-scripts start",
         "build": "react-scripts build",
         "eject": "react-scripts eject",
-        "lint": "eslint . ",
-        "lint:fix": "eslint . --fix",
+        "lint": "eslint \"./src/**/*\"",
         "format": "prettier --write .",
         "prepare": "cd .. && husky install"
     },
     "lint-staged": {
         "./**/*.{ts,js,jsx,tsx}": [
-            "yarn lint:fix",
+            "yarn lint --fix --max-warnings 0",
             "yarn format"
         ]
     },
