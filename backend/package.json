@@ -1,0 +1,15 @@
+{
+    "name": "backend",
+    "version": "0.1.0",
+    "main": "index.js",
+    "dependencies": {
+        "express": "^4.18.1",
+        "morgan": "^1.10.0",
+        "nodemon": "^2.0.19"
+    },
+    "scripts": {
+        "start-dev": "nodemon index.js",
+        "start": "node index.js",
+        "heroku-postbuild": "cd .. && yarn && yarn build"
+    }
+}
