@@ -1,0 +1,12 @@
+{
+    "name": "flipquiz",
+    "version": "0.1.0",
+    "dependencies": {
+        "concurrently": "^7.4.0"
+    },
+    "scripts": {
+        "start-frontend": "cd frontend && yarn && yarn build",
+        "start-backend": "cd backend && yarn && yarn start",
+        "start": "concurrently --kill-others-on-fail \"yarn start-backend\" \"yarn start-frontend\""
+    }
+}

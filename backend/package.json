@@ -9,7 +9,6 @@
     },
     "scripts": {
         "start-dev": "nodemon index.js",
-        "start": "node index.js",
-        "heroku-postbuild": "cd .. && yarn && yarn build"
+        "start": "node index.js"
     }
 }
