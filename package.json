@@ -1,0 +1,21 @@
+{
+    "name": "flipquiz",
+    "version": "0.1.0",
+    "license": "MIT",
+    "type": "module",
+    "scripts": {
+        "start-backend": "nodemon backend/server.js",
+        "start-frontend": "yarn --cwd \"frontend\" start",
+        "start-dev": "concurrently \"yarn start-backend\" \"yarn start-frontend\"",
+        "install-all": "yarn && yarn --cwd frontend",
+        "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false yarn --cwd \"frontend\" && yarn build --cwd \"frontend\""
+    },
+    "dependencies": {
+        "express": "^4.18.1",
+        "path": "^0.12.7"
+    },
+    "devDependencies": {
+        "concurrently": "^7.4.0",
+        "nodemon": "^2.0.19"
+    }
+}
