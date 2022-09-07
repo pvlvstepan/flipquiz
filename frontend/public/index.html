@@ -4,6 +4,7 @@
         <meta charset="utf-8" />
         <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="color-scheme" content="dark light" />
         <meta name="theme-color" content="#000000" />
         <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
         <title>FlipQuiz</title>
@@ -16,4 +17,45 @@
         <noscript>You need to enable JavaScript to run this app.</noscript>
         <div id="root"></div>
     </body>
+    <script>
+        (function () {
+            var storageKey = 'darkMode';
+            var classNameDark = 'dark-mode';
+            var classNameLight = 'light-mode';
+
+            function setClassOnDocumentBody(darkMode) {
+                document.body.classList.add(
+                    darkMode ? classNameDark : classNameLight
+                );
+                document.body.classList.remove(
+                    darkMode ? classNameLight : classNameDark
+                );
+            }
+
+            var preferDarkQuery = '(prefers-color-scheme: dark)';
+            var mql = window.matchMedia(preferDarkQuery);
+            var supportsColorSchemeQuery = mql.media === preferDarkQuery;
+            var localStorageTheme = null;
+            try {
+                localStorageTheme = localStorage.getItem(storageKey);
+            } catch (err) {}
+            var localStorageExists = localStorageTheme !== null;
+            if (localStorageExists) {
+                localStorageTheme = JSON.parse(localStorageTheme);
+                document.head.children.namedItem('color-scheme').content =
+                    localStorageTheme ? 'dark' : 'light';
+            }
+
+            if (localStorageExists) {
+                setClassOnDocumentBody(localStorageTheme);
+            } else if (supportsColorSchemeQuery) {
+                setClassOnDocumentBody(mql.matches);
+                localStorage.setItem(storageKey, mql.matches);
+            } else {
+                var isDarkMode =
+                    document.body.classList.contains(classNameDark);
+                localStorage.setItem(storageKey, JSON.stringify(isDarkMode));
+            }
+        })();
+    </script>
 </html>
