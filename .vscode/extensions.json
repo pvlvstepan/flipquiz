@@ -1,0 +1,12 @@
+{
+    "recommendations": [
+        "formulahendry.auto-rename-tag",
+        "naumovs.color-highlight",
+        "dsznajder.es7-react-js-snippets",
+        "dbaeumer.vscode-eslint",
+        "ionutvmi.path-autocomplete",
+        "esbenp.prettier-vscode",
+        "syler.sass-indented",
+        "styled-components.vscode-styled-components"
+    ]
+}
