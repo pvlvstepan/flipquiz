@@ -1,0 +1,86 @@
+{
+    "env": {
+        "browser": true,
+        "es2021": true
+    },
+    "extends": [
+        "eslint:recommended",
+        "plugin:react/recommended",
+        "plugin:react/jsx-runtime",
+        "airbnb",
+        "plugin:prettier/recommended",
+        "plugin:import/errors",
+        "plugin:import/warnings"
+    ],
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "ecmaVersion": "latest",
+        "sourceType": "module"
+    },
+    "plugins": ["react", "react-hooks", "jsx-a11y"],
+    "settings": {
+        "import/resolver": {
+            "node": {
+                "moduleDirectory": ["node_modules", "src/"]
+            }
+        }
+    },
+    "rules": {
+        "jsx-a11y/label-has-associated-control": [
+            "error",
+            {
+                "required": {
+                    "some": ["nesting", "id"]
+                }
+            }
+        ],
+        "jsx-a11y/label-has-for": [
+            "error",
+            {
+                "required": {
+                    "some": ["nesting", "id"]
+                }
+            }
+        ],
+        "arrow-body-style": "off",
+
+        "react-hooks/exhaustive-deps": "warn",
+        "react-hooks/rules-of-hooks": "error",
+        "react/jsx-props-no-spreading": "off",
+        "react/function-component-definition": [
+            2,
+            {
+                "namedComponents": "arrow-function",
+                "unnamedComponents": "arrow-function"
+            }
+        ],
+        "react/react-in-jsx-scope": "off",
+        "react/prop-types": "off",
+        "react/require-default-props": "off",
+        "react/no-array-index-key": "off",
+
+        "import/prefer-default-export": "off",
+        "import/order": [
+            "error",
+            {
+                "groups": ["builtin", "external", "internal"],
+                "pathGroups": [
+                    {
+                        "pattern": "react",
+                        "group": "external",
+                        "position": "before"
+                    }
+                ],
+                "pathGroupsExcludedImportTypes": ["react"],
+                "newlines-between": "always",
+                "alphabetize": {
+                    "order": "asc",
+                    "caseInsensitive": true
+                }
+            }
+        ],
+        "no-unused-vars": "warn"
+    }
+}
