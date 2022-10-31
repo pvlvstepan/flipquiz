@@ -11,7 +11,12 @@
         "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false yarn --cwd \"frontend\" && yarn --cwd \"frontend\" build"
     },
     "dependencies": {
+        "bcrypt": "^5.1.0",
+        "cookie-parser": "^1.4.6",
+        "dotenv": "^16.0.3",
         "express": "^4.18.1",
+        "jsonwebtoken": "^8.5.1",
+        "mongoose": "^6.7.0",
         "morgan": "^1.10.0",
         "path": "^0.12.7"
     },

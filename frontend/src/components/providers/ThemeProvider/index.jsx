@@ -5,8 +5,10 @@ import {
     CssBaseline,
     createTheme,
 } from '@mui/material';
+import { SnackbarProvider } from 'notistack';
 import useDarkMode from 'use-dark-mode';
 
+import { SnackBarCloseAction } from 'components/common/SnackbarAction';
 import { baseTheme } from 'theme';
 
 import '@fontsource/palanquin-dark/700.css';
@@ -34,8 +36,18 @@ export const ThemeProvider = ({ children }) => {
 
     return (
         <MuiThemeProvider theme={theme}>
-            <CssBaseline />
-            {children}
+            <SnackbarProvider
+                // eslint-disable-next-line react/no-unstable-nested-components
+                action={(key) => <SnackBarCloseAction snackbarKey={key} />}
+                preventDuplicate
+                anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'center',
+                }}
+            >
+                <CssBaseline />
+                {children}
+            </SnackbarProvider>
         </MuiThemeProvider>
     );
 };

@@ -1,50 +1,44 @@
-/* eslint-disable no-console */
-import { useEffect, useState } from 'react';
+import { Box, CircularProgress } from '@mui/material';
+import { useQuery } from '@tanstack/react-query';
+import { useAtom } from 'jotai';
+import { Route, Routes } from 'react-router-dom';
 
-import { Button, Container, Stack, Typography } from '@mui/material';
-import axios from 'axios';
-import useDarkMode from 'use-dark-mode';
+import { userAtom } from 'atoms';
+import { AuthModal } from 'components/pages/AuthModal';
+import { TestPage } from 'components/pages/Test';
+import { checkAuthQuery } from 'queries/auth/checkAuth';
 
 export const App = () => {
-    const { toggle, value } = useDarkMode();
+    const [user, setUser] = useAtom(userAtom);
 
-    const [data, setData] = useState('');
+    const { isLoading } = useQuery(['check-auth'], () => checkAuthQuery(), {
+        onSuccess: (d) => setUser(d.data.user),
+        enabled: !user,
+        retry: false,
+        refetchOnWindowFocus: false,
+    });
 
-    useEffect(() => {
-        axios
-            .get('/api')
-            .then((res) => {
-                setData(res.data);
-            })
-            .catch((e) => {
-                console.log(e);
-            });
-    }, []);
+    if (isLoading) {
+        return (
+            <Box
+                sx={{
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                }}
+            >
+                <CircularProgress variant="indeterminate" />
+            </Box>
+        );
+    }
 
     return (
-        <Container>
-            <Stack spacing={4} sx={{ p: 5 }} alignItems="center">
-                <Stack
-                    direction="row"
-                    spacing={2}
-                    alignItems="center"
-                    justifyContent="space-between"
-                >
-                    <Typography variant="h2">FlipQuiz</Typography>
-                    <Button onClick={() => toggle()} variant="contained">
-                        {value ? 'Light' : 'Dark'} Mode
-                    </Button>
-                </Stack>
-                <Typography textAlign="center" sx={{ maxWidth: 400 }}>
-                    FlipQuiz is an online platform that helps you study
-                    information through interactive tools and games. Our mission
-                    is to help you practice and master what you&apos;re
-                    learning.
-                </Typography>
-                <Typography variant="caption" textAlign="center">
-                    {data}
-                </Typography>
-            </Stack>
-        </Container>
+        <>
+            <Routes>
+                <Route path="/" element={<TestPage />} />
+            </Routes>
+            <AuthModal />
+        </>
     );
 };
