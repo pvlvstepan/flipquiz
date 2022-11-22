@@ -1,0 +1,136 @@
+import { useState } from 'react';
+
+import {
+    Avatar,
+    Divider,
+    FormControlLabel,
+    ListItemAvatar,
+    ListItemText,
+    Menu,
+    MenuItem,
+    Switch,
+} from '@mui/material';
+import { useMutation } from '@tanstack/react-query';
+import { useAtom } from 'jotai';
+import useDarkMode from 'use-dark-mode';
+
+import { userAtom } from 'atoms';
+import { signOutQuery } from 'queries/auth/signOut';
+import { getPublicUsername } from 'utils/getPublicUsername';
+
+const stringToColor = (string) => {
+    let hash = 0;
+    let i;
+
+    /* eslint-disable no-bitwise */
+    for (i = 0; i < string.length; i += 1) {
+        hash = string.charCodeAt(i) + ((hash << 5) - hash);
+    }
+
+    let color = '#';
+
+    for (i = 0; i < 3; i += 1) {
+        const value = (hash >> (i * 8)) & 0xff;
+        color += `00${value.toString(16)}`.slice(-2);
+    }
+    /* eslint-enable no-bitwise */
+
+    return color;
+};
+
+const stringAvatar = (email, sx) => {
+    return {
+        sx: {
+            ...sx,
+            bgcolor: stringToColor(email),
+            cursor: 'pointer',
+        },
+        children: email.toUpperCase()[0],
+    };
+};
+
+export const UserMenu = () => {
+    const [user, setUser] = useAtom(userAtom);
+
+    const [anchorEl, setAnchorEl] = useState(null);
+
+    const open = Boolean(anchorEl);
+
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
+    const { toggle, value } = useDarkMode();
+
+    const { mutate: signOut } = useMutation(() => signOutQuery(), {
+        onSuccess: () => {
+            setUser(undefined);
+        },
+    });
+
+    return (
+        <div>
+            <Avatar
+                {...stringAvatar(user?.username)}
+                id="user-menu-button"
+                aria-controls={open ? 'user-menu' : undefined}
+                aria-haspopup="true"
+                aria-expanded={open ? 'true' : undefined}
+                onClick={handleClick}
+            />
+            <Menu
+                id="user-menu"
+                anchorEl={anchorEl}
+                open={open}
+                onClose={handleClose}
+                MenuListProps={{
+                    'aria-labelledby': 'user-menu-button',
+                }}
+            >
+                <MenuItem sx={{ pointerEvents: 'none' }}>
+                    <ListItemAvatar>
+                        <Avatar {...stringAvatar(user?.username)} />
+                    </ListItemAvatar>
+                    <ListItemText
+                        primary={getPublicUsername(user?.username, user?._id)}
+                        secondary={user?.email}
+                    />
+                </MenuItem>
+                <Divider />
+                <MenuItem onClick={handleClose}>Profile</MenuItem>
+                <MenuItem onClick={toggle}>
+                    <FormControlLabel
+                        control={
+                            <Switch
+                                checked={value}
+                                onChange={toggle}
+                                sx={{ ml: 2 }}
+                            />
+                        }
+                        labelPlacement="start"
+                        label="Night mode"
+                        sx={{
+                            justifyContent: 'space-between',
+                            m: 0,
+                            width: '100%',
+                            pointerEvents: 'none',
+                        }}
+                    />
+                </MenuItem>
+                <MenuItem onClick={handleClose}>Settings</MenuItem>
+                <Divider />
+                <MenuItem
+                    onClick={() => {
+                        handleClose();
+                        signOut();
+                    }}
+                >
+                    Sign out
+                </MenuItem>
+            </Menu>
+        </div>
+    );
+};

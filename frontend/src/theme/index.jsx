@@ -163,15 +163,19 @@ export const baseTheme = createTheme({
         },
         body1: {
             fontFamily: 'Inter',
+            fontWeight: 500,
         },
         body2: {
             fontFamily: 'Inter',
+            fontWeight: 500,
         },
         caption: {
             fontFamily: 'Inter',
+            fontWeight: 500,
         },
         overline: {
             fontFamily: 'Inter',
+            fontWeight: 500,
         },
     },
 });

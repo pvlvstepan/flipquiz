@@ -4,11 +4,12 @@ import { useAtom } from 'jotai';
 import { Route, Routes } from 'react-router-dom';
 
 import { userAtom } from 'atoms';
+import { MainLayout } from 'components/layouts/Main';
 import { AuthModal } from 'components/pages/AuthModal';
 import { TestPage } from 'components/pages/Test';
 import { checkAuthQuery } from 'queries/auth/checkAuth';
 
-export const App = () => {
+const AuthLoader = ({ children }) => {
     const [user, setUser] = useAtom(userAtom);
 
     const { isLoading } = useQuery(['check-auth'], () => checkAuthQuery(), {
@@ -33,12 +34,18 @@ export const App = () => {
         );
     }
 
+    return children;
+};
+
+export const App = () => {
     return (
-        <>
+        <AuthLoader>
             <Routes>
-                <Route path="/" element={<TestPage />} />
+                <Route path="/" element={<MainLayout />}>
+                    <Route index element={<TestPage />} />
+                </Route>
             </Routes>
             <AuthModal />
-        </>
+        </AuthLoader>
     );
 };

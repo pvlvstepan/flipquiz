@@ -8,6 +8,11 @@ export const UserSchema = Schema({
         unique: true,
         match: /^\S+@\S+\.\S+$/,
     },
+    username: {
+        type: String,
+        required: true,
+        match: /^[a-z0-9]+$/i,
+    },
     password: { type: String, required: true },
     role: {
         type: String,

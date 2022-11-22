@@ -43,6 +43,7 @@ export const SignUpForm = () => {
     const onSubmit = handleSubmit((formData) =>
         signUp({
             email: formData.email,
+            username: formData.username,
             password: formData.password,
             role: formData?.isLecturer ? 'TEACHER' : undefined,
         })
@@ -78,6 +79,22 @@ export const SignUpForm = () => {
                         : 'Something went wrong, please try again later'}
                 </Typography>
             ) : undefined}
+            <TextField
+                disabled={isLoading}
+                variant="outlined"
+                label={errors.username?.message || 'Username'}
+                placeholder="Enter your new username"
+                type="text"
+                error={!!errors.username}
+                {...register('username', {
+                    required: true,
+                    pattern: {
+                        value: /^[a-z0-9]+$/i,
+                        message:
+                            'Username can only contain numbers and letters',
+                    },
+                })}
+            />
             <TextField
                 disabled={isLoading}
                 variant="outlined"

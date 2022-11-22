@@ -8,6 +8,7 @@ export const checkAuth = (req, res, next) => {
         );
         req.user_data = {
             _id: decoded._id,
+            username: decoded.username,
             email: decoded.email,
             role: decoded.role,
             createdAt: decoded.createdAt,

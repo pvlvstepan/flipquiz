@@ -28,6 +28,7 @@ router.post("/sign-up", (req, res, next) => {
                         const user = new User({
                             _id: new Types.ObjectId(),
                             email: req.body.email,
+                            username: req.body.username,
                             password: hashedText,
                             role: req.body.role,
                             createdAt: new Date().toISOString(),
@@ -74,6 +75,7 @@ router.post("/sign-in", (req, res, next) => {
                 if (result) {
                     const data = {
                         _id: user._id,
+                        username: user.username,
                         email: user.email,
                         role: user.role,
                         createdAt: user.createdAt,

@@ -7,14 +7,21 @@ import cookieParser from "cookie-parser";
 
 import { app as App } from "./app.js";
 
-dotenv.config();
+dotenv.config({
+    path: path.resolve(process.cwd(), ".env.local"),
+});
+
 const __dirname = path.resolve();
 const PORT = process.env.PORT || 8080;
 
+const mongoUri = `mongodb+srv://${process.env.MONGO_ATLAS_USER}:${process.env.MONGO_ATLAS_PASSWORD}@cluster0.iiuphqi.mongodb.net/?retryWrites=true&w=majority`;
+
 mongoose
-    .connect(
-        `mongodb+srv://${process.env.MONGO_ATLAS_USER}:${process.env.MONGO_ATLAS_PASSWORD}@cluster0.iiuphqi.mongodb.net/?retryWrites=true&w=majority`
-    )
+    .connect(mongoUri, (err) => {
+        if (err) {
+            console.log(err);
+        }
+    })
     .then(() => {
         console.log("Mongoose connected to the Atlas DB");
     });

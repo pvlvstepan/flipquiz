@@ -12,6 +12,7 @@ import { SnackBarCloseAction } from 'components/common/SnackbarAction';
 import { baseTheme } from 'theme';
 
 import '@fontsource/palanquin-dark/700.css';
+import '@fontsource/inter/500.css';
 import '@fontsource/inter/400.css';
 
 export const ThemeProvider = ({ children }) => {
