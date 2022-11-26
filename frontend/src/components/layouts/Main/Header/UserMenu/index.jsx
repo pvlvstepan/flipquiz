@@ -73,14 +73,16 @@ export const UserMenu = () => {
 
     return (
         <div>
-            <Avatar
-                {...stringAvatar(user?.username)}
-                id="user-menu-button"
-                aria-controls={open ? 'user-menu' : undefined}
-                aria-haspopup="true"
-                aria-expanded={open ? 'true' : undefined}
-                onClick={handleClick}
-            />
+            {user ? (
+                <Avatar
+                    {...stringAvatar(user.username)}
+                    id="user-menu-button"
+                    aria-controls={open ? 'user-menu' : undefined}
+                    aria-haspopup="true"
+                    aria-expanded={open ? 'true' : undefined}
+                    onClick={handleClick}
+                />
+            ) : undefined}
             <Menu
                 id="user-menu"
                 anchorEl={anchorEl}
@@ -90,15 +92,20 @@ export const UserMenu = () => {
                     'aria-labelledby': 'user-menu-button',
                 }}
             >
-                <MenuItem sx={{ pointerEvents: 'none' }}>
-                    <ListItemAvatar>
-                        <Avatar {...stringAvatar(user?.username)} />
-                    </ListItemAvatar>
-                    <ListItemText
-                        primary={getPublicUsername(user?.username, user?._id)}
-                        secondary={user?.email}
-                    />
-                </MenuItem>
+                {user ? (
+                    <MenuItem sx={{ pointerEvents: 'none' }}>
+                        <ListItemAvatar>
+                            <Avatar {...stringAvatar(user?.username)} />
+                        </ListItemAvatar>
+                        <ListItemText
+                            primary={getPublicUsername(
+                                user?.username,
+                                user?._id
+                            )}
+                            secondary={user?.email}
+                        />
+                    </MenuItem>
+                ) : undefined}
                 <Divider />
                 <MenuItem onClick={handleClose}>Profile</MenuItem>
                 <MenuItem onClick={toggle}>
