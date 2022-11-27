@@ -5,6 +5,7 @@ import { StudyCardsLayout } from 'components/layouts/StudyCards';
 import { AuthLoader } from 'components/organisms/AuthLoader';
 import { AuthModal } from 'components/pages/AuthModal';
 import { HomePage } from 'components/pages/HomePage';
+import { FlipcardsPage } from 'components/pages/StudyCards/GameModes/Flipcards';
 import { NewStudyCardPage } from 'components/pages/StudyCards/NewStudyCard';
 import { StudyCardMainView } from 'components/pages/StudyCards/StudyCardMainView';
 
@@ -14,13 +15,18 @@ export const App = () => {
             <Routes>
                 <Route path="/" element={<MainLayout />}>
                     <Route index element={<HomePage />} />
-                    <Route path="/study-card" element={<StudyCardsLayout />}>
-                        <Route path="new" element={<NewStudyCardPage />} />
-                    </Route>
                     <Route path="/" element={<StudyCardsLayout />}>
+                        <Route
+                            path="/new-study-card"
+                            element={<NewStudyCardPage />}
+                        />
                         <Route
                             path="/:studyCardId"
                             element={<StudyCardMainView />}
+                        />
+                        <Route
+                            path="/:studyCardId/flipcards"
+                            element={<FlipcardsPage />}
                         />
                     </Route>
                 </Route>

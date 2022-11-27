@@ -6,6 +6,7 @@ import { User } from "../models/user.js";
 
 import { checkAuth } from "../middleware/checkAuth.js";
 import { StudyCardReview } from "../models/studyCardReview.js";
+import { StudyCardComment } from "../models/studyCardComment.js";
 
 const router = Router();
 
@@ -120,6 +121,72 @@ router.post("/rate/:studyCardId", checkAuth, (req, res, next) => {
     }
 });
 
+router.post("/comment/:studyCardId", checkAuth, (req, res, next) => {
+    if (
+        !req.params.studyCardId ||
+        !Types.ObjectId.isValid(req.params.studyCardId)
+    ) {
+        return res.status(400).json({
+            message: "You must provide a valid study card id",
+        });
+    } else {
+        StudyCard.findOne({ _id: req.params.studyCardId })
+            .exec()
+            .then((studyCard) => {
+                if (studyCard && studyCard.commentsEnabled) {
+                    const comment = new StudyCardComment({
+                        content: req.body.content,
+                        postedBy: req.user_data._id,
+                        studyCardId: req.params.studyCardId,
+                        postedAt: new Date().toISOString(),
+                    });
+
+                    comment
+                        .save()
+                        .then((result) =>
+                            res.status(200).json({
+                                ...result._doc,
+                            })
+                        )
+                        .catch((err) => {
+                            res.status(500).json({
+                                error: err.message,
+                            });
+                        });
+                } else {
+                    return res.status(400).json({
+                        message: "Comments are disabled",
+                    });
+                }
+            })
+            .catch((err) => {
+                res.status(500).json({
+                    error: err.message,
+                });
+            });
+    }
+});
+router.get("/comment/:studyCardId", checkAuth, (req, res, next) => {
+    if (
+        !req.params.studyCardId ||
+        !Types.ObjectId.isValid(req.params.studyCardId)
+    ) {
+        return res.status(400).json({
+            message: "You must provide a valid study card id",
+        });
+    } else {
+        StudyCardComment.find({ studyCardId: req.params.studyCardId })
+            .populate("postedBy", "_id username")
+            .exec()
+            .then((result) => res.status(200).json(result))
+            .catch((err) => {
+                res.status(500).json({
+                    error: err.message,
+                });
+            });
+    }
+});
+
 router.get("/:studyCardId", checkAuth, (req, res, next) => {
     if (
         !req.params.studyCardId ||
@@ -132,50 +199,38 @@ router.get("/:studyCardId", checkAuth, (req, res, next) => {
         StudyCard.findOne({
             _id: req.params.studyCardId,
         })
+            .populate("createdBy", "_id username")
             .exec()
             .then((result) => {
-                User.findOne({
-                    _id: result._doc.createdBy,
-                })
-                    .exec()
-                    .then((user) => {
-                        StudyCardReview.find({
-                            studyCardId: req.params.studyCardId,
-                        })
-                            .exec()
-                            .then((ratings) => {
-                                const rating =
-                                    ratings
-                                        .map((el) => el.rating)
-                                        .reduce(
-                                            (total, amount, index, array) => {
-                                                total += amount;
-                                                return total / array.length;
-                                            },
-                                            0
-                                        ) / ratings.length;
-
-                                res.status(200).json({
-                                    ...result._doc,
-                                    createdBy: {
-                                        _id: user._id,
-                                        username: user.username,
-                                    },
-                                    rating: rating,
-                                    totalRatings: ratings.length,
-                                });
-                            })
-                            .catch((err) => {
-                                res.status(500).json({
-                                    error: err.message,
-                                });
-                            });
-                    })
-                    .catch((err) => {
-                        res.status(500).json({
-                            error: err.message,
-                        });
+                if (!result) {
+                    return res.status(404).json({
+                        message: "Study card not found",
                     });
+                } else {
+                    StudyCardReview.find({
+                        studyCardId: req.params.studyCardId,
+                    })
+                        .exec()
+                        .then((ratings) => {
+                            const rating =
+                                ratings
+                                    .map((el) => el.rating)
+                                    .reduce((sum, value) => {
+                                        return sum + value;
+                                    }, 0) / ratings.length;
+
+                            res.status(200).json({
+                                ...result._doc,
+                                rating: rating,
+                                totalRatings: ratings.length,
+                            });
+                        })
+                        .catch((err) => {
+                            res.status(500).json({
+                                error: err.message,
+                            });
+                        });
+                }
             })
             .catch((err) => {
                 res.status(500).json({

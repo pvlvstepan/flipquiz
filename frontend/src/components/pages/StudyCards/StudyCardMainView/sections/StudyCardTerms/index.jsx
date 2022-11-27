@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 
 import {
     Divider,
@@ -13,9 +13,9 @@ import {
 export const StudyCardTerms = ({ terms: unsortedTerms = [] }) => {
     const [order, setOrder] = useState('original');
 
-    const terms = useMemo(() => {
+    const sortedTerms = () => {
         if (order === 'alphabetical') {
-            return unsortedTerms.sort((a, b) => {
+            return [...unsortedTerms].sort((a, b) => {
                 if (a.term < b.term) {
                     return -1;
                 }
@@ -27,7 +27,7 @@ export const StudyCardTerms = ({ terms: unsortedTerms = [] }) => {
         }
 
         return unsortedTerms;
-    }, [order, unsortedTerms]);
+    };
 
     return (
         <Stack spacing={1}>
@@ -38,7 +38,7 @@ export const StudyCardTerms = ({ terms: unsortedTerms = [] }) => {
                 sx={{ mb: 2 }}
             >
                 <Typography variant="h5">
-                    Terms in this card ({terms.length})
+                    Terms in this card ({sortedTerms().length})
                 </Typography>
                 <Typography
                     color="text.secondary"
@@ -73,16 +73,18 @@ export const StudyCardTerms = ({ terms: unsortedTerms = [] }) => {
                     <MenuItem value="alphabetical">Alphabetical</MenuItem>
                 </Select>
             </Stack>
-            {terms.map((el) => (
+            {sortedTerms().map((el) => (
                 <Paper variant="outlined" key={el._id} sx={{ p: 2 }}>
                     <Grid container spacing={3}>
-                        <Grid item xs={4}>
+                        <Grid item xs={4} zeroMinWidth>
                             {el.term}
                         </Grid>
-                        <Grid item>
+                        <Grid item xs={1}>
                             <Divider orientation="vertical" />
                         </Grid>
-                        <Grid item>{el.definition}</Grid>
+                        <Grid item xs={7}>
+                            {el.definition}
+                        </Grid>
                     </Grid>
                 </Paper>
             ))}

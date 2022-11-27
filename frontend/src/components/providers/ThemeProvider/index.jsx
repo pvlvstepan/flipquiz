@@ -4,6 +4,7 @@ import {
     ThemeProvider as MuiThemeProvider,
     CssBaseline,
     createTheme,
+    GlobalStyles,
 } from '@mui/material';
 import { SnackbarProvider } from 'notistack';
 import useDarkMode from 'use-dark-mode';
@@ -49,6 +50,23 @@ export const ThemeProvider = ({ children }) => {
                 }}
             >
                 <CssBaseline />
+                <GlobalStyles
+                    styles={{
+                        '#root': {
+                            display: 'flex',
+                            flexDirection: 'column',
+                            minHeight: '100vh',
+                            main: {
+                                flex: 1,
+                                display: 'flex',
+                                flexDirection: 'column',
+                            },
+                        },
+                        a: {
+                            textDecoration: 'none !important',
+                        },
+                    }}
+                />
                 {children}
             </SnackbarProvider>
         </MuiThemeProvider>
