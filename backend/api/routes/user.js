@@ -8,6 +8,8 @@ import { checkAuth } from "../middleware/checkAuth.js";
 
 const router = Router();
 
+// TODO: ALLOW ONLY UNAUTHORIZED USERS
+
 router.post("/sign-up", (req, res, next) => {
     User.find({
         email: req.body.email,
@@ -117,6 +119,8 @@ router.get("/sign-out", checkAuth, (req, res, next) => {
         message: "User unauthorized successfully",
     });
 });
+
+// TODO: ADMIN CHECK
 
 router.delete("/:userID", (req, res, next) => {
     User.deleteOne({ _id: req.params.userID })

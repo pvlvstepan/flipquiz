@@ -9,9 +9,10 @@ import { SnackbarProvider } from 'notistack';
 import useDarkMode from 'use-dark-mode';
 
 import { SnackBarCloseAction } from 'components/common/SnackbarAction';
-import { baseTheme } from 'theme';
+import { baseTheme, getPaletteWithMode } from 'theme';
 
 import '@fontsource/palanquin-dark/700.css';
+import '@fontsource/palanquin-dark/500.css';
 import '@fontsource/inter/500.css';
 import '@fontsource/inter/400.css';
 
@@ -22,7 +23,8 @@ export const ThemeProvider = ({ children }) => {
         return createTheme({
             ...baseTheme,
             palette: {
-                mode: value ? 'dark' : 'light',
+                ...baseTheme.palette,
+                ...getPaletteWithMode(value ? 'dark' : 'light'),
             },
         });
     }, [value]);

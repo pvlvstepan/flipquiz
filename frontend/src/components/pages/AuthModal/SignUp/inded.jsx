@@ -1,5 +1,3 @@
-import { useEffect } from 'react';
-
 import {
     Button,
     Paper,
@@ -29,16 +27,27 @@ export const SignUpForm = () => {
         mode: 'all',
     });
 
+    const { enqueueSnackbar } = useSnackbar();
+
+    const navigate = useNavigate();
+
     const {
-        isSuccess,
         isLoading,
         error,
         mutate: signUp,
-    } = useMutation((authData) => signUpQuery(authData));
+    } = useMutation((authData) => signUpQuery(authData), {
+        onSuccess: () => {
+            enqueueSnackbar(
+                'Account successfully created. You may now sign in!',
+                {
+                    variant: 'success',
+                }
+            );
+            navigate(`${window.location.pathname}?auth-modal=sign-in`);
+        },
+    });
 
     const password = watch('password');
-
-    const navigate = useNavigate();
 
     const onSubmit = handleSubmit((formData) =>
         signUp({
@@ -48,21 +57,6 @@ export const SignUpForm = () => {
             role: formData?.isLecturer ? 'TEACHER' : undefined,
         })
     );
-
-    const { enqueueSnackbar } = useSnackbar();
-
-    useEffect(() => {
-        if (isSuccess) {
-            enqueueSnackbar(
-                'Account successfully created. You may now sign in!',
-                {
-                    variant: 'success',
-                }
-            );
-            navigate(`${window.location.pathname}?auth-modal=sign-in`);
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isSuccess]);
 
     return (
         <Stack

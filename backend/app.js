@@ -1,10 +1,12 @@
 import { Router } from "express";
 
+import { studyCardRoute } from "./api/routes/studyCard.js";
 import { userRoute } from "./api/routes/user.js";
 
 const router = Router();
 
 router.use("/user", userRoute);
+router.use("/study-card", studyCardRoute);
 
 router.use((req, res, next) => {
     const error = new Error("Not found");

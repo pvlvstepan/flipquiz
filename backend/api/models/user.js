@@ -1,7 +1,6 @@
 import { Schema, Types, model } from "mongoose";
 
 export const UserSchema = Schema({
-    _id: Types.ObjectId,
     email: {
         type: String,
         required: true,

@@ -4,13 +4,6 @@ import { createTheme } from '@mui/material';
 
 export const baseTheme = createTheme({
     components: {
-        MuiButtonBase: {
-            styleOverrides: {
-                root: {
-                    boxShadow: 'none !important',
-                },
-            },
-        },
         MuiButton: {
             styleOverrides: {
                 root: {
@@ -24,10 +17,25 @@ export const baseTheme = createTheme({
                     borderRadius: '8px',
                 },
             },
+            defaultProps: {
+                variant: 'outlined',
+            },
+        },
+        MuiInputBase: {
+            styleOverrides: {
+                input: ({ theme }) => ({
+                    '&:after': {
+                        borderBottom: `3px solid ${theme.palette.warning.main}`,
+                    },
+                }),
+            },
         },
         MuiOutlinedInput: {
             styleOverrides: {
                 root: {
+                    borderRadius: '8px !important',
+                },
+                input: {
                     borderRadius: '8px !important',
                 },
             },
@@ -104,22 +112,17 @@ export const baseTheme = createTheme({
                 checkedIcon: <CheckCircleTwoToneIcon />,
             },
         },
-        MuiSlider: {
-            styleOverrides: {
-                thumb: {
-                    '&:before': {
-                        boxShadow: '0 0 5px rgba(0,0,0,0.3)',
-                    },
-                },
-            },
-        },
         MuiTooltip: {
             styleOverrides: {
-                tooltip: {
+                tooltip: ({ theme }) => ({
+                    background: theme.palette.primary.main,
                     borderRadius: '8px !important',
                     fontSize: '1rem',
                     padding: '0.5rem 1rem',
-                },
+                }),
+                arrow: ({ theme }) => ({
+                    color: theme.palette.primary.main,
+                }),
             },
         },
         MuiTabs: {
@@ -128,6 +131,16 @@ export const baseTheme = createTheme({
                     height: '4px',
                     borderTopLeftRadius: '4px',
                     borderTopRightRadius: '4px',
+                },
+            },
+        },
+        MuiCollapse: {
+            styleOverrides: {
+                wrapperInner: {
+                    '.SnackbarItem-contentRoot': {
+                        borderRadius: '8px',
+                        flexWrap: 'nowrap',
+                    },
                 },
             },
         },
@@ -154,11 +167,11 @@ export const baseTheme = createTheme({
             fontSize: '1.5rem',
         },
         h5: {
-            fontWeight: 700,
+            fontWeight: 500,
             fontSize: '1.25rem',
         },
         h6: {
-            fontWeight: 700,
+            fontWeight: 500,
             fontSize: '1.125rem',
         },
         body1: {
@@ -178,4 +191,62 @@ export const baseTheme = createTheme({
             fontWeight: 500,
         },
     },
+    shadows: [
+        'none',
+        'none',
+        'none',
+        'none',
+        'none',
+        'none',
+        'none',
+        'none',
+        'none',
+        'none',
+        'none',
+        'none',
+        'none',
+        'none',
+        'none',
+        'none',
+    ],
+    palette: {
+        primary: {
+            main: '#4255ff',
+        },
+    },
+});
+
+export const getPaletteWithMode = (mode) => ({
+    mode,
+    ...(mode === 'light'
+        ? {
+              background: {
+                  default: '#F6F7FB',
+              },
+              warning: {
+                  main: '#dcac00',
+              },
+          }
+        : {
+              text: {
+                  primary: '#fff',
+                  secondary: 'rgba(255, 255, 255, 0.7)',
+                  disabled: 'rgba(255, 255, 255, 0.5)',
+              },
+              background: {
+                  default: '#0A0A2D',
+                  paper: '#2E3856',
+              },
+              divider: '#282e3e',
+              warning: {
+                  main: '#ffcd1f',
+              },
+              action: {
+                  active: '#fff',
+                  hover: 'rgba(255, 255, 255, 0.08)',
+                  selected: 'rgba(255, 255, 255, 0.16)',
+                  disabled: 'rgba(255, 255, 255, 0.3)',
+                  disabledBackground: 'rgba(255, 255, 255, 0.12)',
+              },
+          }),
 });

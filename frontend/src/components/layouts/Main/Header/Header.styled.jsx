@@ -9,17 +9,10 @@ export const Wrapper = styled(Stack)`
     padding: 0 ${({ theme }) => theme.spacing(2)};
 
     border-bottom: 1px solid ${({ theme }) => theme.palette.divider};
-    background-color: white;
 
     .title {
         align-self: center;
     }
-
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 999;
 `;
 
 Wrapper.defaultProps = {

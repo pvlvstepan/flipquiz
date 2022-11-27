@@ -1,8 +1,8 @@
-import { Box, CircularProgress } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
 import { useAtom } from 'jotai';
 
 import { userAtom } from 'atoms';
+import { FullScreenLoader } from 'components/common/FullScreenLoader';
 import { checkAuthQuery } from 'queries/auth/checkAuth';
 
 export const AuthLoader = ({ children }) => {
@@ -15,18 +15,7 @@ export const AuthLoader = ({ children }) => {
     });
 
     if (isLoading) {
-        return (
-            <Box
-                sx={{
-                    position: 'absolute',
-                    top: '50%',
-                    left: '50%',
-                    transform: 'translate(-50%, -50%)',
-                }}
-            >
-                <CircularProgress variant="indeterminate" />
-            </Box>
-        );
+        return <FullScreenLoader />;
     }
 
     return children;

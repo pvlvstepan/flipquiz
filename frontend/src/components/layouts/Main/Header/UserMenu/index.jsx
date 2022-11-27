@@ -38,7 +38,7 @@ const stringToColor = (string) => {
     return color;
 };
 
-const stringAvatar = (email, sx) => {
+export const stringAvatar = (email, sx) => {
     return {
         sx: {
             ...sx,
@@ -75,7 +75,11 @@ export const UserMenu = () => {
         <div>
             {user ? (
                 <Avatar
-                    {...stringAvatar(user.username)}
+                    {...stringAvatar(user.username, {
+                        width: 32,
+                        height: 32,
+                        color: 'white',
+                    })}
                     id="user-menu-button"
                     aria-controls={open ? 'user-menu' : undefined}
                     aria-haspopup="true"
@@ -86,16 +90,33 @@ export const UserMenu = () => {
             <Menu
                 id="user-menu"
                 anchorEl={anchorEl}
+                transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+                anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
                 open={open}
                 onClose={handleClose}
                 MenuListProps={{
                     'aria-labelledby': 'user-menu-button',
                 }}
+                disableAutoFocusItem
+                PaperProps={{
+                    elevation: 0,
+                    variant: 'outlined',
+                    sx: {
+                        mt: 0.5,
+                    },
+                }}
             >
                 {user ? (
-                    <MenuItem sx={{ pointerEvents: 'none' }}>
+                    <MenuItem
+                        sx={{ pointerEvents: 'none' }}
+                        onFocus={(e) => e.preventDefault()}
+                    >
                         <ListItemAvatar>
-                            <Avatar {...stringAvatar(user?.username)} />
+                            <Avatar
+                                {...stringAvatar(user?.username, {
+                                    color: 'white',
+                                })}
+                            />
                         </ListItemAvatar>
                         <ListItemText
                             primary={getPublicUsername(
