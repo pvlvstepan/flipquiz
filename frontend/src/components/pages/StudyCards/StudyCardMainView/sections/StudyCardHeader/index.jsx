@@ -30,7 +30,7 @@ export const StudyCardHeader = ({
 
     return (
         <Box>
-            <Typography variant="h2" sx={{ mb: 5 }}>
+            <Typography variant="h2" sx={{ mb: 5 }} noWrap>
                 {name}
             </Typography>
             {description ? (
@@ -50,7 +50,7 @@ export const StudyCardHeader = ({
                     }}
                 />
                 <Typography variant="subtitle1" color="text.secondary">
-                    {rating.toFixed(1)} ({totalRatings} reviews)
+                    {rating?.toFixed(1)} ({totalRatings} reviews)
                 </Typography>
             </Stack>
         </Box>
