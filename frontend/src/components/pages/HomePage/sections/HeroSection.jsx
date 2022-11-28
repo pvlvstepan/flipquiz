@@ -1,8 +1,9 @@
-import * as React from 'react';
-
+import { Button, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import { styled } from '@mui/material/styles';
+
+import heroSectionBg from 'assets/images/HPbrng.jpg';
 
 const ProductHeroLayoutRoot = styled('section')(({ theme }) => ({
     color: theme.palette.common.white,
@@ -63,4 +64,43 @@ const ProductHeroLayout = (props) => {
     );
 };
 
-export default ProductHeroLayout;
+export const HeroSection = () => {
+    return (
+        <ProductHeroLayout
+            sxBackground={{
+                background: `url(${heroSectionBg})`,
+                backgroundPosition: { xs: '70% center', sm: 'center' },
+                backgroundSize: 'cover',
+            }}
+        >
+            <Box sx={{ maxWidth: 600 }}>
+                <Typography color="inherit" textAlign="left" variant="h2">
+                    The best digital flashcards and study tools
+                </Typography>
+                <Typography
+                    color="inherit"
+                    textAlign="left"
+                    variant="h6"
+                    sx={{ mb: 4, mt: { xs: 4, sm: 8 } }}
+                >
+                    Join approximately more than 60 million students who use
+                    Flip Quiz flashcards, exam prep, and professional solutions
+                    to enhance their GPAs and accomplish their objectives.
+                </Typography>
+                <Button
+                    color="primary"
+                    variant="contained"
+                    size="large"
+                    component="a"
+                    href="/premium-themes/onepirate/sign-up/"
+                    sx={{ minWidth: 200 }}
+                >
+                    Sign up for free
+                </Button>
+                <Typography variant="body2" color="inherit" sx={{ mt: 2 }}>
+                    Discover the experience now
+                </Typography>
+            </Box>
+        </ProductHeroLayout>
+    );
+};
