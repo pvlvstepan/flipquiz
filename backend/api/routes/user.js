@@ -4,6 +4,8 @@ import { hash, compare } from "bcrypt";
 import jwt from "jsonwebtoken";
 
 import { User } from "../models/user.js";
+import { StudyCard } from "../models/studyCard.js";
+import { StudyCardAnalytics } from "../models/studyCardAnalytics.js";
 import { checkAuth } from "../middleware/checkAuth.js";
 
 const router = Router();
@@ -120,26 +122,83 @@ router.get("/sign-out", checkAuth, (req, res, next) => {
     });
 });
 
-// TODO: ADMIN CHECK
-
-router.delete("/:userID", (req, res, next) => {
-    User.deleteOne({ _id: req.params.userID })
-        .exec()
-        .then((result) => {
-            if (result.deletedCount > 0) {
-                return res.status(400).json({
-                    message: `User ${req.params.userID} does not exists`,
-                });
-            }
-            res.status(200).json({
-                message: `User ${req.params.userID} deleted successfully`,
-            });
-        })
-        .catch((err) => {
-            res.status(500).json({
-                error: err.message,
-            });
+router.get("/:userId", checkAuth, (req, res, next) => {
+    if (!req.params.userId || !Types.ObjectId.isValid(req.params.userId)) {
+        return res.status(400).json({
+            message: "You must provide a valid user id",
         });
+    } else {
+        User.findOne({
+            _id: req.params.userId,
+        })
+            .select("_id username role")
+            .exec()
+            .then((user) => {
+                if (user) {
+                    StudyCard.find({
+                        createdBy: user._id,
+                    })
+                        .select("_id name terms")
+                        .exec()
+                        .then((studyCards) => {
+                            if (req.params.userId === req.user_data._id) {
+                                StudyCardAnalytics.find({
+                                    userId: req.user_data._id,
+                                })
+                                    .select("studyCardId")
+                                    .populate("studyCardId", "_id name terms")
+                                    .exec()
+                                    .then((recent) => {
+                                        res.status(200).json({
+                                            ...user._doc,
+                                            studyCards: studyCards.map(
+                                                (el) => ({
+                                                    _id: el._id,
+                                                    name: el.name,
+                                                    terms: el.terms.length,
+                                                })
+                                            ),
+                                            recent: recent.map((el) => ({
+                                                _id: el.studyCardId._id,
+                                                name: el.studyCardId.name,
+                                                terms: el.studyCardId.terms
+                                                    .length,
+                                            })),
+                                        });
+                                    })
+                                    .catch((err) => {
+                                        res.status(500).json({
+                                            error: err.message,
+                                        });
+                                    });
+                            } else {
+                                res.status(200).json({
+                                    ...user._doc,
+                                    studyCards: studyCards.map((el) => ({
+                                        _id: el._id,
+                                        name: el.name,
+                                        terms: el.terms.length,
+                                    })),
+                                });
+                            }
+                        })
+                        .catch((err) => {
+                            res.status(500).json({
+                                error: err.message,
+                            });
+                        });
+                } else {
+                    return res.status(400).json({
+                        message: "User not found",
+                    });
+                }
+            })
+            .catch((err) => {
+                res.status(500).json({
+                    error: err.message,
+                });
+            });
+    }
 });
 
 export const userRoute = router;

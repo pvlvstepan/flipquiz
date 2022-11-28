@@ -12,6 +12,7 @@ import {
 } from '@mui/material';
 import { useMutation } from '@tanstack/react-query';
 import { useAtom } from 'jotai';
+import { Link } from 'react-router-dom';
 import useDarkMode from 'use-dark-mode';
 
 import { userAtom } from 'atoms';
@@ -128,7 +129,13 @@ export const UserMenu = () => {
                     </MenuItem>
                 ) : undefined}
                 <Divider />
-                <MenuItem onClick={handleClose}>Profile</MenuItem>
+                <MenuItem
+                    onClick={handleClose}
+                    component={Link}
+                    to={`/user/${user?._id}`}
+                >
+                    Profile
+                </MenuItem>
                 <MenuItem onClick={toggle}>
                     <FormControlLabel
                         control={
@@ -148,7 +155,9 @@ export const UserMenu = () => {
                         }}
                     />
                 </MenuItem>
-                <MenuItem onClick={handleClose}>Settings</MenuItem>
+                <MenuItem onClick={handleClose} component={Link} to="/settings">
+                    Settings
+                </MenuItem>
                 <Divider />
                 <MenuItem
                     onClick={() => {

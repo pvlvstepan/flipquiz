@@ -1,8 +1,9 @@
-import { Divider, Stack, Typography } from '@mui/material';
+import { Divider, Stack } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 
 import { FullScreenLoader } from 'components/common/FullScreenLoader';
+import { BrokenLink404 } from 'components/pages/BrokenLink404';
 import { getStudyCardByIdQuery } from 'queries/studyCards/getStudyCardById';
 
 import { GameModeButtons } from './sections/GameModeButtons';
@@ -23,21 +24,7 @@ export const StudyCardMainView = () => {
     const { data: studyCard } = data || {};
 
     if (error && error.response?.status >= 400) {
-        return (
-            <Stack alignItems="center" justifyContent="center" sx={{ py: 10 }}>
-                <Typography
-                    textAlign="center"
-                    variant="h1"
-                    sx={{ mb: 3 }}
-                    color="primary"
-                >
-                    404
-                </Typography>
-                <Typography textAlign="center" variant="h4">
-                    It seems that the link you followed is broken...
-                </Typography>
-            </Stack>
-        );
+        return <BrokenLink404 />;
     }
 
     if (isLoading) {
@@ -52,6 +39,7 @@ export const StudyCardMainView = () => {
                 rating={studyCard.rating}
                 totalRatings={studyCard.totalRatings}
                 studyCardId={studyCardId}
+                totalUsers={studyCard.totalUsers}
             />
             <Divider />
             <GameModeButtons />

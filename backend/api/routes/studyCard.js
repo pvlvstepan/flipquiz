@@ -7,6 +7,7 @@ import { User } from "../models/user.js";
 import { checkAuth } from "../middleware/checkAuth.js";
 import { StudyCardReview } from "../models/studyCardReview.js";
 import { StudyCardComment } from "../models/studyCardComment.js";
+import { StudyCardAnalytics } from "../models/studyCardAnalytics.js";
 
 const router = Router();
 
@@ -166,6 +167,61 @@ router.post("/comment/:studyCardId", checkAuth, (req, res, next) => {
             });
     }
 });
+
+router.post("/analytics/:studyCardId", checkAuth, (req, res, next) => {
+    if (
+        !req.params.studyCardId ||
+        !Types.ObjectId.isValid(req.params.studyCardId)
+    ) {
+        return res.status(400).json({
+            message: "You must provide a valid study card id",
+        });
+    } else {
+        StudyCard.findOne({ _id: req.params.studyCardId })
+            .exec()
+            .then((studyCard) => {
+                if (studyCard) {
+                    StudyCardAnalytics.findOneAndUpdate(
+                        {
+                            studyCardId: req.params.studyCardId,
+                            userId: req.user_data._id,
+                        },
+                        {
+                            userId: req.user_data._id,
+                            studyCardId: req.params.studyCardId,
+                            createdAt: new Date().toISOString(),
+                        },
+                        {
+                            upsert: true,
+                            runValidators: true,
+                            new: true,
+                        }
+                    )
+                        .exec()
+                        .then((result) =>
+                            res.status(200).json({
+                                ...result._doc,
+                            })
+                        )
+                        .catch((err) => {
+                            res.status(500).json({
+                                error: err.message,
+                            });
+                        });
+                } else {
+                    return res.status(400).json({
+                        message: "You must provide a valid study card id",
+                    });
+                }
+            })
+            .catch((err) => {
+                res.status(500).json({
+                    error: err.message,
+                });
+            });
+    }
+});
+
 router.get("/comment/:studyCardId", checkAuth, (req, res, next) => {
     if (
         !req.params.studyCardId ||
@@ -207,23 +263,35 @@ router.get("/:studyCardId", checkAuth, (req, res, next) => {
                         message: "Study card not found",
                     });
                 } else {
-                    StudyCardReview.find({
+                    StudyCardAnalytics.count({
                         studyCardId: req.params.studyCardId,
                     })
                         .exec()
-                        .then((ratings) => {
-                            const rating =
-                                ratings
-                                    .map((el) => el.rating)
-                                    .reduce((sum, value) => {
-                                        return sum + value;
-                                    }, 0) / ratings.length;
+                        .then((totalUsers) => {
+                            StudyCardReview.find({
+                                studyCardId: req.params.studyCardId,
+                            })
+                                .exec()
+                                .then((ratings) => {
+                                    const rating =
+                                        ratings
+                                            .map((el) => el.rating)
+                                            .reduce((sum, value) => {
+                                                return sum + value;
+                                            }, 0) / ratings.length;
 
-                            res.status(200).json({
-                                ...result._doc,
-                                rating: rating,
-                                totalRatings: ratings.length,
-                            });
+                                    res.status(200).json({
+                                        ...result._doc,
+                                        rating: rating,
+                                        totalRatings: ratings.length,
+                                        totalUsers: totalUsers,
+                                    });
+                                })
+                                .catch((err) => {
+                                    res.status(500).json({
+                                        error: err.message,
+                                    });
+                                });
                         })
                         .catch((err) => {
                             res.status(500).json({

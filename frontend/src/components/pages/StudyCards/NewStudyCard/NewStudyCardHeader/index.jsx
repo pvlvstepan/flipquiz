@@ -13,6 +13,7 @@ import { useInView } from 'react-intersection-observer';
 const StickyHeader = ({ submitDisabled, isLoading }) => {
     const { ref, inView } = useInView({
         rootMargin: '-60px',
+        initialInView: true,
     });
 
     return (

@@ -1,3 +1,4 @@
+import GroupIcon from '@mui/icons-material/Group';
 import { Box, Rating, Stack, Typography } from '@mui/material';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useSnackbar } from 'notistack';
@@ -10,6 +11,7 @@ export const StudyCardHeader = ({
     rating = 0,
     studyCardId,
     totalRatings = 0,
+    totalUsers = 0,
 }) => {
     const queryClient = useQueryClient();
     const { enqueueSnackbar } = useSnackbar();
@@ -52,6 +54,19 @@ export const StudyCardHeader = ({
                 <Typography variant="subtitle1" color="text.secondary">
                     {rating?.toFixed(1)} ({totalRatings} reviews)
                 </Typography>
+                {totalUsers > 0 ? (
+                    <Stack
+                        direction="row"
+                        alignItems="center"
+                        sx={{ pl: 3 }}
+                        spacing={1}
+                    >
+                        <GroupIcon color="action" />
+                        <Typography variant="subtitle1" color="text.secondary">
+                            {totalUsers} learners
+                        </Typography>
+                    </Stack>
+                ) : undefined}
             </Stack>
         </Box>
     );

@@ -38,6 +38,12 @@ export const ThemeProvider = ({ children }) => {
         }
     }, [value]);
 
+    useEffect(() => {
+        document.fonts.ready.then(() => {
+            document.getElementById('root')?.removeAttribute('style');
+        });
+    }, []);
+
     return (
         <MuiThemeProvider theme={theme}>
             <SnackbarProvider
@@ -56,6 +62,7 @@ export const ThemeProvider = ({ children }) => {
                             display: 'flex',
                             flexDirection: 'column',
                             minHeight: '100vh',
+                            transition: 'opacity 1s ease-in-out',
                             main: {
                                 flex: 1,
                                 display: 'flex',
