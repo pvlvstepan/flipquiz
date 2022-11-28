@@ -20,7 +20,7 @@ export const GameModesSection = () => {
                 my: 14,
             }}
         >
-            <Grid container>
+            <Grid container spacing={5}>
                 <Grid item xs={6}>
                     <Typography color="inherit" textAlign="left" variant="h2">
                         Be ready for test day with different study modes
@@ -37,7 +37,7 @@ export const GameModesSection = () => {
                     </Typography>
 
                     <Stack direction="row" spacing={2}>
-                        <SchoolIcon fontSize="large" />
+                        <SchoolIcon sx={{ width: 60, height: 60 }} />
                         <Box sx={{ maxWidth: 400 }}>
                             <Typography
                                 color="inherit"
@@ -113,7 +113,7 @@ export const GameModesSection = () => {
                         size="large"
                         component="a"
                         href="/premium-themes/onepirate/sign-up/"
-                        sx={{ minWidth: 200 }}
+                        sx={{ minWidth: 200, mt: 5 }}
                     >
                         Try Learn and Test for free
                     </Button>
@@ -124,7 +124,25 @@ export const GameModesSection = () => {
                     />
                 </Grid>
                 <Grid item xs={6}>
-                    Screen shots hihi
+                    <Box
+                        sx={{
+                            borderRadius: '15px',
+                            overflow: 'hidden',
+                            width: '100%',
+                            height: '100%',
+                        }}
+                    >
+                        <Box
+                            component="img"
+                            src="" // replace this with img
+                            sx={{
+                                bgcolor: 'background.paper',
+                                width: '100%',
+                                height: '100%',
+                                objectFit: 'cover',
+                            }}
+                        />
+                    </Box>
                 </Grid>
             </Grid>
         </Container>
