@@ -2,37 +2,34 @@ import * as React from 'react';
 
 import { Typography, Button, Grid, Container, Box } from '@mui/material';
 
-import image from 'assets/images/Teacher.jpg';
-
-export const TeacherRegisterSection = () => {
+export const GetStartedSection = () => {
     return (
         // use this guy in every section
-        <Box
-            sx={{
-                bgcolor: 'background.paper',
-            }}
-        >
+        <Box>
             <Container
                 sx={{
                     mt: 3,
                     my: 14,
                 }}
             >
+                <Typography
+                    color="inherit"
+                    textAlign="center"
+                    variant="h4"
+                    sx={{ mb: 12, mt: { xs: 4, sm: 8 } }}
+                >
+                    90% of students who use FlipQuiz report receiving higher
+                    grades
+                </Typography>
+
                 <Grid container spacing={5}>
                     <Grid item xs={12} lg={6}>
                         <Typography
                             color="inherit"
                             textAlign="left"
-                            variant="h4"
-                        >
-                            TEACHERS
-                        </Typography>
-                        <Typography
-                            color="inherit"
-                            textAlign="left"
                             variant="h3"
                         >
-                            Empower your students
+                            Memorize faster for free
                         </Typography>
                         <Typography
                             color="text.secondary"
@@ -40,12 +37,11 @@ export const TeacherRegisterSection = () => {
                             variant="h6"
                             sx={{ mb: 3, mt: { xs: 1, sm: 2 } }}
                         >
-                            Help every student study anything with confidence,
-                            no matter what they intend to achieve. Using
-                            FlipQuiz unlimited study sets, study modes, as well
-                            as in game Checkpoint, teachers can immediately
-                            create a more active classroom. Both students and
-                            educators can enroll and study for free.
+                            According to research, using flashcards to test
+                            yourself is more successful than rereading your
+                            information. FlipQuizis utilised by students in over
+                            100 different areas, ranging from arithmetic to
+                            medicine to current languages.
                         </Typography>
                         <Button
                             color="primary"
@@ -59,7 +55,7 @@ export const TeacherRegisterSection = () => {
                                 width: { xs: '100%', sm: 'auto' },
                             }}
                         >
-                            Create a free account
+                            Register
                         </Button>
                         <Typography
                             variant="body2"
@@ -78,7 +74,7 @@ export const TeacherRegisterSection = () => {
                         >
                             <Box
                                 component="img"
-                                src={image} // replace this with img
+                                src="" // replace this with img
                                 sx={{
                                     bgcolor: 'background.paper',
                                     width: '100%',

@@ -21,7 +21,7 @@ export const GameModesSection = () => {
             }}
         >
             <Grid container spacing={5}>
-                <Grid item xs={6}>
+                <Grid item xs={12} lg={6}>
                     <Typography color="inherit" textAlign="left" variant="h2">
                         Be ready for test day with different study modes
                     </Typography>
@@ -38,7 +38,7 @@ export const GameModesSection = () => {
 
                     <Stack direction="row" spacing={2}>
                         <SchoolIcon sx={{ width: 60, height: 60 }} />
-                        <Box sx={{ maxWidth: 400 }}>
+                        <Box sx={{ maxWidth: { lg: 400 } }}>
                             <Typography
                                 color="inherit"
                                 textAlign="left"
@@ -61,8 +61,8 @@ export const GameModesSection = () => {
                     </Stack>
 
                     <Stack direction="row" spacing={2}>
-                        <QuizIcon fontSize="large" />
-                        <Box sx={{ maxWidth: 400 }}>
+                        <QuizIcon sx={{ width: 60, height: 60 }} />
+                        <Box sx={{ maxWidth: { lg: 400 } }}>
                             <Typography
                                 color="inherit"
                                 textAlign="left"
@@ -85,8 +85,8 @@ export const GameModesSection = () => {
                     </Stack>
 
                     <Stack direction="row" spacing={2}>
-                        <CableIcon fontSize="large" />
-                        <Box sx={{ maxWidth: 400 }}>
+                        <CableIcon sx={{ width: 60, height: 60 }} />
+                        <Box sx={{ maxWidth: { lg: 400 } }}>
                             <Typography
                                 color="inherit"
                                 textAlign="left"
@@ -113,7 +113,11 @@ export const GameModesSection = () => {
                         size="large"
                         component="a"
                         href="/premium-themes/onepirate/sign-up/"
-                        sx={{ minWidth: 200, mt: 5 }}
+                        sx={{
+                            minWidth: 200,
+                            mt: 5,
+                            width: { xs: '100%', sm: 'auto' },
+                        }}
                     >
                         Try Learn and Test for free
                     </Button>
@@ -123,7 +127,7 @@ export const GameModesSection = () => {
                         sx={{ mt: 2 }}
                     />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12} lg={6}>
                     <Box
                         sx={{
                             borderRadius: '15px',
@@ -140,6 +144,7 @@ export const GameModesSection = () => {
                                 width: '100%',
                                 height: '100%',
                                 objectFit: 'cover',
+                                minHeight: 500,
                             }}
                         />
                     </Box>
