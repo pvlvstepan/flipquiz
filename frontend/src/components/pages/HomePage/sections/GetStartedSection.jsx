@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import { Typography, Button, Grid, Container, Box } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 export const GetStartedSection = () => {
     return (
@@ -47,15 +48,15 @@ export const GetStartedSection = () => {
                             color="primary"
                             variant="contained"
                             size="large"
-                            component="a"
-                            href="/premium-themes/onepirate/sign-up/"
+                            component={Link}
+                            to={`${window.location.pathname}?auth-modal=sign-up`}
                             sx={{
                                 minWidth: 200,
                                 mt: 5,
                                 width: { xs: '100%', sm: 'auto' },
                             }}
                         >
-                            Register
+                            Get Started
                         </Button>
                         <Typography
                             variant="body2"

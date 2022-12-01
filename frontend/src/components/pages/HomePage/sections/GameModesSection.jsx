@@ -4,6 +4,7 @@ import CableIcon from '@mui/icons-material/Cable';
 import QuizIcon from '@mui/icons-material/Quiz';
 import SchoolIcon from '@mui/icons-material/School';
 import { Typography, Button, Grid, Container, Stack, Box } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 // Container keeps the content centered on the screen so it doesnt touch the side
 
@@ -111,8 +112,8 @@ export const GameModesSection = () => {
                         color="primary"
                         variant="contained"
                         size="large"
-                        component="a"
-                        href="/premium-themes/onepirate/sign-up/"
+                        component={Link}
+                        to={`${window.location.pathname}?auth-modal=sign-up`}
                         sx={{
                             minWidth: 200,
                             mt: 5,

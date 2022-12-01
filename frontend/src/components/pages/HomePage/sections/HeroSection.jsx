@@ -2,6 +2,7 @@ import { Button, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import { styled } from '@mui/material/styles';
+import { Link } from 'react-router-dom';
 
 import heroSectionBg from 'assets/images/HPbrng.jpg';
 
@@ -91,8 +92,8 @@ export const HeroSection = () => {
                     color="primary"
                     variant="contained"
                     size="large"
-                    component="a"
-                    href="/premium-themes/onepirate/sign-up/"
+                    component={Link}
+                    to={`${window.location.pathname}?auth-modal=sign-up`}
                     sx={{ minWidth: 200 }}
                 >
                     Sign up for free

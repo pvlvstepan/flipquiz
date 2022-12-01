@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import { Typography, Button, Grid, Container, Box } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 import image from 'assets/images/Teacher.jpg';
 
@@ -51,8 +52,8 @@ export const TeacherRegisterSection = () => {
                             color="primary"
                             variant="contained"
                             size="large"
-                            component="a"
-                            href="/premium-themes/onepirate/sign-up/"
+                            component={Link}
+                            to={`${window.location.pathname}?auth-modal=sign-up`}
                             sx={{
                                 minWidth: 200,
                                 mt: 5,
