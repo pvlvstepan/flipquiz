@@ -11,6 +11,7 @@
         "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false yarn --cwd \"frontend\" && yarn --cwd \"frontend\" build"
     },
     "dependencies": {
+        "@mui/system": "^5.10.16",
         "bcrypt": "^5.1.0",
         "cookie-parser": "^1.4.6",
         "dotenv": "^16.0.3",
@@ -18,7 +19,8 @@
         "jsonwebtoken": "^8.5.1",
         "mongoose": "^6.7.0",
         "morgan": "^1.10.0",
-        "path": "^0.12.7"
+        "path": "^0.12.7",
+        "react-scripts": "^5.0.1"
     },
     "devDependencies": {
         "concurrently": "^7.4.0",
