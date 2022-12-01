@@ -6,17 +6,20 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Grid from '@mui/material/Grid';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
+import Typography from '@mui/material/Typography';
 
 const NightmodeSection = () => {
     return (
         <div style={{ margin: '20px 0' }}>
-            <Grid container spacing={1}>
-                <Grid xs={2} sx={{ textAlign: 'center' }}>
+            <Grid container spacing={2} justifyContent="center">
+                <Grid sm={12} md={2} sx={{ textAlign: 'center' }}>
                     <DarkModeIcon sx={{ fontSize: '50px' }} />
-                    <h3 style={{ margin: '5px' }}>Night Mode</h3>
+                    <Typography variant="h5" style={{ marginBottom: '15px' }}>
+                        Night Mode
+                    </Typography>
                 </Grid>
-                <Grid xs={10}>
-                    <Card sx={{ backgroundColor: 'white' }}>
+                <Grid sm={12} md={10}>
+                    <Card sx={{ bgcolor: 'background.paper' }}>
                         <CardContent>
                             <RadioGroup
                                 aria-labelledby="demo-radio-buttons-group-label"
