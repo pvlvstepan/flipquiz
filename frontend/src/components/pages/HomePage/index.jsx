@@ -1,9 +1,20 @@
-import { Stack, Typography } from '@mui/material';
+import * as React from 'react';
+
+import { Stack } from '@mui/material';
+
+import { GameModesSection } from './sections/GameModesSection';
+import { GetStartedSection } from './sections/GetStartedSection';
+import { HeroSection } from './sections/HeroSection';
+import { TeacherRegisterSection } from './sections/TeacherRegisterSection';
 
 export const HomePage = () => {
     return (
         <Stack>
-            <Typography variant="body2">HomePage</Typography>
+            <HeroSection />
+            <GameModesSection />
+            <TeacherRegisterSection />
+            <GetStartedSection />
+            {/* <NewSectionWillGoHere /> */}
         </Stack>
     );
 };
