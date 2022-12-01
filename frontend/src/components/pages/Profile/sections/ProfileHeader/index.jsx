@@ -25,7 +25,12 @@ export const ProfileHeader = ({ username = '', id = '', role = '' }) => {
             alignItems="center"
             justifyContent="space-between"
         >
-            <Stack direction="row" alignItems="center" spacing={3}>
+            <Stack
+                direction="row"
+                alignItems="center"
+                spacing={3}
+                sx={{ minWidth: 0 }}
+            >
                 <Avatar
                     {...stringAvatar(username, {
                         color: 'white',
@@ -34,7 +39,7 @@ export const ProfileHeader = ({ username = '', id = '', role = '' }) => {
                         fontSize: 40,
                     })}
                 />
-                <Box>
+                <Box sx={{ minWidth: 0 }}>
                     <Typography variant="h2" noWrap sx={{ mb: 2 }}>
                         {getPublicUsername(username, id)}
                     </Typography>
