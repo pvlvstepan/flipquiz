@@ -5,6 +5,7 @@ import { StudyCardsLayout } from 'components/layouts/StudyCards';
 import { AuthLoader } from 'components/organisms/AuthLoader';
 import { AuthModal } from 'components/pages/AuthModal';
 import { HomePage } from 'components/pages/HomePage';
+import Settings from 'components/pages/Settings';
 import { NewStudyCardPage } from 'components/pages/StudyCards/NewStudyCard';
 import { StudyCardMainView } from 'components/pages/StudyCards/StudyCardMainView';
 
@@ -14,6 +15,7 @@ export const App = () => {
             <Routes>
                 <Route path="/" element={<MainLayout />}>
                     <Route index element={<HomePage />} />
+                    <Route path="/settings" element={<Settings />} />
                     <Route path="/study-card" element={<StudyCardsLayout />}>
                         <Route path="new" element={<NewStudyCardPage />} />
                     </Route>
