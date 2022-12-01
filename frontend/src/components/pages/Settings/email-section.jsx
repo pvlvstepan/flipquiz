@@ -10,11 +10,11 @@ const EmailSection = () => {
     return (
         <div style={{ margin: '20px 0' }}>
             <Grid container spacing={1}>
-                <Grid xs={2} sx={{ textAlign: 'center' }}>
+                <Grid item xs={2} sx={{ textAlign: 'center' }}>
                     <MailOutlineIcon sx={{ fontSize: '50px' }} />
                     <h3 style={{ margin: '5px' }}>Change You Email</h3>
                 </Grid>
-                <Grid xs={10}>
+                <Grid item xs={10}>
                     <Card sx={{ backgroundColor: 'white' }}>
                         <CardContent>
                             <h4 style={{ margin: '5px' }}>
@@ -47,7 +47,7 @@ const EmailSection = () => {
                                 <p>
                                     If you forget your password, you can
                                     <Link href="password" underline="none">
-                                        Reset your password.{' '}
+                                        Reset your password.
                                     </Link>
                                 </p>
                             </form>

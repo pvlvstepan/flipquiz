@@ -3,7 +3,7 @@ import EmailSection from './email-section';
 import NightmodeSection from './nightmode-section';
 import PasswordSection from './password-section';
 
-const Settings = () => {
+export const SettingsPage = () => {
     return (
         <div style={{ padding: '10px' }}>
             <NightmodeSection />
@@ -13,4 +13,3 @@ const Settings = () => {
         </div>
     );
 };
-export default Settings;

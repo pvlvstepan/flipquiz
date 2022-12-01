@@ -8,11 +8,11 @@ const DeleteSection = () => {
     return (
         <div style={{ margin: '20px 0' }}>
             <Grid container spacing={1}>
-                <Grid xs={2} sx={{ textAlign: 'center' }}>
+                <Grid item xs={2} sx={{ textAlign: 'center' }}>
                     <CloseIcon sx={{ fontSize: '50px' }} />
                     <h3 style={{ margin: '5px' }}>Delete Account</h3>
                 </Grid>
-                <Grid xs={10}>
+                <Grid item xs={10}>
                     <Card sx={{ backgroundColor: 'white' }}>
                         <CardContent>
                             <h4 style={{ margin: '5px' }}>
