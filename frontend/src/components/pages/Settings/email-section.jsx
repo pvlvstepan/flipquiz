@@ -1,31 +1,58 @@
+import { useState } from 'react';
+
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Grid from '@mui/material/Grid';
-import Link from '@mui/material/Link';
 import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
 
 const EmailSection = () => {
+    const [form, setForm] = useState({
+        email: '',
+        password: '',
+    });
+    const { email, password } = form;
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setForm((prev) => {
+            return {
+                ...prev,
+                [name]: value,
+            };
+        });
+    };
+    const submitForm = (e) => {
+        e.preventDefault();
+    };
+
     return (
         <div style={{ margin: '20px 0' }}>
-            <Grid container spacing={1}>
-                <Grid item xs={2} sx={{ textAlign: 'center' }}>
+            <Grid container spacing={1} justifyContent="center">
+                <Grid md={2} sm={12} sx={{ textAlign: 'center' }}>
                     <MailOutlineIcon sx={{ fontSize: '50px' }} />
-                    <h3 style={{ margin: '5px' }}>Change You Email</h3>
+                    <Typography variant="h5" style={{ marginBottom: '15px' }}>
+                        Change You Email
+                    </Typography>
                 </Grid>
-                <Grid item xs={10}>
-                    <Card sx={{ backgroundColor: 'white' }}>
+                <Grid md={10} sm={12}>
+                    <Card sx={{ bgcolor: 'background.paper' }}>
                         <CardContent>
-                            <h4 style={{ margin: '5px' }}>
-                                update your email address
-                            </h4>
-                            <p>Your email is currenty </p>
-                            <form>
+                            <Typography variant="h5" style={{ margin: '5px' }}>
+                                Update your email address
+                            </Typography>
+                            <Typography variant="p">
+                                Your email is currenty{' '}
+                            </Typography>
+                            <form onSubmit={submitForm}>
                                 <TextField
                                     helperText="NEW EMAIL"
                                     variant="standard"
+                                    name="email"
+                                    value={email}
                                     focused
+                                    onChange={handleChange}
                                     sx={{
                                         width: '100%',
                                         margin: '15px 0',
@@ -33,9 +60,13 @@ const EmailSection = () => {
                                 />
 
                                 <TextField
-                                    helperText="QUIZLET PASSWORD"
+                                    helperText="FLIPQUIZ PASSWORD"
                                     variant="standard"
+                                    name="password"
+                                    value={password}
+                                    onChange={handleChange}
                                     focused
+                                    type="password"
                                     sx={{
                                         width: '100%',
                                         margin: '15px 0',
@@ -44,12 +75,6 @@ const EmailSection = () => {
                                 <Button variant="contained" type="submit">
                                     Submit
                                 </Button>
-                                <p>
-                                    If you forget your password, you can
-                                    <Link href="password" underline="none">
-                                        Reset your password.
-                                    </Link>
-                                </p>
                             </form>
                         </CardContent>
                     </Card>

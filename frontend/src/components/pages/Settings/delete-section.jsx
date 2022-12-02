@@ -3,26 +3,33 @@ import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
 
 const DeleteSection = () => {
     return (
         <div style={{ margin: '20px 0' }}>
-            <Grid container spacing={1}>
-                <Grid item xs={2} sx={{ textAlign: 'center' }}>
+            <Grid container spacing={1} justifyContent="center">
+                <Grid md={2} sm={12} sx={{ textAlign: 'center' }}>
                     <CloseIcon sx={{ fontSize: '50px' }} />
-                    <h3 style={{ margin: '5px' }}>Delete Account</h3>
+                    <Typography variant="h5" style={{ marginBottom: '15px' }}>
+                        Delete Account
+                    </Typography>
                 </Grid>
-                <Grid item xs={10}>
-                    <Card sx={{ backgroundColor: 'white' }}>
+                <Grid md={10} sm={12}>
+                    <Card sx={{ bgcolor: 'background.paper' }}>
                         <CardContent>
-                            <h4 style={{ margin: '5px' }}>
-                                Permitantly Delete Account
-                            </h4>
-                            <p>
-                                Carefull this will delete all data and connot
-                                undone
-                            </p>
-                            <Button variant="contained" color="warning">
+                            <Typography variant="h5" style={{ margin: '5px' }}>
+                                Permanently Delete Account
+                            </Typography>
+                            <Typography>
+                                Careful as this will delete all data and cannot
+                                be undone
+                            </Typography>
+                            <Button
+                                variant="contained"
+                                color="error"
+                                sx={{ marginTop: '15px' }}
+                            >
                                 Delete Account
                             </Button>
                         </CardContent>
