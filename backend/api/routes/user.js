@@ -138,7 +138,8 @@ router.get("/:userId", checkAuth, (req, res, next) => {
                     StudyCard.find({
                         createdBy: user._id,
                     })
-                        .select("_id name terms")
+                        .select("_id name terms createdBy")
+                        .populate("createdBy", "_id username")
                         .exec()
                         .then((studyCards) => {
                             if (req.params.userId === req.user_data._id) {
@@ -146,7 +147,13 @@ router.get("/:userId", checkAuth, (req, res, next) => {
                                     userId: req.user_data._id,
                                 })
                                     .select("studyCardId")
-                                    .populate("studyCardId", "_id name terms")
+                                    .populate({
+                                        path: "studyCardId",
+                                        populate: {
+                                            path: "createdBy",
+                                            select: "_id username",
+                                        },
+                                    })
                                     .exec()
                                     .then((recent) => {
                                         res.status(200).json({
@@ -156,6 +163,7 @@ router.get("/:userId", checkAuth, (req, res, next) => {
                                                     _id: el._id,
                                                     name: el.name,
                                                     terms: el.terms.length,
+                                                    createdBy: el.createdBy,
                                                 })
                                             ),
                                             recent: recent.map((el) => ({
@@ -163,6 +171,8 @@ router.get("/:userId", checkAuth, (req, res, next) => {
                                                 name: el.studyCardId.name,
                                                 terms: el.studyCardId.terms
                                                     .length,
+                                                createdBy:
+                                                    el.studyCardId.createdBy,
                                             })),
                                         });
                                     })
@@ -178,6 +188,7 @@ router.get("/:userId", checkAuth, (req, res, next) => {
                                         _id: el._id,
                                         name: el.name,
                                         terms: el.terms.length,
+                                        createdBy: el.createdBy,
                                     })),
                                 });
                             }

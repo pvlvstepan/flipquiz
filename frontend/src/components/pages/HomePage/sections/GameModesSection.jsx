@@ -6,6 +6,8 @@ import SchoolIcon from '@mui/icons-material/School';
 import { Typography, Button, Grid, Container, Stack, Box } from '@mui/material';
 import { Link } from 'react-router-dom';
 
+import flipcards from 'assets/images/terms.jpg';
+
 // Container keeps the content centered on the screen so it doesnt touch the side
 
 // Grid container is what makes two columns
@@ -22,6 +24,27 @@ export const GameModesSection = () => {
             }}
         >
             <Grid container spacing={5}>
+                <Grid item xs={12} lg={6}>
+                    <Box
+                        sx={{
+                            borderRadius: '15px',
+                            overflow: 'hidden',
+                            width: '100%',
+                            height: '100%',
+                        }}
+                    >
+                        <Box
+                            component="img"
+                            src={flipcards}
+                            sx={{
+                                bgcolor: 'background.default',
+                                width: '100%',
+                                height: '100%',
+                                objectFit: 'contain',
+                            }}
+                        />
+                    </Box>
+                </Grid>
                 <Grid item xs={12} lg={6}>
                     <Typography color="inherit" textAlign="left" variant="h2">
                         Be ready for test day with different study modes
@@ -127,28 +150,6 @@ export const GameModesSection = () => {
                         color="inherit"
                         sx={{ mt: 2 }}
                     />
-                </Grid>
-                <Grid item xs={12} lg={6}>
-                    <Box
-                        sx={{
-                            borderRadius: '15px',
-                            overflow: 'hidden',
-                            width: '100%',
-                            height: '100%',
-                        }}
-                    >
-                        <Box
-                            component="img"
-                            src="" // replace this with img
-                            sx={{
-                                bgcolor: 'background.paper',
-                                width: '100%',
-                                height: '100%',
-                                objectFit: 'cover',
-                                minHeight: 500,
-                            }}
-                        />
-                    </Box>
                 </Grid>
             </Grid>
         </Container>

@@ -76,7 +76,7 @@ export const NewStudyCardForm = ({
                 </Tooltip>
             </Stack>
             <Grid container spacing={3} sx={{ p: 3 }}>
-                <Grid item xs={6}>
+                <Grid item xs={12} sm={6}>
                     <TextField
                         variant="standard"
                         label="Term"
@@ -87,7 +87,7 @@ export const NewStudyCardForm = ({
                         {...TermFieldProps}
                     />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12} sm={6}>
                     <TextField
                         variant="standard"
                         label="Definition"

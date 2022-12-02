@@ -10,7 +10,9 @@ export const GameModeHeader = ({ studyCardId, name }) => {
             justifyContent="space-between"
             sx={{ mb: 5 }}
         >
-            <Typography variant="h2">{name}</Typography>
+            <Typography variant="h2" sx={{ fontSize: { xs: 24, md: 36 } }}>
+                {name}
+            </Typography>
             <IconButton component={Link} to={`/${studyCardId}`}>
                 <CloseIcon />
             </IconButton>

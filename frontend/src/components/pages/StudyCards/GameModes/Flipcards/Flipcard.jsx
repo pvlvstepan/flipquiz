@@ -80,7 +80,7 @@ export const FlipCard = ({
             <Stack
                 alignItems="center"
                 justifyContent="center"
-                sx={{ flex: 1, p: 4, position: 'relative' }}
+                sx={{ flex: 1, p: 4, pt: 8, position: 'relative' }}
                 onClick={() => setFlipped(!flipped)}
             >
                 <Typography

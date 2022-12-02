@@ -4,7 +4,10 @@ import { Link } from 'react-router-dom';
 
 import success from 'assets/images/success.svg';
 
-export const FlipCardsSuccess = ({ studyCardId }) => {
+export const FlipCardsSuccess = ({
+    studyCardId,
+    onReset = () => undefined,
+}) => {
     return (
         <>
             <Stack
@@ -23,12 +26,14 @@ export const FlipCardsSuccess = ({ studyCardId }) => {
                 </Typography>
                 <img alt="" src={success} />
             </Stack>
-            <Stack direction="row">
+            <Stack direction="row" justifyContent="center" spacing={1}>
+                <Button variant="outlined" onClick={onReset}>
+                    Repeat from the start
+                </Button>
                 <Button
                     variant="contained"
                     component={Link}
                     to={`/${studyCardId}`}
-                    sx={{ mx: 'auto' }}
                 >
                     Continue
                 </Button>

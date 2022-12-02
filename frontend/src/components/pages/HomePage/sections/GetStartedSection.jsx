@@ -3,6 +3,8 @@ import * as React from 'react';
 import { Typography, Button, Grid, Container, Box } from '@mui/material';
 import { Link } from 'react-router-dom';
 
+import dude from 'assets/images/dude.jpg';
+
 export const GetStartedSection = () => {
     return (
         // use this guy in every section
@@ -16,7 +18,7 @@ export const GetStartedSection = () => {
                 <Typography
                     color="inherit"
                     textAlign="center"
-                    variant="h4"
+                    variant="h2"
                     sx={{ mb: 12, mt: { xs: 4, sm: 8 } }}
                 >
                     90% of students who use FlipQuiz report receiving higher
@@ -25,6 +27,28 @@ export const GetStartedSection = () => {
 
                 <Grid container spacing={5}>
                     <Grid item xs={12} lg={6}>
+                        <Box
+                            sx={{
+                                borderRadius: '15px',
+                                overflow: 'hidden',
+                                width: '100%',
+                                height: '100%',
+                            }}
+                        >
+                            <Box
+                                component="img"
+                                src={dude}
+                                sx={{
+                                    bgcolor: 'background.paper',
+                                    width: '100%',
+                                    height: '100%',
+                                    objectFit: 'cover',
+                                    minHeight: 500,
+                                }}
+                            />
+                        </Box>
+                    </Grid>
+                    <Grid item xs={12} lg={6} sx={{ my: 'auto' }}>
                         <Typography
                             color="inherit"
                             textAlign="left"
@@ -63,28 +87,6 @@ export const GetStartedSection = () => {
                             color="inherit"
                             sx={{ mt: 2 }}
                         />
-                    </Grid>
-                    <Grid item xs={12} lg={6}>
-                        <Box
-                            sx={{
-                                borderRadius: '15px',
-                                overflow: 'hidden',
-                                width: '100%',
-                                height: '100%',
-                            }}
-                        >
-                            <Box
-                                component="img"
-                                src="" // replace this with img
-                                sx={{
-                                    bgcolor: 'background.paper',
-                                    width: '100%',
-                                    height: '100%',
-                                    objectFit: 'cover',
-                                    minHeight: 500,
-                                }}
-                            />
-                        </Box>
                     </Grid>
                 </Grid>
             </Container>

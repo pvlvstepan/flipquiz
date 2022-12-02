@@ -62,7 +62,13 @@ export const FlipcardsPage = () => {
                     total={total}
                 />
             ) : (
-                <FlipCardsSuccess studyCardId={studyCardId} />
+                <FlipCardsSuccess
+                    studyCardId={studyCardId}
+                    onReset={() => {
+                        setActiveTerm(0);
+                        setCompleted(false);
+                    }}
+                />
             )}
         </Stack>
     );

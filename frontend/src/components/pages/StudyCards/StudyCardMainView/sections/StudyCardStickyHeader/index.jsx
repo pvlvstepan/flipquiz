@@ -5,7 +5,15 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import QuizIcon from '@mui/icons-material/Quiz';
 import SchoolIcon from '@mui/icons-material/School';
 import StyleIcon from '@mui/icons-material/Style';
-import { Box, Button, Container, Menu, Stack, Typography } from '@mui/material';
+import {
+    Box,
+    Button,
+    Container,
+    Menu,
+    Stack,
+    Tooltip,
+    Typography,
+} from '@mui/material';
 import { useInView } from 'react-intersection-observer';
 
 import { GameModeButton } from '../GameModeButtons';
@@ -50,7 +58,11 @@ export const StudyCardStickyHeader = ({ title }) => {
                             minHeight: 60,
                         }}
                     >
-                        <Typography variant="h4" noWrap>
+                        <Typography
+                            variant="h4"
+                            noWrap
+                            sx={{ fontSize: { xs: 16, md: 24 } }}
+                        >
                             {title}
                         </Typography>
                         <Button
@@ -86,15 +98,39 @@ export const StudyCardStickyHeader = ({ title }) => {
                         >
                             Flipcards
                         </GameModeButton>
-                        <GameModeButton startIcon={<SchoolIcon />} href="learn">
-                            Learn
-                        </GameModeButton>
-                        <GameModeButton startIcon={<QuizIcon />} href="test">
-                            Test
-                        </GameModeButton>
-                        <GameModeButton startIcon={<CableIcon />} href="match">
-                            Match
-                        </GameModeButton>
+                        <Tooltip title="Coming soon!" arrow>
+                            <span>
+                                <GameModeButton
+                                    startIcon={<SchoolIcon />}
+                                    href="learn"
+                                    disabled
+                                >
+                                    Learn
+                                </GameModeButton>
+                            </span>
+                        </Tooltip>
+                        <Tooltip title="Coming soon!" arrow>
+                            <span>
+                                <GameModeButton
+                                    startIcon={<QuizIcon />}
+                                    href="test"
+                                    disabled
+                                >
+                                    Test
+                                </GameModeButton>
+                            </span>
+                        </Tooltip>
+                        <Tooltip title="Coming soon!" arrow>
+                            <span>
+                                <GameModeButton
+                                    startIcon={<CableIcon />}
+                                    href="match"
+                                    disabled
+                                >
+                                    Match
+                                </GameModeButton>
+                            </span>
+                        </Tooltip>
                     </Stack>
                 </Menu>
             </Box>

@@ -20,7 +20,7 @@ export const TeacherRegisterSection = () => {
                 }}
             >
                 <Grid container spacing={5}>
-                    <Grid item xs={12} lg={6}>
+                    <Grid item xs={12} lg={6} sx={{ my: 'auto' }}>
                         <Typography
                             color="inherit"
                             textAlign="left"

@@ -8,6 +8,7 @@ import { BrokenLink404 } from 'components/pages/BrokenLink404';
 import { HomePage } from 'components/pages/HomePage';
 import { UserProfilePage } from 'components/pages/Profile';
 import { SettingsPage } from 'components/pages/Settings';
+import { AllStudyCardsPage } from 'components/pages/StudyCards/AllStudyCards';
 import { FlipcardsPage } from 'components/pages/StudyCards/GameModes/Flipcards';
 import { StudyCardLearnMode } from 'components/pages/StudyCards/GameModes/Learn';
 import { NewStudyCardPage } from 'components/pages/StudyCards/NewStudyCard';
@@ -19,10 +20,11 @@ export const App = () => {
             <Routes>
                 <Route path="/" element={<MainLayout />}>
                     <Route index element={<HomePage />} />
+                    <Route
+                        path="/study-cards"
+                        element={<AllStudyCardsPage />}
+                    />
                     <Route path="/settings" element={<SettingsPage />} />
-                    <Route path="/study-card" element={<StudyCardsLayout />}>
-                        <Route path="new" element={<NewStudyCardPage />} />
-                    </Route>
                     <Route path="/" element={<StudyCardsLayout />}>
                         <Route
                             path="/new-study-card"

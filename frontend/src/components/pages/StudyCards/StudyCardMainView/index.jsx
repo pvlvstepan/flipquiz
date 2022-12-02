@@ -40,6 +40,7 @@ export const StudyCardMainView = () => {
                 totalRatings={studyCard.totalRatings}
                 studyCardId={studyCardId}
                 totalUsers={studyCard.totalUsers}
+                createdAt={studyCard.createdAt}
             />
             <Divider />
             <GameModeButtons />

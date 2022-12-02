@@ -3,6 +3,7 @@ import { Types } from "mongoose";
 
 import { StudyCard } from "../models/studyCard.js";
 import { User } from "../models/user.js";
+import jwt from "jsonwebtoken";
 
 import { checkAuth } from "../middleware/checkAuth.js";
 import { StudyCardReview } from "../models/studyCardReview.js";
@@ -306,6 +307,66 @@ router.get("/:studyCardId", checkAuth, (req, res, next) => {
                 });
             });
     }
+});
+
+router.get("/", (req, res, next) => {
+    const decoded = jwt.verify(req.cookies.user, process.env.JWT_PRIVATE_KEY);
+
+    StudyCard.find()
+        .select("_id name terms createdBy")
+        .populate("createdBy", "_id username")
+        .exec()
+        .then((studyCards) => {
+            if (decoded._id) {
+                StudyCardAnalytics.find({
+                    userId: decoded._id,
+                })
+                    .select("studyCardId")
+                    .populate({
+                        path: "studyCardId",
+                        populate: {
+                            path: "createdBy",
+                            select: "_id username",
+                        },
+                    })
+                    .exec()
+                    .then((recent) => {
+                        res.status(200).json({
+                            studyCards: studyCards.map((el) => ({
+                                _id: el._id,
+                                name: el.name,
+                                terms: el.terms.length,
+                                createdBy: el.createdBy,
+                            })),
+                            recent: recent.map((el) => ({
+                                _id: el.studyCardId._id,
+                                name: el.studyCardId.name,
+                                terms: el.studyCardId.terms.length,
+                                createdBy: el.studyCardId.createdBy,
+                            })),
+                        });
+                    })
+                    .catch((err) => {
+                        res.status(500).json({
+                            error: err.message,
+                        });
+                    });
+            } else {
+                res.status(200).json({
+                    studyCards: studyCards.map((el) => ({
+                        _id: el._id,
+                        name: el.name,
+                        terms: el.terms.length,
+                        createdBy: el.createdBy,
+                    })),
+                });
+            }
+        })
+        .catch((err) => {
+            res.status(500).json({
+                error: err.message,
+            });
+        });
 });
 
 export const studyCardRoute = router;

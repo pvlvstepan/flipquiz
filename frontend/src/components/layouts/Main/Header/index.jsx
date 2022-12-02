@@ -5,6 +5,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { userAtom } from 'atoms';
 
 import * as Styled from './Header.styled';
+import { MobileMenu } from './MobileMenu';
 import { UserMenu } from './UserMenu';
 
 export const Header = () => {
@@ -14,6 +15,13 @@ export const Header = () => {
 
     return (
         <Styled.Wrapper>
+            <Stack
+                sx={{ display: { sm: 'none', xs: 'flex' } }}
+                alignItems="center"
+                justifyContent="center"
+            >
+                <MobileMenu />
+            </Stack>
             <Typography
                 variant="h4"
                 className="title"
@@ -28,7 +36,7 @@ export const Header = () => {
             <Stack
                 direction="row"
                 alignItems="center"
-                sx={{ ml: 3 }}
+                sx={{ ml: 3, display: { sm: 'flex', xs: 'none' } }}
                 spacing={3}
             >
                 <MuiLink
@@ -41,7 +49,7 @@ export const Header = () => {
                 </MuiLink>
                 <MuiLink
                     component={Link}
-                    to="/"
+                    to="/study-cards"
                     sx={{ color: 'inherit' }}
                     variant="subtitle1"
                 >

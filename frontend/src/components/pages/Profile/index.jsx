@@ -7,6 +7,8 @@ import { getUserProfile } from 'queries/profile/getUserProfile';
 
 import { BrokenLink404 } from '../BrokenLink404';
 import { ProfileHeader } from './sections/ProfileHeader';
+import { RecentStudyCards } from './sections/RecentStudyCards';
+import { UserStudyCards } from './sections/UserStudyCards';
 
 export const UserProfilePage = () => {
     const { userId } = useParams();
@@ -32,7 +34,18 @@ export const UserProfilePage = () => {
                 id={userProfile?._id}
                 role={userProfile?.role}
             />
+            {userProfile?.recent?.length ? (
+                <>
+                    <Divider />
+                    <RecentStudyCards cards={userProfile?.recent} />
+                </>
+            ) : undefined}
             <Divider />
+            <UserStudyCards
+                cards={userProfile?.studyCards}
+                username={userProfile?.username}
+                userID={userProfile?._id}
+            />
         </Stack>
     );
 };
