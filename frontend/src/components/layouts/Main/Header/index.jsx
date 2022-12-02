@@ -1,26 +1,71 @@
-import { Button, Stack, Typography } from '@mui/material';
+import { Button, Stack, Typography, Link as MuiLink } from '@mui/material';
 import { useAtom } from 'jotai';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 import { userAtom } from 'atoms';
 
 import * as Styled from './Header.styled';
+import { MobileMenu } from './MobileMenu';
 import { UserMenu } from './UserMenu';
 
 export const Header = () => {
     const [user] = useAtom(userAtom);
 
+    const { pathname } = useLocation();
+
     return (
         <Styled.Wrapper>
+            <Stack
+                sx={{ display: { sm: 'none', xs: 'flex' } }}
+                alignItems="center"
+                justifyContent="center"
+            >
+                <MobileMenu />
+            </Stack>
             <Typography
                 variant="h4"
                 className="title"
                 color={({ palette: { mode, primary } }) =>
                     mode === 'dark' ? 'white' : primary.main
                 }
+                component={Link}
+                to="/"
             >
                 FlipQuiz
             </Typography>
+            <Stack
+                direction="row"
+                alignItems="center"
+                sx={{ ml: 3, display: { sm: 'flex', xs: 'none' } }}
+                spacing={3}
+            >
+                <MuiLink
+                    component={Link}
+                    to="/"
+                    sx={{ color: 'inherit' }}
+                    variant="subtitle1"
+                >
+                    Home
+                </MuiLink>
+                <MuiLink
+                    component={Link}
+                    to="/study-cards"
+                    sx={{ color: 'inherit' }}
+                    variant="subtitle1"
+                >
+                    Study cards
+                </MuiLink>
+                {pathname !== '/new-study-card' ? (
+                    <Button
+                        variant="contained"
+                        component={Link}
+                        to="/new-study-card"
+                        size="small"
+                    >
+                        Create
+                    </Button>
+                ) : undefined}
+            </Stack>
             <Stack
                 alignItems="center"
                 direction="row"

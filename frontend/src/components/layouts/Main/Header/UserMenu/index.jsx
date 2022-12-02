@@ -12,7 +12,7 @@ import {
 } from '@mui/material';
 import { useMutation } from '@tanstack/react-query';
 import { useAtom } from 'jotai';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import useDarkMode from 'use-dark-mode';
 
 import { userAtom } from 'atoms';
@@ -51,7 +51,6 @@ export const stringAvatar = (email, sx) => {
 };
 
 export const UserMenu = () => {
-    const naviage = useNavigate();
     const [user, setUser] = useAtom(userAtom);
 
     const [anchorEl, setAnchorEl] = useState(null);
@@ -63,10 +62,6 @@ export const UserMenu = () => {
     };
     const handleClose = () => {
         setAnchorEl(null);
-    };
-    const handleSettings = () => {
-        naviage('/settings');
-        handleClose();
     };
 
     const { toggle, value } = useDarkMode();
@@ -134,7 +129,13 @@ export const UserMenu = () => {
                     </MenuItem>
                 ) : undefined}
                 <Divider />
-                <MenuItem onClick={handleClose}>Profile</MenuItem>
+                <MenuItem
+                    onClick={handleClose}
+                    component={Link}
+                    to={`/user/${user?._id}`}
+                >
+                    Profile
+                </MenuItem>
                 <MenuItem onClick={toggle}>
                     <FormControlLabel
                         control={
@@ -154,7 +155,9 @@ export const UserMenu = () => {
                         }}
                     />
                 </MenuItem>
-                <MenuItem onClick={handleSettings}>Settings</MenuItem>
+                <MenuItem onClick={handleClose} component={Link} to="/settings">
+                    Settings
+                </MenuItem>
                 <Divider />
                 <MenuItem
                     onClick={() => {

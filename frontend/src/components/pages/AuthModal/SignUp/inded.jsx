@@ -177,7 +177,7 @@ export const SignUpForm = () => {
                 sx={{
                     px: 3,
                     py: 1,
-                    bgcolor: 'transparent',
+                    bgcolor: 'background.default',
                     textAlign: 'center',
                     color: 'text.disabled',
                 }}

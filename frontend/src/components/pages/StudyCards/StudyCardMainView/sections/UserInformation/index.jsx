@@ -1,11 +1,27 @@
-import FlagIcon from '@mui/icons-material/Flag';
+import { useEffect } from 'react';
+
+import ShareIcon from '@mui/icons-material/Share';
 import { Avatar, Box, Button, Stack, Tooltip, Typography } from '@mui/material';
+import { useSnackbar } from 'notistack';
 import { Link } from 'react-router-dom';
+import useClipboard from 'react-use-clipboard';
 
 import { stringAvatar } from 'components/layouts/Main/Header/UserMenu';
 import { getPublicUsername } from 'utils/getPublicUsername';
 
 export const UserInformation = ({ username, id }) => {
+    const { enqueueSnackbar } = useSnackbar();
+    const [isCopied, setCopied] = useClipboard(window.location.href);
+
+    useEffect(() => {
+        if (isCopied) {
+            enqueueSnackbar('Study card link copied', {
+                variant: 'success',
+            });
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isCopied]);
+
     return (
         <Stack
             direction="row"
@@ -48,7 +64,7 @@ export const UserInformation = ({ username, id }) => {
                     </Box>
                 </Box>
             </Stack>
-            <Tooltip arrow title="Report">
+            <Tooltip arrow title="Share link">
                 <Button
                     variant="outlined"
                     color="inherit"
@@ -59,8 +75,9 @@ export const UserInformation = ({ username, id }) => {
                         minWidth: 36,
                         borderRadius: '50%',
                     }}
+                    onClick={setCopied}
                 >
-                    <FlagIcon />
+                    <ShareIcon />
                 </Button>
             </Tooltip>
         </Stack>

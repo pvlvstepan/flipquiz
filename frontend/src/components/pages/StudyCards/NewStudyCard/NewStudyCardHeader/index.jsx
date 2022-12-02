@@ -13,6 +13,7 @@ import { useInView } from 'react-intersection-observer';
 const StickyHeader = ({ submitDisabled, isLoading }) => {
     const { ref, inView } = useInView({
         rootMargin: '-60px',
+        initialInView: true,
     });
 
     return (
@@ -40,12 +41,15 @@ const StickyHeader = ({ submitDisabled, isLoading }) => {
                         sx={{
                             minHeight: 60,
                         }}
+                        spacing={2}
                     >
                         <Typography
                             variant="h2"
                             sx={{
                                 transition: 'font-size 0.2s ease-in-out',
-                                fontSize: !inView ? 24 : 36,
+                                fontSize: !inView
+                                    ? { xs: 16, md: 24 }
+                                    : { xs: 24, md: 36 },
                             }}
                         >
                             Create a new study card
