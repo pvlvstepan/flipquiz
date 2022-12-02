@@ -7,7 +7,7 @@ import PasswordSection from './password-section';
 
 export const SettingsPage = () => {
     return (
-        <Container maxWidth="lg">
+        <Container maxWidth="lg" sx={{ py: 5 }}>
             <NightmodeSection />
             <EmailSection />
             <PasswordSection />

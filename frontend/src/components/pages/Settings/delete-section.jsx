@@ -19,15 +19,15 @@ const DeleteSection = () => {
                     <Card sx={{ bgcolor: 'background.paper' }}>
                         <CardContent>
                             <Typography variant="h5" style={{ margin: '5px' }}>
-                                Permitantly Delete Account
+                                Permanently Delete Account
                             </Typography>
                             <Typography>
-                                Carefull this will delete all data and connot
-                                undone
+                                Careful as this will delete all data and cannot
+                                be undone
                             </Typography>
                             <Button
                                 variant="contained"
-                                color="warning"
+                                color="error"
                                 sx={{ marginTop: '15px' }}
                             >
                                 Delete Account
