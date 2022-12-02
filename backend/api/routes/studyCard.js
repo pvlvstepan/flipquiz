@@ -310,16 +310,18 @@ router.get("/:studyCardId", checkAuth, (req, res, next) => {
 });
 
 router.get("/", (req, res, next) => {
-    const decoded = jwt.verify(req.cookies.user, process.env.JWT_PRIVATE_KEY);
+    const decoded = req.cookies.user
+        ? jwt.verify(req.cookies.user, process.env.JWT_PRIVATE_KEY)
+        : undefined;
 
     StudyCard.find()
         .select("_id name terms createdBy")
         .populate("createdBy", "_id username")
         .exec()
         .then((studyCards) => {
-            if (decoded._id) {
+            if (decoded?._id) {
                 StudyCardAnalytics.find({
-                    userId: decoded._id,
+                    userId: decoded?._id,
                 })
                     .select("studyCardId")
                     .populate({

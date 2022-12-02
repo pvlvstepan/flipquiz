@@ -20,11 +20,11 @@ export const App = () => {
             <Routes>
                 <Route path="/" element={<MainLayout />}>
                     <Route index element={<HomePage />} />
+                    <Route path="/settings" element={<SettingsPage />} />
                     <Route
                         path="/study-cards"
                         element={<AllStudyCardsPage />}
                     />
-                    <Route path="/settings" element={<SettingsPage />} />
                     <Route path="/" element={<StudyCardsLayout />}>
                         <Route
                             path="/new-study-card"
