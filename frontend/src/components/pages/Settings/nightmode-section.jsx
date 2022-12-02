@@ -26,7 +26,7 @@ const NightmodeSection = () => {
                         <CardContent>
                             <RadioGroup
                                 aria-labelledby="demo-radio-buttons-group-label"
-                                value={!value ? 'dark' : 'light'}
+                                value={value ? 'dark' : 'light'}
                                 name="radio-buttons-group"
                             >
                                 <div style={{ display: 'flex' }}>
@@ -45,7 +45,7 @@ const NightmodeSection = () => {
                                         <FormControlLabel
                                             value="light"
                                             sx={{ m: 0 }}
-                                            onClick={() => enable()}
+                                            onClick={() => disable()}
                                             control={<Radio />}
                                         />
                                     </Paper>
@@ -64,7 +64,7 @@ const NightmodeSection = () => {
                                         <FormControlLabel
                                             value="dark"
                                             sx={{ m: 0 }}
-                                            onClick={() => disable()}
+                                            onClick={() => enable()}
                                             control={<Radio />}
                                         />
                                     </Paper>
