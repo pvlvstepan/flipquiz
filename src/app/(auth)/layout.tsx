@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import authCover from "public/auth-cover.png";
+import authCover from "public/images/auth-cover.png";
 
 import { getServerAuthSession } from "@/server/auth";
 

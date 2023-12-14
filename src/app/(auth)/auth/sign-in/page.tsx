@@ -1,6 +1,11 @@
 import { getProviders } from "next-auth/react";
 
-import { AuthLinks, AuthProviders, AuthSeparator } from "../components";
+import {
+    AuthLinks,
+    AuthProviders,
+    AuthSeparator,
+} from "@/app/(auth)/components";
+
 import { SignInForm } from "./form";
 
 export default async function SignInPage() {

@@ -6,7 +6,22 @@ await import("./src/env.js");
 
 /** @type {import("next").NextConfig} */
 const config = {
-    transpilePackages: ["lucide-react"],
+    images: {
+        remotePatterns: [
+            {
+                protocol: "https",
+                hostname: "*.googleusercontent.com",
+                port: "",
+                pathname: "**",
+            },
+            {
+                protocol: "https",
+                hostname: "*.discordapp.com",
+                port: "",
+                pathname: "**",
+            },
+        ],
+    },
 };
 
 export default config;

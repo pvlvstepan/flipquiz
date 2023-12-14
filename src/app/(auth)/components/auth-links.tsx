@@ -20,7 +20,7 @@ export function AuthLinks({ current }: AuthLinksProps) {
                 )}
                 href="/auth/sign-up"
             >
-                Sign Up
+                Sign up
             </Link>
             <Link
                 className={cn(
@@ -31,7 +31,7 @@ export function AuthLinks({ current }: AuthLinksProps) {
                 )}
                 href="/auth/sign-in"
             >
-                Log In
+                Log in
             </Link>
             <Button
                 asChild

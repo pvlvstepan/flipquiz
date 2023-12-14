@@ -122,7 +122,7 @@ export function SignUpForm() {
                 </div>
                 <div className="flex flex-col gap-4">
                     <Button disabled={isInvalid} size="lg">
-                        Sign Up
+                        Sign up
                     </Button>
                     <Button asChild size="lg" variant="outline">
                         <Link href="/auth/sign-in">
