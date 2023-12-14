@@ -39,61 +39,65 @@ export function SignInForm() {
     return (
         <Form {...form}>
             <form
-                className="flex flex-col gap-y-4"
+                className="flex flex-col gap-y-8"
                 noValidate
                 onSubmit={onSubmit}
             >
-                <FormField
-                    control={form.control}
-                    name="email"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Email</FormLabel>
-                            <FormControl>
-                                <Input
-                                    placeholder="Enter your email"
-                                    {...field}
-                                />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-                <FormField
-                    control={form.control}
-                    name="password"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Password</FormLabel>
-                            <FormControl>
-                                <Input
-                                    placeholder="Password"
-                                    type="password"
-                                    {...field}
-                                />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-                <Link
-                    className="text-sm font-bold text-primary hover:underline"
-                    href="/auth/forgot-password"
-                >
-                    Forgot password?
-                </Link>
-                <Button disabled={isInvalid} type="submit">
-                    Sign in to your account
-                </Button>
-                <p className="text-sm font-light text-muted-foreground">
-                    Don&apos;t have an account yet?{" "}
-                    <Link
-                        className="font-bold text-primary hover:underline"
-                        href="/auth/sign-up"
-                    >
-                        Sign up here
-                    </Link>
-                </p>
+                <div className="flex flex-col gap-y-4">
+                    <FormField
+                        control={form.control}
+                        name="email"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Email</FormLabel>
+                                <FormControl>
+                                    <Input
+                                        placeholder="Enter your email"
+                                        {...field}
+                                    />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="password"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>
+                                    <div className="flex w-full justify-between">
+                                        <span>Password</span>
+                                        <Link
+                                            className="text-primary hover:text-primary/90"
+                                            href="/auth/forgot-password"
+                                        >
+                                            Forgot password?
+                                        </Link>
+                                    </div>
+                                </FormLabel>
+                                <FormControl>
+                                    <Input
+                                        placeholder="Password"
+                                        type="password"
+                                        {...field}
+                                    />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                </div>
+                <div className="flex flex-col gap-4">
+                    <Button disabled={isInvalid} size="lg" type="submit">
+                        Log in
+                    </Button>
+                    <Button asChild size="lg" type="button" variant="outline">
+                        <Link href="/auth/sign-up">
+                            New to FlipQuiz? Create an account
+                        </Link>
+                    </Button>
+                </div>
             </form>
         </Form>
     );

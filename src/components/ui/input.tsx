@@ -23,8 +23,8 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             <div className="relative">
                 <input
                     className={cn(
-                        "flex h-10 w-full rounded-md border border-input bg-transparent px-3 py-2 text-base ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
-                        type === "password" && "pr-10",
+                        "flex h-12 w-full rounded-md border-2 border-input bg-secondary px-3 py-2 text-base ring-offset-background file:border-0 file:bg-transparent file:text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
+                        type === "password" && "pr-12",
                         className,
                     )}
                     ref={ref}
@@ -33,22 +33,16 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
                 />
                 {type === "password" && (
                     <Button
-                        className="absolute right-1 top-1/2 h-8 w-8 -translate-y-1/2 rounded-sm"
+                        className="absolute right-1 top-1/2 -translate-y-1/2 rounded-sm hover:bg-secondary-foreground/10"
                         onClick={togglePasswordVisibility}
                         size="icon"
                         type="button"
                         variant="ghost"
                     >
                         {showPassword ? (
-                            <EyeIcon
-                                className="h-4 w-4 text-gray-500"
-                                name="eye"
-                            />
+                            <EyeIcon size={16} />
                         ) : (
-                            <EyeOffIcon
-                                className="h-4 w-4 text-gray-500"
-                                name="eye-off"
-                            />
+                            <EyeOffIcon size={16} />
                         )}
                     </Button>
                 )}

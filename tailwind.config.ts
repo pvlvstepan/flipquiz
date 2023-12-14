@@ -14,8 +14,7 @@ export default {
             },
         },
         fontFamily: {
-            poppins: ["var(--font-poppins)", ...fontFamily.sans],
-            quicksand: ["var(--font-quicksand)", ...fontFamily.sans],
+            sans: ["var(--font-outfit)", ...fontFamily.sans],
         },
         extend: {
             colors: {

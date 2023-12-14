@@ -1,5 +1,5 @@
 import { Slot } from "@radix-ui/react-slot";
-import React, { createContext, forwardRef, useContext, useId } from "react";
+import { createContext, forwardRef, useContext, useId } from "react";
 import { Controller, FormProvider, useFormContext } from "react-hook-form";
 
 import type * as LabelPrimitive from "@radix-ui/react-label";
@@ -17,7 +17,7 @@ interface FormFieldContextValue<
     name: TName;
 }
 
-const FormFieldContext = createContext<FormFieldContextValue | null>(
+const FormFieldContext = createContext<FormFieldContextValue | undefined>(
     {} as FormFieldContextValue,
 );
 
@@ -71,7 +71,7 @@ const FormItem = forwardRef<
 
     return (
         <FormItemContext.Provider value={{ id }}>
-            <div className={cn("space-y-1", className)} ref={ref} {...props} />
+            <div className={cn("space-y-2", className)} ref={ref} {...props} />
         </FormItemContext.Provider>
     );
 });
@@ -80,10 +80,17 @@ FormItem.displayName = "FormItem";
 const FormLabel = forwardRef<
     React.ElementRef<typeof LabelPrimitive.Root>,
     React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root>
->(({ ...props }, ref) => {
+>(({ className, ...props }, ref) => {
     const { formItemId } = useFormField();
 
-    return <Label htmlFor={formItemId} ref={ref} {...props} />;
+    return (
+        <Label
+            className={className}
+            htmlFor={formItemId}
+            ref={ref}
+            {...props}
+        />
+    );
 });
 FormLabel.displayName = "FormLabel";
 
