@@ -16,6 +16,7 @@ module.exports = {
     parserOptions: {
         project,
     },
+    ignorePatterns: ["env.js"],
     settings: {
         "import/resolver": {
             typescript: {
@@ -24,6 +25,12 @@ module.exports = {
         },
         "tailwindcss": {
             callees: ["cva", "cn"],
+        },
+        "jsx-a11y": {
+            components: {
+                Button: "button",
+                Input: "input",
+            },
         },
     },
     rules: {
@@ -41,5 +48,6 @@ module.exports = {
                 checksVoidReturn: { attributes: false },
             },
         ],
+        "import/prefer-default-export": "off",
     },
 };

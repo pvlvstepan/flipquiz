@@ -1,13 +1,21 @@
-import "@/styles/globals.css";
-
-import { Inter } from "next/font/google";
+import { Poppins, Quicksand } from "next/font/google";
 import { cookies } from "next/headers";
 
 import { TRPCReactProvider } from "@/trpc/react";
 
-const inter = Inter({
+import "@/styles/globals.css";
+
+import { ThemeProvider } from "@/components/providers/theme-provider";
+
+const poppins = Poppins({
+    weight: ["400", "500", "600", "700"],
     subsets: ["latin"],
-    variable: "--font-sans",
+    variable: "--font-poppins",
+});
+
+const quicksand = Quicksand({
+    subsets: ["latin"],
+    variable: "--font-quicksand",
 });
 
 export const metadata = {
@@ -16,17 +24,26 @@ export const metadata = {
     icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 
-export default function RootLayout({
-    children,
-}: {
+interface RootLayoutProps {
     children: React.ReactNode;
-}) {
+}
+
+export default function RootLayout({ children }: RootLayoutProps) {
     return (
-        <html lang="en">
-            <body className={`font-sans ${inter.variable}`}>
-                <TRPCReactProvider cookies={cookies().toString()}>
-                    {children}
-                </TRPCReactProvider>
+        <html lang="en" suppressHydrationWarning>
+            <body
+                className={`font-quicksand ${poppins.variable} ${quicksand.variable}`}
+            >
+                <ThemeProvider
+                    attribute="class"
+                    defaultTheme="system"
+                    disableTransitionOnChange
+                    enableSystem
+                >
+                    <TRPCReactProvider cookies={cookies().toString()}>
+                        {children}
+                    </TRPCReactProvider>
+                </ThemeProvider>
             </body>
         </html>
     );

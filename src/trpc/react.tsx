@@ -8,16 +8,21 @@ import {
 import { createTRPCReact } from "@trpc/react-query";
 import { useMemo } from "react";
 
-import { type AppRouter } from "@/server/api/root";
+import type { AppRouter } from "@/server/api/root";
 
 import { getUrl, transformer } from "./shared";
 
 export const api = createTRPCReact<AppRouter>();
 
-export function TRPCReactProvider(props: {
+interface TRPCReactProviderProps {
     children: React.ReactNode;
     cookies: string;
-}) {
+}
+
+export function TRPCReactProvider({
+    children,
+    cookies,
+}: TRPCReactProviderProps) {
     const queryClient = useMemo(() => new QueryClient(), []);
 
     const trpcClient = useMemo(
@@ -35,20 +40,20 @@ export function TRPCReactProvider(props: {
                         url: getUrl(),
                         headers() {
                             return {
-                                "cookie": props.cookies,
+                                "cookie": cookies,
                                 "x-trpc-source": "react",
                             };
                         },
                     }),
                 ],
             }),
-        [props.cookies],
+        [cookies],
     );
 
     return (
         <QueryClientProvider client={queryClient}>
             <api.Provider client={trpcClient} queryClient={queryClient}>
-                {props.children}
+                {children}
             </api.Provider>
         </QueryClientProvider>
     );
