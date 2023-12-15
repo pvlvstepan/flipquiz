@@ -6,14 +6,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
-import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-} from "@/components/ui/form";
+import { Form } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
 const formSchema = z.object({
@@ -53,70 +46,70 @@ export function SignUpForm() {
                 onSubmit={onSubmit}
             >
                 <div className="flex flex-col gap-y-4">
-                    <FormField
+                    <Form.Field
                         control={form.control}
                         name="name"
                         render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Your name</FormLabel>
-                                <FormControl>
+                            <Form.Item>
+                                <Form.Label>Your name</Form.Label>
+                                <Form.Control>
                                     <Input
                                         placeholder="Enter your name"
                                         {...field}
                                     />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
+                                </Form.Control>
+                                <Form.Message />
+                            </Form.Item>
                         )}
                     />
-                    <FormField
+                    <Form.Field
                         control={form.control}
                         name="email"
                         render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Email</FormLabel>
-                                <FormControl>
+                            <Form.Item>
+                                <Form.Label>Email</Form.Label>
+                                <Form.Control>
                                     <Input
                                         placeholder="Enter your email"
                                         {...field}
                                     />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
+                                </Form.Control>
+                                <Form.Message />
+                            </Form.Item>
                         )}
                     />
-                    <FormField
+                    <Form.Field
                         control={form.control}
                         name="password"
                         render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Password</FormLabel>
-                                <FormControl>
+                            <Form.Item>
+                                <Form.Label>Password</Form.Label>
+                                <Form.Control>
                                     <Input
                                         placeholder="Password"
                                         type="password"
                                         {...field}
                                     />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
+                                </Form.Control>
+                                <Form.Message />
+                            </Form.Item>
                         )}
                     />
-                    <FormField
+                    <Form.Field
                         control={form.control}
                         name="repeatPassword"
                         render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Repeat password</FormLabel>
-                                <FormControl>
+                            <Form.Item>
+                                <Form.Label>Repeat password</Form.Label>
+                                <Form.Control>
                                     <Input
                                         placeholder="Repeat password"
                                         type="password"
                                         {...field}
                                     />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
+                                </Form.Control>
+                                <Form.Message />
+                            </Form.Item>
                         )}
                     />
                 </div>

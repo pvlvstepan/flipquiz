@@ -8,8 +8,6 @@ import type { ControllerProps, FieldPath, FieldValues } from "react-hook-form";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 
-const Form = FormProvider;
-
 interface FormFieldContextValue<
     TFieldValues extends FieldValues = FieldValues,
     TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
@@ -32,7 +30,7 @@ function FormField<
     );
 }
 
-const useFormField = () => {
+export const useFormField = () => {
     const fieldContext = useContext(FormFieldContext);
     const itemContext = useContext(FormItemContext);
     const { getFieldState, formState } = useFormContext();
@@ -158,13 +156,11 @@ const FormMessage = forwardRef<
 });
 FormMessage.displayName = "FormMessage";
 
-export {
-    useFormField,
-    Form,
-    FormItem,
-    FormLabel,
-    FormControl,
-    FormDescription,
-    FormMessage,
-    FormField,
-};
+export const Form = Object.assign(FormProvider, {
+    Item: FormItem,
+    Label: FormLabel,
+    Control: FormControl,
+    Description: FormDescription,
+    Message: FormMessage,
+    Field: FormField,
+});

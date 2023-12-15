@@ -6,14 +6,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
-import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-} from "@/components/ui/form";
+import { Form } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
 const formSchema = z.object({
@@ -44,28 +37,28 @@ export function SignInForm() {
                 onSubmit={onSubmit}
             >
                 <div className="flex flex-col gap-y-4">
-                    <FormField
+                    <Form.Field
                         control={form.control}
                         name="email"
                         render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Email</FormLabel>
-                                <FormControl>
+                            <Form.Item>
+                                <Form.Label>Email</Form.Label>
+                                <Form.Control>
                                     <Input
                                         placeholder="Enter your email"
                                         {...field}
                                     />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
+                                </Form.Control>
+                                <Form.Message />
+                            </Form.Item>
                         )}
                     />
-                    <FormField
+                    <Form.Field
                         control={form.control}
                         name="password"
                         render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>
+                            <Form.Item>
+                                <Form.Label>
                                     <div className="flex w-full justify-between">
                                         <span>Password</span>
                                         <Link
@@ -75,16 +68,16 @@ export function SignInForm() {
                                             Forgot password?
                                         </Link>
                                     </div>
-                                </FormLabel>
-                                <FormControl>
+                                </Form.Label>
+                                <Form.Control>
                                     <Input
                                         placeholder="Password"
                                         type="password"
                                         {...field}
                                     />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
+                                </Form.Control>
+                                <Form.Message />
+                            </Form.Item>
                         )}
                     />
                 </div>
