@@ -14,15 +14,26 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model Post {
+model StudySetCard {
+    id        Int      @id @default(autoincrement())
+    term     String
+    definition      String
+    createdAt DateTime @default(now())
+    order Int @default(0)
+    studySet   StudySet @relation(fields: [studySetId], references: [id])
+    studySetId Int
+}
+
+model StudySet {
     id        Int      @id @default(autoincrement())
     name      String
+    description String?
     createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-
     createdBy   User   @relation(fields: [createdById], references: [id])
     createdById String
 
+    cards StudySetCard[]
+    
     @@index([name])
 }
 
@@ -61,7 +72,7 @@ model User {
     image         String?
     accounts      Account[]
     sessions      Session[]
-    posts         Post[]
+    studySets     StudySet[]
 }
 
 model VerificationToken {

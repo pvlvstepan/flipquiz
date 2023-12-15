@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { getServerAuthSession } from "@/server/auth";
 
-import { CreateItemMenu } from "./create-item-menu";
+import { CreateMenu } from "./create-menu";
 import { UserMenu } from "./user-menu";
 
 export async function Header() {
@@ -17,7 +17,7 @@ export async function Header() {
                         FlipQuiz
                     </Link>
                     <div className="flex items-center gap-3">
-                        <CreateItemMenu />
+                        <CreateMenu />
                         {!session ? (
                             <>
                                 <Button asChild variant="ghost">

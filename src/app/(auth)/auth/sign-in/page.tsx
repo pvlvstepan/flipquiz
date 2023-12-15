@@ -4,7 +4,7 @@ import {
     AuthLinks,
     AuthProviders,
     AuthSeparator,
-} from "@/app/(auth)/components";
+} from "@/components/layouts/auth";
 
 import { SignInForm } from "./form";
 

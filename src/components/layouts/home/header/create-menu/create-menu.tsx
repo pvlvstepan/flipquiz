@@ -11,7 +11,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu } from "@/components/ui/dropdown-menu";
 
-export function CreateItemMenu() {
+export function CreateMenu() {
     return (
         <DropdownMenu>
             <DropdownMenu.Trigger asChild>
@@ -25,19 +25,19 @@ export function CreateItemMenu() {
             </DropdownMenu.Trigger>
             <DropdownMenu.Content align="end">
                 <DropdownMenu.Item asChild>
-                    <Link href="/create-study-set">
+                    <Link href="/study-set/create">
                         <BookCopyIcon size={16} />
                         <span>Study Set</span>
                     </Link>
                 </DropdownMenu.Item>
                 <DropdownMenu.Item asChild>
-                    <Link href="/create-folder">
+                    <Link href="/folder/create">
                         <FolderIcon size={16} />
                         <span>Folder</span>
                     </Link>
                 </DropdownMenu.Item>
                 <DropdownMenu.Item asChild>
-                    <Link href="/create-class">
+                    <Link href="/class/create">
                         <UsersRoundIcon size={16} />
                         <span>Class</span>
                     </Link>
