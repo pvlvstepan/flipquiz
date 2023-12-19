@@ -46,6 +46,8 @@ export default async function UpdateStudySetPage({
                     id: studySet.id,
                     description: studySet.description ?? "",
                     name: studySet.name,
+                    subjectId: studySet.subject.id,
+                    areaId: studySet.subject.area.id,
                     cards: studySet.cards.map((card) => ({
                         id: card.id,
                         term: card.term,

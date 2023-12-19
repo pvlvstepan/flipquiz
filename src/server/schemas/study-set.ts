@@ -10,6 +10,8 @@ export const studySetSchema = z.object({
         .string()
         .max(280, "This description is too long :(")
         .optional(),
+    subjectId: z.number(),
+    areaId: z.number(),
     cards: z.array(
         z.object({
             id: z.number().optional(),

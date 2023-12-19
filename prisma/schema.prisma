@@ -32,10 +32,14 @@ model StudySet {
     createdBy   User   @relation(fields: [createdById], references: [id])
     createdById String
 
+    subject Subject @relation(fields: [subjectId], references: [id])
+    subjectId Int
+
     cards StudySetCard[]
     views StudySetView[]
     reviews StudySetReview[]
     comments StudySetComment[]
+
 
     @@index([name])
 }
@@ -77,6 +81,23 @@ model StudySetComment {
     content String
     deleted Boolean @default(false)
     deletedAt DateTime?
+}
+
+model Area {
+    id           Int      @id @default(autoincrement())
+    name         String
+
+    subjects     Subject[]
+}
+
+model Subject {
+    id           Int      @id @default(autoincrement())
+    name         String
+
+    area         Area     @relation(fields: [areaId], references: [id])
+    areaId       Int
+
+    studySets    StudySet[]
 }
 
 // Necessary for Next auth

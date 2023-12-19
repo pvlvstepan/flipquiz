@@ -17,6 +17,7 @@ export const studySetRouter = createTRPCRouter({
                     name: input.name,
                     description: input.description,
                     createdBy: { connect: { id: ctx.session.user.id } },
+                    subject: { connect: { id: input.subjectId } },
                     cards: {
                         create: input.cards.map((card, i) => ({
                             term: card.term,
@@ -41,6 +42,7 @@ export const studySetRouter = createTRPCRouter({
                 data: {
                     name: input.name,
                     description: input.description,
+                    subject: { connect: { id: input.subjectId } },
                     cards: {
                         deleteMany: {
                             studySetId: input.id,
@@ -107,6 +109,18 @@ export const studySetRouter = createTRPCRouter({
                                 id: true,
                                 name: true,
                                 image: true,
+                            },
+                        },
+                        subject: {
+                            select: {
+                                id: true,
+                                name: true,
+                                area: {
+                                    select: {
+                                        id: true,
+                                        name: true,
+                                    },
+                                },
                             },
                         },
                         comments: {

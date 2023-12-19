@@ -90,10 +90,6 @@ export function CardSwiper({ cards: initialCards = [] }: CardSwiperProps) {
                         setActiveIndex(s.activeIndex);
                         setTotalProgress(s.progress);
                         setIsFlipped(false);
-
-                        if (s.activeIndex === cards.length - 1) {
-                            swiperRef.current?.autoplay.stop();
-                        }
                     }}
                     slidesPerView={1}
                     spaceBetween={50}

@@ -1,6 +1,7 @@
 import {
     BookOpenCheckIcon,
     BrainCircuitIcon,
+    ChevronRight,
     CopyIcon,
     LayoutGridIcon,
     MessageSquareIcon,
@@ -50,6 +51,34 @@ export default async function StudySetPage({ params }: StudySetPageProps) {
     return (
         <div className="container max-w-3xl p-0">
             <div className="mb-8 flex flex-col gap-y-2 sm:gap-y-4">
+                <ul className="flex flex-row items-center gap-1 text-sm text-muted-foreground max-sm:hidden">
+                    <li>
+                        <Link
+                            className="hover:text-primary hover:underline"
+                            href="/"
+                        >
+                            Home
+                        </Link>
+                    </li>
+                    <ChevronRight size={16} />
+                    <li>
+                        <Link
+                            className="hover:text-primary hover:underline"
+                            href={`/area/${studySet.subject.area.id}`}
+                        >
+                            {studySet.subject.area.name}
+                        </Link>
+                    </li>
+                    <ChevronRight size={16} />
+                    <li>
+                        <Link
+                            className="hover:text-primary hover:underline"
+                            href={`/subject/${studySet.subject.id}`}
+                        >
+                            {studySet.subject.name}
+                        </Link>
+                    </li>
+                </ul>
                 <h1 className="text-2xl sm:text-3xl">{studySet.name}</h1>
                 <p className="whitespace-pre-line text-base font-normal text-muted-foreground">
                     {studySet.description}
