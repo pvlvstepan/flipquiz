@@ -87,6 +87,13 @@ export const studySetRouter = createTRPCRouter({
                             order: "asc",
                         },
                     },
+                    createdBy: {
+                        select: {
+                            id: true,
+                            name: true,
+                            image: true,
+                        },
+                    },
                 },
             });
         }),

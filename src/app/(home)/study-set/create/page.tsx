@@ -9,9 +9,9 @@ export default async function CreateStudySetPage() {
     }
 
     return (
-        <main>
+        <>
             <h1 className="mb-8 text-2xl sm:text-3xl">Create new study set</h1>
             <StudySetForm mode="create" />
-        </main>
+        </>
     );
 }

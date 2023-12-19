@@ -28,7 +28,7 @@ export function CardForm({
     control,
 }: CardFormProps) {
     return (
-        <Card>
+        <Card className="border-2 shadow-none" id="card-form">
             <Card.Header className="flex-row items-center justify-between border-b-2 px-4 py-2 sm:px-6">
                 <Card.Description>Card {index + 1}</Card.Description>
                 <div className="flex gap-3">

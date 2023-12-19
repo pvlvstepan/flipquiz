@@ -20,7 +20,10 @@ interface SortableOverlayProps {
 
 export function SortableOverlay({ children }: SortableOverlayProps) {
     return (
-        <DragOverlay className="list-none" dropAnimation={dropAnimationConfig}>
+        <DragOverlay
+            className="list-none [&_#card-form]:shadow-2xl"
+            dropAnimation={dropAnimationConfig}
+        >
             {children}
         </DragOverlay>
     );

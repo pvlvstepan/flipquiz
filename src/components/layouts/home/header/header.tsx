@@ -10,7 +10,7 @@ export async function Header() {
     const session = await getServerAuthSession();
 
     return (
-        <header className="h-14 border-b bg-background">
+        <header className="h-14 shrink-0 border-b bg-background">
             <div className="container h-full">
                 <div className="flex h-full items-center justify-between">
                     <Link className="text-3xl text-primary" href="/">

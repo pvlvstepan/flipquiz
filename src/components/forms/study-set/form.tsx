@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { PlusIcon } from "lucide-react";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useFieldArray, useForm } from "react-hook-form";
 
 import type { z } from "zod";
@@ -31,6 +31,8 @@ export function StudySetForm({ defaultValues, mode }: StudySetFormProps) {
 
     const router = useRouter();
 
+    const utils = api.useUtils();
+
     const form = useForm<z.infer<typeof studySetSchema>>({
         resolver: zodResolver(studySetSchema),
         defaultValues: {
@@ -51,14 +53,16 @@ export function StudySetForm({ defaultValues, mode }: StudySetFormProps) {
     });
 
     const isInvalid = Boolean(Object.keys(form.formState.errors).length);
+    const hasChanges = form.formState.isDirty;
 
     const onSubmit = form.handleSubmit((data) => {
         mutateAsync(data)
-            .then((studySet) => {
-                console.log("BRUHHHH");
+            .then((studySet) =>
+                utils.studySet.getStudySet.invalidate(studySet.id).then(() => {
+                    router.push(`/study-set/${studySet.id}`);
+                }),
+            )
 
-                router.push(`/study-set/${studySet.id}`);
-            })
             .catch((err) => {
                 console.error(err);
             });
@@ -75,8 +79,8 @@ export function StudySetForm({ defaultValues, mode }: StudySetFormProps) {
         <Form {...form}>
             <form
                 className="flex flex-col"
-                onSubmit={onSubmit}
                 id="study-set-form"
+                onSubmit={onSubmit}
             >
                 <div className="mb-8 grid grid-cols-1 gap-4 md:grid-cols-2">
                     <div className="md:col-span-2">
@@ -193,7 +197,7 @@ export function StudySetForm({ defaultValues, mode }: StudySetFormProps) {
                 </Button>
                 <Button
                     className="mt-8 sm:ml-auto"
-                    disabled={isInvalid || isLoading}
+                    disabled={isInvalid || isLoading || !hasChanges}
                     size="lg"
                     type="submit"
                 >
