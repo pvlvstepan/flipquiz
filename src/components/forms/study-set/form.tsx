@@ -31,8 +31,6 @@ export function StudySetForm({ defaultValues, mode }: StudySetFormProps) {
 
     const router = useRouter();
 
-    const utils = api.useUtils();
-
     const form = useForm<z.infer<typeof studySetSchema>>({
         resolver: zodResolver(studySetSchema),
         defaultValues: {
@@ -57,15 +55,10 @@ export function StudySetForm({ defaultValues, mode }: StudySetFormProps) {
 
     const onSubmit = form.handleSubmit((data) => {
         mutateAsync(data)
-            .then((studySet) =>
-                utils.studySet.getStudySet
-                    .invalidate({
-                        id: studySet.id,
-                    })
-                    .then(() => {
-                        router.push(`/study-set/${studySet.id}`);
-                    }),
-            )
+            .then((studySet) => {
+                router.refresh();
+                router.push(`/study-set/${studySet.id}`);
+            })
 
             .catch((err) => {
                 console.error(err);

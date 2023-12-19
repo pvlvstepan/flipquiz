@@ -37,7 +37,7 @@ export function StudySetTerms({
                     size={24}
                 />
             </CollapsibleTrigger>
-            <CollapsibleContent className="mt-8 flex flex-col gap-4 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0">
+            <CollapsibleContent className="my-4 flex flex-col gap-4 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0">
                 {cards.map((card) => (
                     <Card className="border-2 shadow-none" key={card.id}>
                         <Card.Content className="p-4 font-normal sm:p-6">

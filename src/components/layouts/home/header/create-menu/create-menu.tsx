@@ -26,19 +26,19 @@ export function CreateMenu() {
             <DropdownMenu.Content align="end">
                 <DropdownMenu.Item asChild>
                     <Link href="/study-set/create">
-                        <BookCopyIcon size={16} />
+                        <BookCopyIcon size={20} />
                         <span>Study Set</span>
                     </Link>
                 </DropdownMenu.Item>
                 <DropdownMenu.Item asChild>
                     <Link href="/folder/create">
-                        <FolderIcon size={16} />
+                        <FolderIcon size={20} />
                         <span>Folder</span>
                     </Link>
                 </DropdownMenu.Item>
                 <DropdownMenu.Item asChild>
                     <Link href="/class/create">
-                        <UsersRoundIcon size={16} />
+                        <UsersRoundIcon size={20} />
                         <span>Class</span>
                     </Link>
                 </DropdownMenu.Item>

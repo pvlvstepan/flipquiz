@@ -87,7 +87,7 @@ const FormLabel = forwardRef<
 
     return (
         <Label
-            className={className}
+            className={cn("text-muted-foreground", className)}
             htmlFor={formItemId}
             ref={ref}
             {...props}

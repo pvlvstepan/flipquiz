@@ -48,7 +48,7 @@ export function UserMenu({ session }: UserMenuProps) {
                             />
                         </div>
                         <div className="flex max-w-[150px] flex-col">
-                            <h2 className="truncate text-sm font-medium text-primary">
+                            <h2 className="truncate text-sm text-primary">
                                 {session?.user.name}
                             </h2>
                             <p className="truncate text-xs text-muted-foreground">
@@ -59,16 +59,16 @@ export function UserMenu({ session }: UserMenuProps) {
                 </DropdownMenu.Label>
                 <DropdownMenu.Separator />
                 <DropdownMenu.Item>
-                    <User2Icon size={16} />
+                    <User2Icon size={20} />
                     <span>Profile</span>
                 </DropdownMenu.Item>
                 <DropdownMenu.Item>
-                    <SettingsIcon size={16} />
+                    <SettingsIcon size={20} />
                     <span>Settings</span>
                 </DropdownMenu.Item>
                 <DropdownMenu.Separator />
                 <DropdownMenu.Item
-                    className={!signOutLoading ? "hover:!text-destructive" : ""}
+                    className={!signOutLoading ? "focus:text-destructive" : ""}
                     disabled={signOutLoading}
                     onClick={() => {
                         setSignOutLoading(true);
@@ -77,7 +77,7 @@ export function UserMenu({ session }: UserMenuProps) {
                         });
                     }}
                 >
-                    <LogOutIcon size={16} />
+                    <LogOutIcon size={20} />
                     <span>Log out</span>
                     {signOutLoading ? <Spinner className="ml-auto" /> : null}
                 </DropdownMenu.Item>

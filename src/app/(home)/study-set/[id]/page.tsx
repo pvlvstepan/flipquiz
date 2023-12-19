@@ -6,16 +6,21 @@ import {
     MessageSquareIcon,
     UsersIcon,
 } from "lucide-react";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
 import { getServerAuthSession } from "@/server/auth";
 import { api } from "@/trpc/server";
 
-import { RatingControl } from "./components/rating-control";
-import { StudySetCreatorInfo } from "./creator-info";
-import { CardSwiper } from "./swiper";
-import { StudySetTerms } from "./terms";
+import {
+    CardSwiper,
+    RatingControl,
+    StudySetComments,
+    StudySetCreatorInfo,
+    StudySetTerms,
+} from "./components";
 
 interface StudySetPageProps {
     params: {
@@ -27,7 +32,7 @@ export default async function StudySetPage({ params }: StudySetPageProps) {
     const session = await getServerAuthSession();
 
     if (!session) {
-        // TODO: auth redirect
+        return null; // TODO: auth redirect
     }
 
     const studySet = await api.studySet.getStudySet.query({
@@ -40,7 +45,7 @@ export default async function StudySetPage({ params }: StudySetPageProps) {
 
     await api.studySet.incrementViews.query({ id: studySet.id });
 
-    const belongsToCurrentUser = session?.user.id === studySet.createdBy.id;
+    const belongsToCurrentUser = session.user.id === studySet.createdBy.id;
 
     return (
         <div className="container max-w-3xl p-0">
@@ -58,15 +63,18 @@ export default async function StudySetPage({ params }: StudySetPageProps) {
                         studySetId={studySet.id}
                     />
                     <Button
+                        asChild
                         className="h-auto p-0 text-muted-foreground hover:text-primary"
                         size="sm"
                         variant="link"
                     >
-                        <MessageSquareIcon
-                            className="fill-primary text-primary"
-                            size={16}
-                        />
-                        <span>30 comments</span>
+                        <Link href="#comments" prefetch={false}>
+                            <MessageSquareIcon
+                                className="fill-primary text-primary"
+                                size={16}
+                            />
+                            <span>({studySet.comments.length}) comments</span>
+                        </Link>
                     </Button>
                 </div>
             </div>
@@ -115,6 +123,12 @@ export default async function StudySetPage({ params }: StudySetPageProps) {
             <StudySetTerms
                 belongsToCurrentUser={belongsToCurrentUser}
                 cards={studySet.cards}
+                studySetId={studySet.id}
+            />
+            <Separator className="mb-8 h-0.5" />
+            <StudySetComments
+                comments={studySet.comments}
+                currentUserId={session.user.id}
                 studySetId={studySet.id}
             />
         </div>

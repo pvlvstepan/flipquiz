@@ -35,7 +35,8 @@ model StudySet {
     cards StudySetCard[]
     views StudySetView[]
     reviews StudySetReview[]
-    
+    comments StudySetComment[]
+
     @@index([name])
 }
 
@@ -61,6 +62,21 @@ model StudySetReview {
     rating Int
 
     @@unique([userId, studySetId])
+}
+
+model StudySetComment {
+    id        Int      @id @default(autoincrement())
+    createdAt DateTime @default(now())
+
+    studySet   StudySet @relation(fields: [studySetId], references: [id])
+    studySetId Int
+
+    user       User     @relation(fields: [userId], references: [id])
+    userId     String
+
+    content String
+    deleted Boolean @default(false)
+    deletedAt DateTime?
 }
 
 // Necessary for Next auth
@@ -103,6 +119,7 @@ model User {
     studySets     StudySet[]
     studySetViews StudySetView[]
     studySetReviews StudySetReview[]
+    studySetComments StudySetComment[]
 }
 
 model VerificationToken {

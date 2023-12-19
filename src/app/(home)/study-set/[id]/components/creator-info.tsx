@@ -1,8 +1,19 @@
-import { MoreHorizontalIcon, PencilIcon, Share2Icon } from "lucide-react";
+"use client";
+
+import {
+    CopyPlusIcon,
+    FlagIcon,
+    MoreHorizontalIcon,
+    PencilIcon,
+    PlusCircleIcon,
+    Share2Icon,
+    Trash2Icon,
+} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
+import { DropdownMenu } from "@/components/ui/dropdown-menu";
 
 interface StudySetCreatorInfoProps {
     createdBy: {
@@ -66,10 +77,40 @@ export function StudySetCreatorInfo({
                         </Link>
                     </Button>
                 ) : null}
-                <Button className="shrink-0" size="icon" variant="outline">
-                    <MoreHorizontalIcon size={24} />
-                    <span className="sr-only">More options</span>
-                </Button>
+                <DropdownMenu>
+                    <DropdownMenu.Trigger asChild>
+                        <Button
+                            className="shrink-0"
+                            size="icon"
+                            variant="outline"
+                        >
+                            <MoreHorizontalIcon size={24} />
+                            <span className="sr-only">More options</span>
+                        </Button>
+                    </DropdownMenu.Trigger>
+                    <DropdownMenu.Content align="end" side="bottom">
+                        <DropdownMenu.Item>
+                            <PlusCircleIcon size={20} />
+                            <span>Add to a class or folder</span>
+                        </DropdownMenu.Item>
+                        <DropdownMenu.Item>
+                            <CopyPlusIcon size={20} />
+                            <span>Copy and edit</span>
+                        </DropdownMenu.Item>
+                        <DropdownMenu.Separator />
+                        {!belongsToCurrentUser ? (
+                            <DropdownMenu.Item className="focus:text-destructive">
+                                <FlagIcon size={20} />
+                                <span>Report</span>
+                            </DropdownMenu.Item>
+                        ) : (
+                            <DropdownMenu.Item className="focus:text-destructive">
+                                <Trash2Icon size={20} />
+                                <span>Delete</span>
+                            </DropdownMenu.Item>
+                        )}
+                    </DropdownMenu.Content>
+                </DropdownMenu>
             </div>
         </div>
     );

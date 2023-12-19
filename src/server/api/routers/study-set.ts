@@ -109,6 +109,14 @@ export const studySetRouter = createTRPCRouter({
                                 image: true,
                             },
                         },
+                        comments: {
+                            include: {
+                                user: true,
+                            },
+                            where: {
+                                deleted: false,
+                            },
+                        },
                     },
                 })
                 .then((studySet) => {
@@ -116,7 +124,7 @@ export const studySetRouter = createTRPCRouter({
                         ? {
                               ...studySet,
                               reviews: {
-                                  average: reviews._avg.rating,
+                                  average: reviews._avg.rating?.toFixed(1),
                                   count: reviews._count,
                               },
                               views,
@@ -177,6 +185,45 @@ export const studySetRouter = createTRPCRouter({
                         studySetId: input.id,
                         userId: ctx.session.user.id,
                     },
+                },
+            });
+        }),
+    addComment: protectedProcedure
+        .input(
+            z.object({
+                id: z.number(),
+                text: z.string(),
+            }),
+        )
+        .mutation(async ({ ctx, input }) => {
+            await new Promise((resolve) => {
+                setTimeout(resolve, 1000);
+            });
+
+            return ctx.db.studySetComment.create({
+                data: {
+                    studySetId: input.id,
+                    userId: ctx.session.user.id,
+                    content: input.text,
+                },
+            });
+        }),
+    deleteComment: protectedProcedure
+        .input(
+            z.object({
+                id: z.number(),
+            }),
+        )
+        .mutation(async ({ ctx, input }) => {
+            await new Promise((resolve) => {
+                setTimeout(resolve, 1000);
+            });
+
+            return ctx.db.studySetComment.update({
+                where: { id: input.id, userId: ctx.session.user.id },
+                data: {
+                    deleted: true,
+                    deletedAt: new Date(),
                 },
             });
         }),
