@@ -58,9 +58,13 @@ export function StudySetForm({ defaultValues, mode }: StudySetFormProps) {
     const onSubmit = form.handleSubmit((data) => {
         mutateAsync(data)
             .then((studySet) =>
-                utils.studySet.getStudySet.invalidate(studySet.id).then(() => {
-                    router.push(`/study-set/${studySet.id}`);
-                }),
+                utils.studySet.getStudySet
+                    .invalidate({
+                        id: studySet.id,
+                    })
+                    .then(() => {
+                        router.push(`/study-set/${studySet.id}`);
+                    }),
             )
 
             .catch((err) => {

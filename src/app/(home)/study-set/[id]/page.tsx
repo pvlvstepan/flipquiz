@@ -4,7 +4,6 @@ import {
     CopyIcon,
     LayoutGridIcon,
     MessageSquareIcon,
-    StarIcon,
     UsersIcon,
 } from "lucide-react";
 import { notFound } from "next/navigation";
@@ -13,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { getServerAuthSession } from "@/server/auth";
 import { api } from "@/trpc/server";
 
+import { RatingControl } from "./components/rating-control";
 import { StudySetCreatorInfo } from "./creator-info";
 import { CardSwiper } from "./swiper";
 import { StudySetTerms } from "./terms";
@@ -30,11 +30,15 @@ export default async function StudySetPage({ params }: StudySetPageProps) {
         // TODO: auth redirect
     }
 
-    const studySet = await api.studySet.getStudySet.query(parseInt(params.id));
+    const studySet = await api.studySet.getStudySet.query({
+        id: parseInt(params.id),
+    });
 
     if (!studySet) {
         return notFound();
     }
+
+    await api.studySet.incrementViews.query({ id: studySet.id });
 
     const belongsToCurrentUser = session?.user.id === studySet.createdBy.id;
 
@@ -45,19 +49,14 @@ export default async function StudySetPage({ params }: StudySetPageProps) {
                 <div className="flex flex-wrap gap-x-4 gap-y-2">
                     <div className="flex items-center gap-2 text-muted-foreground">
                         <UsersIcon size={16} />
-                        <span>1111 people studied this</span>
+                        <span>{studySet.views} people studied this</span>
                     </div>
-                    <Button
-                        className="h-auto p-0 text-muted-foreground hover:text-primary"
-                        size="sm"
-                        variant="link"
-                    >
-                        <StarIcon
-                            className="fill-yellow-500 text-yellow-500"
-                            size={16}
-                        />
-                        <span>2.6 (388 reviews)</span>
-                    </Button>
+                    <RatingControl
+                        belongsToCurrentUser={belongsToCurrentUser}
+                        rating={studySet.reviews.average}
+                        reviewsCount={studySet.reviews.count}
+                        studySetId={studySet.id}
+                    />
                     <Button
                         className="h-auto p-0 text-muted-foreground hover:text-primary"
                         size="sm"

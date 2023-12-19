@@ -73,26 +73,109 @@ export const studySetRouter = createTRPCRouter({
         });
     }),
     getStudySet: protectedProcedure
-        .input(z.number())
+        .input(
+            z.object({
+                id: z.number(),
+            }),
+        )
         .query(async ({ ctx, input }) => {
             await new Promise((resolve) => {
                 setTimeout(resolve, 1000);
             });
 
-            return ctx.db.studySet.findUnique({
-                where: { id: input },
-                include: {
-                    cards: {
-                        orderBy: {
-                            order: "asc",
+            const reviews = await ctx.db.studySetReview.aggregate({
+                where: { studySetId: input.id },
+                _avg: { rating: true },
+                _count: true,
+            });
+
+            const views = await ctx.db.studySetView.count({
+                where: { studySetId: input.id },
+            });
+
+            return ctx.db.studySet
+                .findUnique({
+                    where: { id: input.id },
+                    include: {
+                        cards: {
+                            orderBy: {
+                                order: "asc",
+                            },
+                        },
+                        createdBy: {
+                            select: {
+                                id: true,
+                                name: true,
+                                image: true,
+                            },
                         },
                     },
-                    createdBy: {
-                        select: {
-                            id: true,
-                            name: true,
-                            image: true,
-                        },
+                })
+                .then((studySet) => {
+                    return studySet
+                        ? {
+                              ...studySet,
+                              reviews: {
+                                  average: reviews._avg.rating,
+                                  count: reviews._count,
+                              },
+                              views,
+                          }
+                        : undefined;
+                });
+        }),
+    incrementViews: protectedProcedure
+        .input(
+            z.object({
+                id: z.number(),
+            }),
+        )
+        .query(async ({ ctx, input }) => {
+            await new Promise((resolve) => {
+                setTimeout(resolve, 1000);
+            });
+
+            return ctx.db.studySetView.upsert({
+                create: {
+                    studySetId: input.id,
+                    userId: ctx.session.user.id,
+                },
+                update: {
+                    createdAt: new Date(),
+                },
+                where: {
+                    userId_studySetId: {
+                        studySetId: input.id,
+                        userId: ctx.session.user.id,
+                    },
+                },
+            });
+        }),
+    addReview: protectedProcedure
+        .input(
+            z.object({
+                id: z.number(),
+                rating: z.number(),
+            }),
+        )
+        .mutation(async ({ ctx, input }) => {
+            await new Promise((resolve) => {
+                setTimeout(resolve, 1000);
+            });
+
+            return ctx.db.studySetReview.upsert({
+                create: {
+                    studySetId: input.id,
+                    userId: ctx.session.user.id,
+                    rating: input.rating,
+                },
+                update: {
+                    rating: input.rating,
+                },
+                where: {
+                    userId_studySetId: {
+                        studySetId: input.id,
+                        userId: ctx.session.user.id,
                     },
                 },
             });

@@ -21,7 +21,9 @@ export default async function UpdateStudySetPage({
         // return redirect("/auth/sign-in");
     }
 
-    const studySet = await api.studySet.getStudySet.query(parseInt(params.id));
+    const studySet = await api.studySet.getStudySet.query({
+        id: parseInt(params.id),
+    });
 
     if (!studySet) {
         return notFound();
