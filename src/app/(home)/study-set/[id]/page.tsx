@@ -37,7 +37,7 @@ export default async function StudySetPage({ params }: StudySetPageProps) {
     }
 
     const studySet = await api.studySet.getStudySet.query({
-        id: parseInt(params.id),
+        id: params.id,
     });
 
     if (!studySet) {
@@ -80,13 +80,14 @@ export default async function StudySetPage({ params }: StudySetPageProps) {
                     </li>
                 </ul>
                 <h1 className="text-2xl sm:text-3xl">{studySet.name}</h1>
-                <p className="whitespace-pre-line text-base font-normal text-muted-foreground">
-                    {studySet.description}
-                </p>
                 <div className="flex flex-wrap gap-x-4 gap-y-2">
                     <div className="flex items-center gap-2 text-muted-foreground">
                         <UsersIcon size={16} />
-                        <span>{studySet.views} people studied this</span>
+                        <span>
+                            {studySet.views}{" "}
+                            {studySet.views === 1 ? "person" : "people"} studied
+                            this
+                        </span>
                     </div>
                     <RatingControl
                         belongsToCurrentUser={belongsToCurrentUser}
@@ -152,6 +153,11 @@ export default async function StudySetPage({ params }: StudySetPageProps) {
                 createdBy={studySet.createdBy}
                 studySetId={studySet.id}
             />
+            {studySet.description ? (
+                <p className="mb-8 whitespace-pre-line text-base font-normal text-muted-foreground">
+                    {studySet.description}
+                </p>
+            ) : null}
             <StudySetTerms
                 belongsToCurrentUser={belongsToCurrentUser}
                 cards={studySet.cards}

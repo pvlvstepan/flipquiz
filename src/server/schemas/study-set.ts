@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const studySetSchema = z.object({
-    id: z.number().optional(),
+    id: z.string().optional(),
     name: z
         .string()
         .min(1, "Study set title can't be empty")
@@ -10,11 +10,11 @@ export const studySetSchema = z.object({
         .string()
         .max(280, "This description is too long :(")
         .optional(),
-    subjectId: z.number(),
-    areaId: z.number(),
+    subjectId: z.string(),
+    areaId: z.string(),
     cards: z.array(
         z.object({
-            id: z.number().optional(),
+            id: z.string().optional(),
             term: z
                 .string()
                 .min(1, "Term can't be empty")

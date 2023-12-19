@@ -31,7 +31,7 @@ interface Comment {
         name: string | null;
         image: string | null;
     };
-    id: number;
+    id: string;
     createdAt: Date;
     content: string;
 }
@@ -66,7 +66,9 @@ function Message({
                             />
                         ) : (
                             <div className="flex h-full w-full items-center justify-center text-muted-foreground">
-                                <span className="text-2xl">?</span>
+                                <span className="text-2xl">
+                                    {user.name?.charAt(0) ?? "?"}
+                                </span>
                             </div>
                         )}
                     </div>
@@ -146,7 +148,7 @@ function Message({
 
 interface StudySetCommentsProps {
     comments: Comment[];
-    studySetId: number;
+    studySetId: string;
     currentUserId: string;
 }
 

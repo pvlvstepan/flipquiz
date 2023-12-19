@@ -33,7 +33,7 @@
         /* mobile viewport bug fix */
         min-height: -webkit-fill-available;
 
-        @apply font-sans h-full min-w-[320px] font-semibold;
+        @apply h-full min-w-[320px] font-sans font-semibold;
     }
 
     html {

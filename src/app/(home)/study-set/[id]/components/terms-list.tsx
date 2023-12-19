@@ -13,12 +13,12 @@ import { Card } from "@/components/ui/card";
 
 interface StudySetTermsProps {
     cards: {
-        id: number;
+        id: string;
         term: string;
         definition: string;
     }[];
     belongsToCurrentUser: boolean;
-    studySetId: number;
+    studySetId: string;
 }
 
 export function StudySetTerms({

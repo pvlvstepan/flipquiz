@@ -49,7 +49,7 @@ export const studySetRouter = createTRPCRouter({
                             NOT: input.cards.map((card) => ({ id: card.id })),
                         },
                         upsert: input.cards.map((card, i) => ({
-                            where: { id: card.id || -1 },
+                            where: { id: card.id },
                             update: {
                                 term: card.term,
                                 definition: card.definition,
@@ -65,6 +65,32 @@ export const studySetRouter = createTRPCRouter({
                 },
             });
         }),
+    getRecentList: protectedProcedure.query(async ({ ctx }) => {
+        await new Promise((resolve) => {
+            setTimeout(resolve, 1000);
+        });
+
+        return ctx.db.studySetView.findMany({
+            where: { userId: ctx.session.user.id },
+            take: 10,
+            orderBy: { createdAt: "desc" },
+            select: {
+                studySet: {
+                    include: {
+                        _count: {
+                            select: { cards: true },
+                        },
+                        createdBy: {
+                            select: {
+                                name: true,
+                                image: true,
+                            },
+                        },
+                    },
+                },
+            },
+        });
+    }),
     getOwnList: protectedProcedure.query(async ({ ctx }) => {
         await new Promise((resolve) => {
             setTimeout(resolve, 1000);
@@ -72,12 +98,23 @@ export const studySetRouter = createTRPCRouter({
 
         return ctx.db.studySet.findMany({
             where: { createdBy: { id: ctx.session.user.id } },
+            include: {
+                _count: {
+                    select: { cards: true },
+                },
+                createdBy: {
+                    select: {
+                        name: true,
+                        image: true,
+                    },
+                },
+            },
         });
     }),
     getStudySet: protectedProcedure
         .input(
             z.object({
-                id: z.number(),
+                id: z.string(),
             }),
         )
         .query(async ({ ctx, input }) => {
@@ -149,7 +186,7 @@ export const studySetRouter = createTRPCRouter({
     incrementViews: protectedProcedure
         .input(
             z.object({
-                id: z.number(),
+                id: z.string(),
             }),
         )
         .query(async ({ ctx, input }) => {
@@ -176,7 +213,7 @@ export const studySetRouter = createTRPCRouter({
     addReview: protectedProcedure
         .input(
             z.object({
-                id: z.number(),
+                id: z.string(),
                 rating: z.number(),
             }),
         )
@@ -205,7 +242,7 @@ export const studySetRouter = createTRPCRouter({
     addComment: protectedProcedure
         .input(
             z.object({
-                id: z.number(),
+                id: z.string(),
                 text: z.string().min(1).max(500),
             }),
         )
@@ -225,7 +262,7 @@ export const studySetRouter = createTRPCRouter({
     deleteComment: protectedProcedure
         .input(
             z.object({
-                id: z.number(),
+                id: z.string(),
             }),
         )
         .mutation(async ({ ctx, input }) => {

@@ -6,7 +6,7 @@ generator client {
 }
 
 datasource db {
-    provider = "sqlite"
+    provider = "mongodb"
     // NOTE: When using mysql or sqlserver, uncomment the @db.Text annotations in model Account below
     // Further reading:
     // https://next-auth.js.org/adapters/prisma#create-the-prisma-schema
@@ -15,53 +15,52 @@ datasource db {
 }
 
 model StudySetCard {
-    id        Int      @id @default(autoincrement())
-    term     String
-    definition      String
-    createdAt DateTime @default(now())
-    order Int @default(0)
+    id         String   @id @default(auto()) @map("_id") @db.ObjectId
+    term       String
+    definition String
+    createdAt  DateTime @default(now())
+    order      Int      @default(0)
     studySet   StudySet @relation(fields: [studySetId], references: [id])
-    studySetId Int
+    studySetId String   @db.ObjectId
 }
 
 model StudySet {
-    id        Int      @id @default(autoincrement())
-    name      String
+    id          String   @id @default(auto()) @map("_id") @db.ObjectId
+    name        String
     description String?
-    createdAt DateTime @default(now())
-    createdBy   User   @relation(fields: [createdById], references: [id])
-    createdById String
+    createdAt   DateTime @default(now())
+    createdBy   User     @relation(fields: [createdById], references: [id])
+    createdById String   @db.ObjectId
 
-    subject Subject @relation(fields: [subjectId], references: [id])
-    subjectId Int
+    subject   Subject @relation(fields: [subjectId], references: [id])
+    subjectId String  @db.ObjectId
 
-    cards StudySetCard[]
-    views StudySetView[]
-    reviews StudySetReview[]
+    cards    StudySetCard[]
+    views    StudySetView[]
+    reviews  StudySetReview[]
     comments StudySetComment[]
-
 
     @@index([name])
 }
 
 model StudySetView {
-    id        Int      @id @default(autoincrement())
-    createdAt DateTime @default(now())
+    id         String   @id @default(auto()) @map("_id") @db.ObjectId
+    createdAt  DateTime @default(now())
     studySet   StudySet @relation(fields: [studySetId], references: [id])
-    studySetId Int
+    studySetId String   @db.ObjectId
     user       User     @relation(fields: [userId], references: [id])
-    userId     String
+    userId     String   @db.ObjectId
 
     @@unique([userId, studySetId])
 }
 
 model StudySetReview {
-    id        Int      @id @default(autoincrement())
-    createdAt DateTime @default(now())
+    id         String   @id @default(auto()) @map("_id") @db.ObjectId
+    createdAt  DateTime @default(now())
     studySet   StudySet @relation(fields: [studySetId], references: [id])
-    studySetId Int
+    studySetId String   @db.ObjectId
     user       User     @relation(fields: [userId], references: [id])
-    userId     String
+    userId     String   @db.ObjectId
 
     rating Int
 
@@ -69,41 +68,41 @@ model StudySetReview {
 }
 
 model StudySetComment {
-    id        Int      @id @default(autoincrement())
+    id        String   @id @default(auto()) @map("_id") @db.ObjectId
     createdAt DateTime @default(now())
 
     studySet   StudySet @relation(fields: [studySetId], references: [id])
-    studySetId Int
+    studySetId String   @db.ObjectId
 
-    user       User     @relation(fields: [userId], references: [id])
-    userId     String
+    user   User   @relation(fields: [userId], references: [id])
+    userId String @db.ObjectId
 
-    content String
-    deleted Boolean @default(false)
+    content   String
+    deleted   Boolean   @default(false)
     deletedAt DateTime?
 }
 
 model Area {
-    id           Int      @id @default(autoincrement())
-    name         String
+    id   String @id @default(auto()) @map("_id") @db.ObjectId
+    name String
 
-    subjects     Subject[]
+    subjects Subject[]
 }
 
 model Subject {
-    id           Int      @id @default(autoincrement())
-    name         String
+    id   String @id @default(auto()) @map("_id") @db.ObjectId
+    name String
 
-    area         Area     @relation(fields: [areaId], references: [id])
-    areaId       Int
+    area   Area   @relation(fields: [areaId], references: [id])
+    areaId String @db.ObjectId
 
-    studySets    StudySet[]
+    studySets StudySet[]
 }
 
 // Necessary for Next auth
 model Account {
-    id                String  @id @default(cuid())
-    userId            String
+    id                String  @id @default(auto()) @map("_id") @db.ObjectId
+    userId            String  @db.ObjectId
     type              String
     provider          String
     providerAccountId String
@@ -120,31 +119,31 @@ model Account {
 }
 
 model Session {
-    id           String   @id @default(cuid())
+    id           String   @id @default(auto()) @map("_id") @db.ObjectId
     sessionToken String   @unique
-    userId       String
+    userId       String   @db.ObjectId
     expires      DateTime
     user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model User {
-    id            String    @id @default(cuid())
+    id            String    @id @default(auto()) @map("_id") @db.ObjectId
     name          String?
     email         String?   @unique
     emailVerified DateTime?
     image         String?
 
-    accounts      Account[]
-    sessions      Session[]
+    accounts Account[]
+    sessions Session[]
 
-    studySets     StudySet[]
-    studySetViews StudySetView[]
-    studySetReviews StudySetReview[]
+    studySets        StudySet[]
+    studySetViews    StudySetView[]
+    studySetReviews  StudySetReview[]
     studySetComments StudySetComment[]
 }
 
 model VerificationToken {
-    identifier String
+    identifier String   @id @default(auto()) @map("_id") @db.ObjectId
     token      String   @unique
     expires    DateTime
 

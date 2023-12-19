@@ -1,8 +1,7 @@
-import Link from "next/link";
 import { redirect } from "next/navigation";
 
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
+import { CardSwiper } from "@/components/layouts/home/sections/card-swiper";
+import { StudySetCard } from "@/components/layouts/home/sections/study-set-card";
 import { getServerAuthSession } from "@/server/auth";
 import { api } from "@/trpc/server";
 
@@ -13,36 +12,25 @@ export default async function Home() {
         return redirect("/auth/sign-in");
     }
 
-    const studySets = await api.studySet.getOwnList.query();
+    const studySets = await api.studySet.getRecentList.query();
 
     console.log(studySets);
 
     return (
         <div className="flex flex-col gap-y-8">
-            <h1>Home Page</h1>
-            <div className="grid grid-cols-3 gap-6">
-                {studySets.map((studySet) => (
-                    <Card key={studySet.id}>
-                        <Card.Header>
-                            <Card.Title>{studySet.name}</Card.Title>
-                            <Card.Description>
-                                {studySet.description}
-                            </Card.Description>
-                        </Card.Header>
-                        <Card.Content>
-                            <Button asChild>
-                                <Link href={`/study-set/update/${studySet.id}`}>
-                                    Update
-                                </Link>
-                            </Button>
-                            <Button asChild>
-                                <Link href={`/study-set/${studySet.id}`}>
-                                    View
-                                </Link>
-                            </Button>
-                        </Card.Content>
-                    </Card>
-                ))}
+            <div>
+                <h1 className="mb-4 text-xl sm:text-2xl">Recently studied</h1>
+                <CardSwiper>
+                    {studySets.map(({ studySet }) => (
+                        <StudySetCard
+                            createdBy={studySet.createdBy}
+                            key={studySet.id}
+                            name={studySet.name}
+                            studySetId={studySet.id}
+                            termsCount={studySet._count.cards}
+                        />
+                    ))}
+                </CardSwiper>
             </div>
         </div>
     );

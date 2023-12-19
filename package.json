@@ -7,6 +7,7 @@
         "build": "next build",
         "db:push": "prisma db push",
         "db:studio": "prisma studio",
+        "db:seed": "node --loader ts-node/esm prisma/seed.ts",
         "dev": "next dev",
         "postinstall": "prisma generate",
         "lint": "next lint --fix --max-warnings=0",
@@ -50,6 +51,7 @@
         "zod": "^3.22.4"
     },
     "devDependencies": {
+        "@faker-js/faker": "^8.3.1",
         "@ianvs/prettier-plugin-sort-imports": "^4.1.1",
         "@next/eslint-plugin-next": "^14.0.3",
         "@types/eslint": "^8.44.8",
@@ -66,6 +68,7 @@
         "prisma": "^5.6.0",
         "tailwindcss": "^3.3.5",
         "tailwindcss-animate": "^1.0.7",
+        "ts-node": "^10.9.2",
         "typescript": "^5.1.6"
     },
     "ct3aMetadata": {

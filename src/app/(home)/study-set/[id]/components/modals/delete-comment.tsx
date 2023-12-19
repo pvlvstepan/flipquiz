@@ -9,7 +9,7 @@ import { api } from "@/trpc/react";
 interface DeleteCommentModalProps {
     open: boolean;
     onOpenChange: (open: boolean) => void;
-    commentId: number;
+    commentId: string;
 }
 
 export function DeleteCommentModal({

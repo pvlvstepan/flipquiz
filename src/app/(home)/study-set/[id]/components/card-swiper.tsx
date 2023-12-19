@@ -26,7 +26,7 @@ import { cn } from "@/lib/utils";
 
 interface CardSwiperProps {
     cards: {
-        id: number;
+        id: string;
         term: string;
         definition: string;
     }[];

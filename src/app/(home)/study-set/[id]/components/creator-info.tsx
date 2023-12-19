@@ -23,7 +23,7 @@ interface StudySetCreatorInfoProps {
         id: string;
         image: string | null;
     };
-    studySetId: number;
+    studySetId: string;
     belongsToCurrentUser: boolean;
 }
 
@@ -49,7 +49,9 @@ export function StudySetCreatorInfo({
                             />
                         ) : (
                             <div className="flex h-full w-full items-center justify-center text-muted-foreground">
-                                <span className="text-2xl">?</span>
+                                <span className="text-2xl">
+                                    {createdBy.name?.charAt(0) ?? "?"}
+                                </span>
                             </div>
                         )}
                     </div>

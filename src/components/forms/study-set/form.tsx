@@ -179,16 +179,16 @@ export function StudySetForm({ defaultValues, mode }: StudySetFormProps) {
                                             disabled={isLoading || areasLoading}
                                             onValueChange={(v) => {
                                                 form.resetField("subjectId");
-                                                field.onChange(parseInt(v));
+                                                field.onChange(v);
                                             }}
                                             placeholder="Select an area"
-                                            value={field.value.toString()}
+                                            value={field.value}
                                         >
                                             {areas?.length ? (
                                                 areas.map((area) => (
                                                     <SelectItem
                                                         key={area.id}
-                                                        value={area.id.toString()}
+                                                        value={area.id}
                                                     >
                                                         {area.name}
                                                     </SelectItem>
@@ -224,16 +224,16 @@ export function StudySetForm({ defaultValues, mode }: StudySetFormProps) {
                                                 !selectedArea
                                             }
                                             onValueChange={(v) => {
-                                                field.onChange(parseInt(v));
+                                                field.onChange(v);
                                             }}
                                             placeholder="Select a subject"
-                                            value={field.value.toString()}
+                                            value={field.value}
                                         >
                                             {subjectsByArea?.length ? (
                                                 subjectsByArea.map((area) => (
                                                     <SelectItem
                                                         key={area.id}
-                                                        value={area.id.toString()}
+                                                        value={area.id}
                                                     >
                                                         {area.name}
                                                     </SelectItem>

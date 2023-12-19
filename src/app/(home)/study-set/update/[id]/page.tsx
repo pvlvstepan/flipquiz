@@ -22,7 +22,7 @@ export default async function UpdateStudySetPage({
     }
 
     const studySet = await api.studySet.getStudySet.query({
-        id: parseInt(params.id),
+        id: params.id,
     });
 
     if (!studySet) {

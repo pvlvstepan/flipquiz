@@ -21,7 +21,7 @@ export default async function AuthLayout({ children }: AuthLayoutProps) {
             <div className="flex-1 lg:grid lg:grid-cols-2 lg:overflow-hidden">
                 <div className="relative hidden flex-col justify-between bg-muted p-10 lg:flex">
                     <Image
-                        alt="woman in blue long sleeve shirt and blue denim jeans sitting on bed using laptop"
+                        alt=""
                         className="object-cover object-left"
                         fill
                         placeholder="blur"

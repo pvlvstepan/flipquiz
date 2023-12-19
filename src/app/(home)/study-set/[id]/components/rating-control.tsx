@@ -13,7 +13,7 @@ import { api } from "@/trpc/react";
 interface RatingControlProps {
     rating?: string | null;
     reviewsCount: number | null;
-    studySetId: number;
+    studySetId: string;
     belongsToCurrentUser: boolean;
 }
 
