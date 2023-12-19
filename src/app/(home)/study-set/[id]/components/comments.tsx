@@ -9,7 +9,7 @@ import {
 import { ChevronDown, FlagIcon, SendIcon, Trash2Icon } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -17,6 +17,7 @@ import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { Spinner } from "@/components/ui/spinner";
 import { TextArea } from "@/components/ui/textarea";
+import { useToast } from "@/components/ui/use-toast";
 import { cn } from "@/lib/utils";
 import { api } from "@/trpc/react";
 
@@ -151,6 +152,7 @@ export function StudySetComments({
     const { mutateAsync, isLoading } = api.studySet.addComment.useMutation();
 
     const router = useRouter();
+    const { toast } = useToast();
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -167,15 +169,24 @@ export function StudySetComments({
             text: data.content.replace(/\n{2,}/g, "\n"),
         })
             .then(() => {
+                toast({
+                    title: "Comment added",
+                });
                 form.reset({
                     content: "",
                 });
                 router.refresh();
             })
-            .catch((err) => {
-                console.error(err);
+            .catch(() => {
+                toast({
+                    title: "Something went wrong",
+                    description: "Couldn't add comment",
+                    variant: "destructive",
+                });
             });
     });
+
+    const formRef = useRef<HTMLFormElement>(null);
 
     return (
         <Collapsible defaultOpen={!comments.length} id="comments">
@@ -201,6 +212,7 @@ export function StudySetComments({
                         className="flex items-start justify-between gap-2 sm:gap-4"
                         noValidate
                         onSubmit={onSubmit}
+                        ref={formRef}
                     >
                         <Form.Field
                             control={form.control}
@@ -212,6 +224,15 @@ export function StudySetComments({
                                             <TextArea
                                                 className="min-h-[56px] bg-white py-3.5 pr-14"
                                                 disabled={isLoading}
+                                                onKeyDown={(e) => {
+                                                    if (
+                                                        e.key === "Enter" &&
+                                                        !e.shiftKey
+                                                    ) {
+                                                        e.preventDefault();
+                                                        formRef.current?.requestSubmit();
+                                                    }
+                                                }}
                                                 placeholder={
                                                     !comments.length
                                                         ? "Be the first to comment"

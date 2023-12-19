@@ -7,6 +7,8 @@ import { TRPCReactProvider } from "@/trpc/react";
 
 import "@/styles/globals.css";
 
+import { Toaster } from "@/components/ui/toaster";
+
 const fontOutfit = Outfit({
     variable: "--font-outfit",
     subsets: ["latin"],
@@ -46,6 +48,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
             <body className={fontOutfit.variable}>
                 <TRPCReactProvider cookies={cookies().toString()}>
                     {children}
+                    <Toaster />
                 </TRPCReactProvider>
             </body>
         </html>

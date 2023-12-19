@@ -12,6 +12,7 @@ import { Form } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
 import { TextArea } from "@/components/ui/textarea";
+import { useToast } from "@/components/ui/use-toast";
 import { studySetSchema } from "@/server/schemas/study-set";
 import { api } from "@/trpc/react";
 
@@ -30,6 +31,7 @@ export function StudySetForm({ defaultValues, mode }: StudySetFormProps) {
         api.studySet[mode === "create" ? "create" : "update"].useMutation();
 
     const router = useRouter();
+    const { toast } = useToast();
 
     const form = useForm<z.infer<typeof studySetSchema>>({
         resolver: zodResolver(studySetSchema),
@@ -64,10 +66,24 @@ export function StudySetForm({ defaultValues, mode }: StudySetFormProps) {
             })),
         })
             .then((studySet) => {
+                toast({
+                    title:
+                        mode === "create"
+                            ? "Study set created"
+                            : "Study set updated",
+                });
                 router.push(`/study-set/${studySet.id}`);
             })
 
             .catch((err) => {
+                toast({
+                    title: "Something went wrong",
+                    description:
+                        mode === "create"
+                            ? "Study set could not be created"
+                            : "Study set could not be updated",
+                    variant: "destructive",
+                });
                 console.error(err);
             });
     });

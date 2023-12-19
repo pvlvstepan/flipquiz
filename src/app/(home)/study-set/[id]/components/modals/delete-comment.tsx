@@ -3,6 +3,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Dialog } from "@/components/ui/dialog";
 import { Spinner } from "@/components/ui/spinner";
+import { useToast } from "@/components/ui/use-toast";
 import { api } from "@/trpc/react";
 
 interface DeleteCommentModalProps {
@@ -17,6 +18,8 @@ export function DeleteCommentModal({
     commentId,
 }: DeleteCommentModalProps) {
     const { mutateAsync, isLoading } = api.studySet.deleteComment.useMutation();
+
+    const { toast } = useToast();
 
     const router = useRouter();
 
@@ -52,10 +55,21 @@ export function DeleteCommentModal({
                         onClick={() => {
                             void mutateAsync({
                                 id: commentId,
-                            }).then(() => {
-                                router.refresh();
-                                onOpenChange(false);
-                            });
+                            })
+                                .then(() => {
+                                    toast({
+                                        title: "Comment deleted",
+                                    });
+                                    router.refresh();
+                                    onOpenChange(false);
+                                })
+                                .catch(() => {
+                                    toast({
+                                        title: "Something went wrong",
+                                        description: "Failed to delete comment",
+                                        variant: "destructive",
+                                    });
+                                });
                         }}
                         variant="destructive"
                     >
