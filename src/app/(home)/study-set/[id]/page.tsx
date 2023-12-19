@@ -51,6 +51,9 @@ export default async function StudySetPage({ params }: StudySetPageProps) {
         <div className="container max-w-3xl p-0">
             <div className="mb-8 flex flex-col gap-y-2 sm:gap-y-4">
                 <h1 className="text-2xl sm:text-3xl">{studySet.name}</h1>
+                <p className="whitespace-pre-line text-base font-normal text-muted-foreground">
+                    {studySet.description}
+                </p>
                 <div className="flex flex-wrap gap-x-4 gap-y-2">
                     <div className="flex items-center gap-2 text-muted-foreground">
                         <UsersIcon size={16} />

@@ -65,7 +65,7 @@ export function CardForm({
                                 <Form.Label>Term</Form.Label>
                                 <Form.Control>
                                     <TextArea
-                                        className="min-h-[48px] bg-background"
+                                        className="min-h-[48px] bg-background font-normal"
                                         disabled={disabled}
                                         placeholder="Enter term..."
                                         {...field}
@@ -84,7 +84,7 @@ export function CardForm({
                                     <Form.Label>Definition</Form.Label>
                                     <Form.Control>
                                         <TextArea
-                                            className="min-h-[48px] bg-background"
+                                            className="min-h-[48px] bg-background font-normal"
                                             disabled={disabled}
                                             placeholder="Enter definition..."
                                             {...field}

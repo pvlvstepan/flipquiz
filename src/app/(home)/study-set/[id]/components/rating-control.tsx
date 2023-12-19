@@ -11,14 +11,14 @@ import { cn } from "@/lib/utils";
 import { api } from "@/trpc/react";
 
 interface RatingControlProps {
-    rating: number | null;
+    rating?: string | null;
     reviewsCount: number | null;
     studySetId: number;
     belongsToCurrentUser: boolean;
 }
 
 export function RatingControl({
-    rating = 0,
+    rating,
     reviewsCount = 0,
     studySetId,
     belongsToCurrentUser,

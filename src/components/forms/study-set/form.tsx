@@ -54,9 +54,16 @@ export function StudySetForm({ defaultValues, mode }: StudySetFormProps) {
     const hasChanges = form.formState.isDirty;
 
     const onSubmit = form.handleSubmit((data) => {
-        mutateAsync(data)
+        mutateAsync({
+            ...data,
+            description: data.description?.replace(/\n{2,}/g, "\n"),
+            cards: data.cards.map((card) => ({
+                ...card,
+                term: card.term.replace(/\n{2,}/g, "\n"),
+                definition: card.definition.replace(/\n{2,}/g, "\n"),
+            })),
+        })
             .then((studySet) => {
-                router.refresh();
                 router.push(`/study-set/${studySet.id}`);
             })
 
@@ -89,7 +96,7 @@ export function StudySetForm({ defaultValues, mode }: StudySetFormProps) {
                                     <Form.Label>Study set title</Form.Label>
                                     <Form.Control>
                                         <Input
-                                            className="bg-background"
+                                            className="bg-background font-normal"
                                             disabled={isLoading}
                                             placeholder="Enter a title, something like “Biology 101”"
                                             {...field}
@@ -109,7 +116,7 @@ export function StudySetForm({ defaultValues, mode }: StudySetFormProps) {
                                     <Form.Label>Description</Form.Label>
                                     <Form.Control>
                                         <TextArea
-                                            className="min-h-[48px] bg-background md:flex-1"
+                                            className="min-h-[calc(100%-22px)] bg-background font-normal"
                                             disabled={isLoading}
                                             placeholder="Add a description..."
                                             {...field}
@@ -129,7 +136,7 @@ export function StudySetForm({ defaultValues, mode }: StudySetFormProps) {
                                     <Form.Label>Area</Form.Label>
                                     <Form.Control>
                                         <Input
-                                            className="bg-background"
+                                            className="bg-background font-normal"
                                             disabled={isLoading}
                                             {...field}
                                         />
@@ -146,7 +153,7 @@ export function StudySetForm({ defaultValues, mode }: StudySetFormProps) {
                                     <Form.Label>Subject</Form.Label>
                                     <Form.Control>
                                         <Input
-                                            className="bg-background"
+                                            className="bg-background font-normal"
                                             disabled={isLoading}
                                             {...field}
                                         />

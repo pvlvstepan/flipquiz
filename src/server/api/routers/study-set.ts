@@ -192,7 +192,7 @@ export const studySetRouter = createTRPCRouter({
         .input(
             z.object({
                 id: z.number(),
-                text: z.string(),
+                text: z.string().min(1).max(500),
             }),
         )
         .mutation(async ({ ctx, input }) => {

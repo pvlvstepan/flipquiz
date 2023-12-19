@@ -101,7 +101,9 @@ function Message({
                                 Teacher
                             </Badge> */}
                         </div>
-                        <div className="text-sm font-normal">{content}</div>
+                        <div className="w-full overflow-hidden whitespace-pre-line break-words text-sm font-normal">
+                            {content}
+                        </div>
                     </div>
                     <span
                         className={cn(
@@ -135,7 +137,10 @@ interface StudySetCommentsProps {
 }
 
 const formSchema = z.object({
-    content: z.string().min(1, "Comment can't be empty"),
+    content: z
+        .string()
+        .min(1, "Comment can't be empty")
+        .max(500, "Your comment is too long :("),
 });
 
 export function StudySetComments({
@@ -159,7 +164,7 @@ export function StudySetComments({
     const onSubmit = form.handleSubmit((data) => {
         mutateAsync({
             id: studySetId,
-            text: data.content,
+            text: data.content.replace(/\n{2,}/g, "\n"),
         })
             .then(() => {
                 form.reset({
@@ -205,13 +210,14 @@ export function StudySetComments({
                                     <Form.Control>
                                         <div className="relative w-full">
                                             <TextArea
-                                                className="min-h-[56px] bg-white pr-14 pt-3.5"
+                                                className="min-h-[56px] bg-white py-3.5 pr-14"
                                                 disabled={isLoading}
                                                 placeholder={
                                                     !comments.length
                                                         ? "Be the first to comment"
                                                         : "Add a comment"
                                                 }
+                                                rows={1}
                                                 {...field}
                                             />
                                             <Button
