@@ -1,7 +1,19 @@
 import { z } from "zod";
 
-export const studySetSchema = z.object({
+const studySetCardSchema = z.object({
     id: z.string().optional(),
+    term: z
+        .string()
+        .min(1, "Term can't be empty")
+        .max(1000, "This term is too long :("),
+    definition: z
+        .string()
+        .min(1, "Definition can't be empty")
+        .max(1000, "This definition is too long :("),
+});
+
+export const studySetSchema = z.object({
+    id: z.string(),
     name: z
         .string()
         .min(1, "Study set title can't be empty")
@@ -9,20 +21,22 @@ export const studySetSchema = z.object({
     description: z
         .string()
         .max(280, "This description is too long :(")
-        .optional(),
+        .nullable(),
     subjectId: z.string(),
     areaId: z.string(),
-    cards: z.array(
-        z.object({
-            id: z.string().optional(),
-            term: z
-                .string()
-                .min(1, "Term can't be empty")
-                .max(1000, "This term is too long :("),
-            definition: z
-                .string()
-                .min(1, "Definition can't be empty")
-                .max(1000, "This definition is too long :("),
-        }),
-    ),
+    cards: z.array(studySetCardSchema).min(2),
+});
+
+export const createStudySetInput = studySetSchema.omit({ id: true }).extend({
+    cards: z.array(studySetCardSchema.omit({ id: true })).min(2),
+});
+export const updateStudySetInput = studySetSchema;
+
+export const deleteStudySetInput = z.object({
+    studySetId: z.string(),
+});
+
+export const getStudySetInput = z.object({
+    studySetId: z.string(),
+    userId: z.string().optional(),
 });

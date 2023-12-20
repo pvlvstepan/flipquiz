@@ -35,15 +35,21 @@ model StudySet {
     subject   Subject @relation(fields: [subjectId], references: [id])
     subjectId String  @db.ObjectId
 
+    area   Area   @relation(fields: [areaId], references: [id])
+    areaId String @db.ObjectId
+
+    deleted   Boolean   @default(false)
+    deletedAt DateTime?
+
     cards    StudySetCard[]
-    views    StudySetView[]
-    reviews  StudySetReview[]
-    comments StudySetComment[]
+    views    View[]
+    ratings  Rating[]
+    comments Comment[]
 
     @@index([name])
 }
 
-model StudySetView {
+model View {
     id         String   @id @default(auto()) @map("_id") @db.ObjectId
     createdAt  DateTime @default(now())
     studySet   StudySet @relation(fields: [studySetId], references: [id])
@@ -54,7 +60,7 @@ model StudySetView {
     @@unique([userId, studySetId])
 }
 
-model StudySetReview {
+model Rating {
     id         String   @id @default(auto()) @map("_id") @db.ObjectId
     createdAt  DateTime @default(now())
     studySet   StudySet @relation(fields: [studySetId], references: [id])
@@ -67,7 +73,7 @@ model StudySetReview {
     @@unique([userId, studySetId])
 }
 
-model StudySetComment {
+model Comment {
     id        String   @id @default(auto()) @map("_id") @db.ObjectId
     createdAt DateTime @default(now())
 
@@ -87,6 +93,7 @@ model Area {
     name String
 
     subjects Subject[]
+    StudySet StudySet[]
 }
 
 model Subject {
@@ -136,10 +143,10 @@ model User {
     accounts Account[]
     sessions Session[]
 
-    studySets        StudySet[]
-    studySetViews    StudySetView[]
-    studySetReviews  StudySetReview[]
-    studySetComments StudySetComment[]
+    studySets StudySet[]
+    views     View[]
+    ratings   Rating[]
+    comments  Comment[]
 }
 
 model VerificationToken {

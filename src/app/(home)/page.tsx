@@ -1,9 +1,6 @@
 import { redirect } from "next/navigation";
 
-import { CardSwiper } from "@/components/layouts/home/sections/card-swiper";
-import { StudySetCard } from "@/components/layouts/home/sections/study-set-card";
 import { getServerAuthSession } from "@/server/auth";
-import { api } from "@/trpc/server";
 
 export default async function Home() {
     const session = await getServerAuthSession();
@@ -12,26 +9,87 @@ export default async function Home() {
         return redirect("/auth/sign-in");
     }
 
-    const studySets = await api.studySet.getRecentList.query();
+    return null;
 
-    console.log(studySets);
+    // return (
+    //     <div className="flex flex-col gap-y-16">
+    //         {recentStudySets.length ? (
+    //             <div>
+    //                 <h1 className="mb-4 text-xl sm:text-2xl">
+    //                     Recently studied
+    //                 </h1>
+    //                 <CardSwiper>
+    //                     {recentStudySets.map(({ studySet }) => (
+    //                         <StudySetCard
+    //                             createdBy={studySet.createdBy}
+    //                             key={studySet.id}
+    //                             name={studySet.name}
+    //                             studySetId={studySet.id}
+    //                             termsCount={studySet._count.cards}
+    //                         />
+    //                     ))}
+    //                 </CardSwiper>
+    //             </div>
+    //         ) : null}
+    //         {popularStudySets.length ? (
+    //             <div>
+    //                 <h1 className="mb-4 text-xl sm:text-2xl">
+    //                     Popular study sets
+    //                 </h1>
+    //                 <CardSwiper>
+    //                     {popularStudySets.map((studySet) => (
+    //                         <StudySetCard
+    //                             createdBy={studySet.createdBy}
+    //                             key={studySet.id}
+    //                             name={studySet.name}
+    //                             studySetId={studySet.id}
+    //                             viewsCount={studySet._count.views}
+    //                         />
+    //                     ))}
+    //                 </CardSwiper>
+    //             </div>
+    //         ) : null}
 
-    return (
-        <div className="flex flex-col gap-y-8">
-            <div>
-                <h1 className="mb-4 text-xl sm:text-2xl">Recently studied</h1>
-                <CardSwiper>
-                    {studySets.map(({ studySet }) => (
-                        <StudySetCard
-                            createdBy={studySet.createdBy}
-                            key={studySet.id}
-                            name={studySet.name}
-                            studySetId={studySet.id}
-                            termsCount={studySet._count.cards}
-                        />
-                    ))}
-                </CardSwiper>
-            </div>
-        </div>
-    );
+    //         {topRatedStudySets.length ? (
+    //             <div>
+    //                 <h1 className="mb-4 text-xl sm:text-2xl">
+    //                     Top reviewed sets
+    //                 </h1>
+    //                 <CardSwiper>
+    //                     {topRatedStudySets.map((studySet) => (
+    //                         <StudySetCard
+    //                             createdBy={studySet.createdBy}
+    //                             key={studySet.id}
+    //                             name={studySet.name}
+    //                             rating={{
+    //                                 count: studySet.reviews.length,
+    //                                 average:
+    //                                     studySet.reviews.reduce(
+    //                                         (acc, review) =>
+    //                                             acc + review.rating,
+    //                                         0,
+    //                                     ) / studySet.reviews.length,
+    //                             }}
+    //                             studySetId={studySet.id}
+    //                         />
+    //                     ))}
+    //                 </CardSwiper>
+    //             </div>
+    //         ) : null}
+    //         <div>
+    //             <h1 className="mb-4 text-xl sm:text-2xl">Top creators</h1>
+    //             <CardSwiper>
+    //                 {recentStudySets.map(({ studySet }) => (
+    //                     <StudySetCard
+    //                         createdBy={studySet.createdBy}
+    //                         key={studySet.id}
+    //                         name={studySet.name}
+    //                         studySetId={studySet.id}
+    //                         termsCount={studySet._count.cards}
+    //                     />
+    //                 ))}
+    //             </CardSwiper>
+    //         </div>
+    //     </div>
+    // );
 }

@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { Header } from "@/components/layouts/home/header";
+import { Header } from "./_components/layout";
 
 interface HomeLayoutProps {
     children: React.ReactNode;

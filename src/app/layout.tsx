@@ -44,7 +44,7 @@ interface RootLayoutProps {
 
 export default function RootLayout({ children }: RootLayoutProps) {
     return (
-        <html lang="en" suppressHydrationWarning>
+        <html lang="en">
             <body className={fontOutfit.variable}>
                 <TRPCReactProvider cookies={cookies().toString()}>
                     {children}
