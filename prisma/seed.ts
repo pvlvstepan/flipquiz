@@ -1,6 +1,6 @@
 // import { faker } from "@faker-js/faker";
 import { faker } from "@faker-js/faker";
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, Role } from "@prisma/client";
 import { hash } from "argon2";
 
 const prisma = new PrismaClient();
@@ -166,6 +166,10 @@ async function main() {
                         email: faker.internet.email(),
                         image: faker.image.avatar(),
                         password: await hash(faker.internet.password()),
+                        role: faker.helpers.arrayElement([
+                            Role.STUDENT,
+                            Role.TEACHER,
+                        ]),
                     },
                 }),
             ),
@@ -176,6 +180,7 @@ async function main() {
                         username: "admin",
                         email: "admin@flipquiz.com",
                         password: await hash("testtest"),
+                        role: Role.ADMIN,
                     },
                 })
                 .then(() => {
