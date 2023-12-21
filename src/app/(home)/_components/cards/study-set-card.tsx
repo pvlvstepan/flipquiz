@@ -15,7 +15,7 @@ interface StudySetCardProps {
     };
     name: string;
     createdBy: {
-        name?: string | null;
+        username?: string | null;
         image?: string | null;
     };
 }
@@ -32,7 +32,7 @@ export function StudySetCard({
         <Link className="group/card" href={`/study-set/${studySetId}`}>
             <Card className="relative flex min-h-[180px] flex-col overflow-hidden border-2 shadow-none">
                 <Card.Header className="p-4">
-                    <Card.Title className="line-clamp-3 text-lg leading-tight">
+                    <Card.Title className="line-clamp-3 text-lg font-medium leading-tight">
                         {name}
                     </Card.Title>
                 </Card.Header>
@@ -66,22 +66,22 @@ export function StudySetCard({
                         <div className="h-6 w-6 shrink-0 overflow-hidden rounded-full bg-muted-foreground/20">
                             {createdBy.image ? (
                                 <Image
-                                    alt={createdBy.name ?? "User avatar"}
+                                    alt={createdBy.username || "User avatar"}
                                     height={24}
                                     src={createdBy.image}
                                     width={24}
                                 />
                             ) : (
                                 <div className="flex h-full w-full items-center justify-center text-muted-foreground">
-                                    <span className="text-2xl">
-                                        {createdBy.name?.charAt(0) ?? "?"}
+                                    <span className="text-2xl uppercase">
+                                        {createdBy.username?.charAt(0) || "?"}
                                     </span>
                                 </div>
                             )}
                         </div>
                         <div className="flex w-full items-center overflow-hidden text-left">
                             <span className="w-full truncate text-sm">
-                                {createdBy.name ?? "Unknown"}
+                                {createdBy.username ?? "Unknown"}
                             </span>
                             <Badge className="pointer-events-none bg-primary/20 px-2 py-0 text-xs text-primary">
                                 Teacher

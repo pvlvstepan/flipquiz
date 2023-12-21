@@ -41,8 +41,16 @@ export default async function AuthLayout({ children }: AuthLayoutProps) {
                         FlipQuiz
                     </Link>
                 </div>
-                <div className="flex flex-col overflow-y-auto p-4 pb-10 sm:p-10">
-                    <div className="mx-auto w-full max-w-lg">{children}</div>
+                <div className="flex h-full flex-col overflow-y-auto p-4 pb-10 sm:p-10">
+                    <div className="mx-auto flex w-full max-w-lg flex-1 flex-col">
+                        {children}
+                    </div>
+                    <Link
+                        className="relative mt-8 p-4 text-center text-4xl text-primary lg:hidden"
+                        href="/"
+                    >
+                        FlipQuiz
+                    </Link>
                 </div>
             </div>
         </div>

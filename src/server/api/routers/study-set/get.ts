@@ -54,7 +54,7 @@ export const getStudySetRouter = createTRPCRouter({
                     createdBy: {
                         select: {
                             id: true,
-                            name: true,
+                            username: true,
                             image: true,
                         },
                     },
@@ -81,7 +81,7 @@ export const getStudySetRouter = createTRPCRouter({
                         },
                         createdBy: {
                             select: {
-                                name: true,
+                                username: true,
                                 image: true,
                             },
                         },
@@ -109,7 +109,7 @@ export const getStudySetRouter = createTRPCRouter({
                 },
                 createdBy: {
                     select: {
-                        name: true,
+                        username: true,
                         image: true,
                     },
                 },
@@ -135,7 +135,6 @@ export const getStudySetRouter = createTRPCRouter({
                     rating: "desc",
                 },
             },
-            take: 10,
         });
 
         return ctx.db.studySet
@@ -156,11 +155,12 @@ export const getStudySetRouter = createTRPCRouter({
                     },
                     createdBy: {
                         select: {
-                            name: true,
+                            username: true,
                             image: true,
                         },
                     },
                 },
+                take: 10,
             })
             .then((studySets) =>
                 studySets
@@ -186,7 +186,6 @@ export const getStudySetRouter = createTRPCRouter({
             where: {
                 deleted: false,
             },
-            take: 10,
             orderBy: {
                 _count: {
                     createdById: "desc",
@@ -200,9 +199,10 @@ export const getStudySetRouter = createTRPCRouter({
                     in: topCreators.map((studySet) => studySet.createdById),
                 },
             },
+            take: 10,
             select: {
                 id: true,
-                name: true,
+                username: true,
                 image: true,
                 _count: {
                     select: {

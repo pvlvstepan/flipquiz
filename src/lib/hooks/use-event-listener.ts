@@ -1,5 +1,6 @@
-import type { RefObject } from "react";
 import { useEffect, useRef } from "react";
+
+import type { RefObject } from "react";
 
 // MediaQueryList Event based useEventListener interface
 export function useEventListener<K extends keyof MediaQueryListEventMap>(

@@ -27,7 +27,7 @@ export function UserMenu({ session }: UserMenuProps) {
                 >
                     {session?.user.image ? (
                         <Image
-                            alt={session.user.name ?? "User avatar"}
+                            alt={session.user.username || "User avatar"}
                             className="object-cover"
                             height={36}
                             src={session.user.image}
@@ -35,8 +35,8 @@ export function UserMenu({ session }: UserMenuProps) {
                         />
                     ) : (
                         <div className="flex h-full w-full items-center justify-center text-muted-foreground">
-                            <span className="text-2xl">
-                                {session?.user.name?.charAt(0) ?? "?"}
+                            <span className="text-2xl uppercase">
+                                {session?.user.username.charAt(0) || "?"}
                             </span>
                         </div>
                     )}
@@ -48,7 +48,7 @@ export function UserMenu({ session }: UserMenuProps) {
                         <div className="h-9 w-9 overflow-hidden rounded-full bg-muted">
                             {session?.user.image ? (
                                 <Image
-                                    alt={session.user.name ?? "User avatar"}
+                                    alt={session.user.username || "User avatar"}
                                     className="object-cover"
                                     height={36}
                                     src={session.user.image}
@@ -56,15 +56,16 @@ export function UserMenu({ session }: UserMenuProps) {
                                 />
                             ) : (
                                 <div className="flex h-full w-full items-center justify-center text-muted-foreground">
-                                    <span className="text-2xl">
-                                        {session?.user.name?.charAt(0) ?? "?"}
+                                    <span className="text-2xl uppercase">
+                                        {session?.user.username.charAt(0) ??
+                                            "?"}
                                     </span>
                                 </div>
                             )}
                         </div>
                         <div className="flex max-w-[150px] flex-col">
                             <h2 className="truncate text-sm text-primary">
-                                {session?.user.name}
+                                {session?.user.username || "Unknown"}
                             </h2>
                             <p className="truncate text-xs text-muted-foreground">
                                 {session?.user.email}

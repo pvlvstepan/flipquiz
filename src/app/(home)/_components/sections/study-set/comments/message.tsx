@@ -14,7 +14,7 @@ import { DeleteCommentModal } from "./delete-comment";
 export interface Comment {
     user: {
         id: string;
-        name: string | null;
+        username: string | null;
         image: string | null;
     };
     id: string;
@@ -45,7 +45,7 @@ export function Message({
                     <div className="h-8 w-8 shrink-0 overflow-hidden rounded-full bg-muted-foreground/20">
                         {user.image ? (
                             <Image
-                                alt={user.name ?? "User avatar"}
+                                alt={user.username || "User avatar"}
                                 height={32}
                                 src={user.image}
                                 width={32}
@@ -53,7 +53,7 @@ export function Message({
                         ) : (
                             <div className="flex h-full w-full items-center justify-center text-muted-foreground">
                                 <span className="text-2xl">
-                                    {user.name?.charAt(0) ?? "?"}
+                                    {user.username?.charAt(0) || "?"}
                                 </span>
                             </div>
                         )}
@@ -94,7 +94,7 @@ export function Message({
                     >
                         <div className="flex items-center gap-2">
                             <span className="text-sm text-primary">
-                                {user.name ?? "Unknown"}
+                                {user.username || "Unknown"}
                             </span>
                             {/* <Badge className="pointer-events-none px-2 py-0 text-xs">
                                 Creator

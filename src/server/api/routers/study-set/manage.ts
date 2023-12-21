@@ -34,7 +34,7 @@ export const studySetManageRouter = createTRPCRouter({
                 data: {
                     name: input.name,
                     description: input.description,
-                    subject: { connect: { id: input.subjectId } },
+                    subject: { connect: { id: input.subjectId || "" } },
                     cards: {
                         upsert: input.cards.map((card, i) => ({
                             where: { id: card.id },

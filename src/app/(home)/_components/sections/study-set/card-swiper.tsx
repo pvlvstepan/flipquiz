@@ -42,7 +42,6 @@ export function CardSwiper({
 }: CardSwiperProps) {
     const [activeIndex, setActiveIndex] = useState(0);
     const [isFlipped, setIsFlipped] = useState(false);
-    const [totalProgress, setTotalProgress] = useState(0);
     const [shuffled, setShuffled] = useState(false);
     const [autoPlay, setAutoPlay] = useState(false);
 
@@ -87,10 +86,6 @@ export function CardSwiper({
                     onAutoplayTimeLeft={(s, t, progress) => {
                         const currentProgress = 1 - progress;
 
-                        setTotalProgress(
-                            s.progress + currentProgress / cards.length,
-                        );
-
                         if (currentProgress > 0.5) {
                             setIsFlipped(true);
                         }
@@ -100,7 +95,6 @@ export function CardSwiper({
                     }}
                     onSlideChange={(s) => {
                         setActiveIndex(s.activeIndex);
-                        setTotalProgress(s.progress);
                         setIsFlipped(false);
                     }}
                     slidesPerView={1}
@@ -264,7 +258,9 @@ export function CardSwiper({
                     <div
                         className="absolute inset-0 bg-primary"
                         style={{
-                            width: `${totalProgress * 100}%`,
+                            width: `${
+                                (activeIndex / (cards.length - 1)) * 100
+                            }%`,
                         }}
                     />
                 </div>

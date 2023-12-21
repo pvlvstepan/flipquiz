@@ -97,7 +97,7 @@ export function MobileMenu({ session }: MobileMenu) {
                                     {session.user.image ? (
                                         <Image
                                             alt={
-                                                session.user.name ??
+                                                session.user.username ||
                                                 "User avatar"
                                             }
                                             className="object-cover"
@@ -107,16 +107,17 @@ export function MobileMenu({ session }: MobileMenu) {
                                         />
                                     ) : (
                                         <div className="flex h-full w-full items-center justify-center text-muted-foreground">
-                                            <span className="text-2xl">
-                                                {session.user.name?.charAt(0) ??
-                                                    "?"}
+                                            <span className="text-2xl uppercase">
+                                                {session.user.username.charAt(
+                                                    0,
+                                                ) || "?"}
                                             </span>
                                         </div>
                                     )}
                                 </div>
                                 <div className="flex flex-1 flex-col overflow-hidden">
                                     <h2 className="truncate text-lg text-primary">
-                                        {session.user.name}
+                                        {session.user.username}
                                     </h2>
                                     <p className="truncate text-muted-foreground">
                                         {session.user.email}

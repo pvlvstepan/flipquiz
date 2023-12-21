@@ -20,7 +20,11 @@ export default async function EditStudySetPage({
     const session = await getServerAuthSession();
 
     if (!session) {
-        return redirect("/auth/sign-in");
+        return redirect(
+            `/auth/sign-in?callbackUrl=${encodeURIComponent(
+                `/edit-set/${params.id}`,
+            )}`,
+        );
     }
 
     const studySet = await api.studySet.get.base.query({

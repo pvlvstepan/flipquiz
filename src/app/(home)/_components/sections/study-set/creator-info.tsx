@@ -22,7 +22,7 @@ import { useToast } from "@/components/ui/use-toast";
 
 interface StudySetCreatorInfoProps {
     createdBy: {
-        name: string | null;
+        username: string | null;
         id: string;
         image: string | null;
     };
@@ -55,15 +55,15 @@ export function StudySetCreatorInfo({
                     <div className="h-12 w-12 shrink-0 overflow-hidden rounded-full bg-muted-foreground/20">
                         {createdBy.image ? (
                             <Image
-                                alt={createdBy.name ?? "User avatar"}
+                                alt={createdBy.username || "User avatar"}
                                 height={48}
                                 src={createdBy.image}
                                 width={48}
                             />
                         ) : (
                             <div className="flex h-full w-full items-center justify-center text-muted-foreground">
-                                <span className="text-2xl">
-                                    {createdBy.name?.charAt(0) ?? "?"}
+                                <span className="text-2xl uppercase">
+                                    {createdBy.username?.charAt(0) ?? "?"}
                                 </span>
                             </div>
                         )}
@@ -73,7 +73,7 @@ export function StudySetCreatorInfo({
                             Created by
                         </span>
                         <span className="w-full truncate text-sm group-hover:text-primary group-hover:underline">
-                            {createdBy.name ?? "Unknown"}
+                            {createdBy.username || "Unknown"}
                         </span>
                     </div>
                 </button>

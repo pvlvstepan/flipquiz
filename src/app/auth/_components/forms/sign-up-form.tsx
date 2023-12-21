@@ -2,27 +2,41 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 
+import type { TRPCError } from "@trpc/server";
 import type { z } from "zod";
 
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Spinner } from "@/components/ui/spinner";
+import { useToast } from "@/components/ui/use-toast";
 import { signUpInput } from "@/server/schemas/auth";
 
-const formSchema = signUpInput;
+import { singUp } from "./actions";
+
+const formSchema = signUpInput
+    .extend({
+        repeatPassword: signUpInput.shape.password,
+    })
+    .refine((data) => data.password === data.repeatPassword, {
+        message: "Passwords don't match",
+        path: ["repeatPassword"],
+    });
 
 export function SignUpForm() {
+    const { toast } = useToast();
+    const router = useRouter();
+
+    const [isLoading, setIsLoading] = useTransition();
+
     const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(
-            formSchema.refine((data) => data.password === data.repeatPassword, {
-                message: "Passwords don't match",
-                path: ["repeatPassword"],
-            }),
-        ),
+        resolver: zodResolver(formSchema),
         defaultValues: {
-            name: "",
+            username: "",
             email: "",
             password: "",
             repeatPassword: "",
@@ -32,7 +46,24 @@ export function SignUpForm() {
     const isInvalid = Boolean(Object.keys(form.formState.errors).length);
 
     const onSubmit = form.handleSubmit((data) => {
-        console.log(data);
+        setIsLoading(async () => {
+            return singUp(data)
+                .then(() => {
+                    toast({
+                        title: "Account created",
+                        description: "Please log in to continue",
+                    });
+                    router.push("/auth/sign-in");
+                    form.reset();
+                })
+                .catch((err: TRPCError) => {
+                    toast({
+                        title: "Failed to create account",
+                        description: err.message,
+                        variant: "destructive",
+                    });
+                });
+        });
     });
 
     return (
@@ -45,14 +76,15 @@ export function SignUpForm() {
                 <div className="flex flex-col gap-y-4">
                     <Form.Field
                         control={form.control}
-                        name="name"
+                        name="username"
                         render={({ field }) => (
                             <Form.Item>
-                                <Form.Label>Your name</Form.Label>
+                                <Form.Label>Username</Form.Label>
                                 <Form.Control>
                                     <Input
-                                        placeholder="Enter your name"
                                         {...field}
+                                        disabled={isLoading}
+                                        placeholder="Enter your username"
                                     />
                                 </Form.Control>
                                 <Form.Message />
@@ -67,8 +99,9 @@ export function SignUpForm() {
                                 <Form.Label>Email</Form.Label>
                                 <Form.Control>
                                     <Input
-                                        placeholder="Enter your email"
                                         {...field}
+                                        disabled={isLoading}
+                                        placeholder="Enter your email"
                                     />
                                 </Form.Control>
                                 <Form.Message />
@@ -83,9 +116,10 @@ export function SignUpForm() {
                                 <Form.Label>Password</Form.Label>
                                 <Form.Control>
                                     <Input
+                                        {...field}
+                                        disabled={isLoading}
                                         placeholder="Password"
                                         type="password"
-                                        {...field}
                                     />
                                 </Form.Control>
                                 <Form.Message />
@@ -100,9 +134,10 @@ export function SignUpForm() {
                                 <Form.Label>Repeat password</Form.Label>
                                 <Form.Control>
                                     <Input
+                                        {...field}
+                                        disabled={isLoading}
                                         placeholder="Repeat password"
                                         type="password"
-                                        {...field}
                                     />
                                 </Form.Control>
                                 <Form.Message />
@@ -111,8 +146,8 @@ export function SignUpForm() {
                     />
                 </div>
                 <div className="flex flex-col gap-4">
-                    <Button disabled={isInvalid} size="lg">
-                        Sign up
+                    <Button disabled={isInvalid || isLoading} size="lg">
+                        {isLoading ? <Spinner /> : "Sign up"}
                     </Button>
                     <Button asChild size="lg" variant="outline">
                         <Link href="/auth/sign-in">

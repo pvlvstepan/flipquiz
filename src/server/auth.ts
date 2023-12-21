@@ -1,62 +1,121 @@
-import { PrismaAdapter } from "@next-auth/prisma-adapter";
+import { verify } from "argon2";
 import { getServerSession } from "next-auth";
-import DiscordProvider from "next-auth/providers/discord";
-import GoogleProvider from "next-auth/providers/google";
+import Credentials from "next-auth/providers/credentials";
 
-import type { DefaultSession, NextAuthOptions } from "next-auth";
+import type { NextAuthOptions } from "next-auth";
 
 import { env } from "@/env";
-import { db } from "@/server/db";
 
-/**
- * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
- * object and keep type safety.
- *
- * @see https://next-auth.js.org/getting-started/typescript#module-augmentation
- */
+import { db } from "./db";
+import { signInInput } from "./schemas/auth";
+
 declare module "next-auth" {
-    interface Session extends DefaultSession {
+    interface Session {
         user: {
             id: string;
-            // ...other properties
-            // role: UserRole;
-        } & DefaultSession["user"];
+            username: string;
+            email?: string | null;
+            image?: string | null;
+        };
     }
 
-    // interface User {
-    //   // ...other properties
-    //   // role: UserRole;
-    // }
+    interface User {
+        id: string;
+        username: string;
+        email?: string | null;
+        image?: string | null;
+    }
 }
 
-/**
- * Options for NextAuth.js used to configure adapters, providers, callbacks, etc.
- *
- * @see https://next-auth.js.org/configuration/options
- */
+declare module "next-auth/jwt" {
+    interface JWT {
+        id: string;
+        username: string;
+    }
+}
+
 export const authOptions: NextAuthOptions = {
-    callbacks: {
-        session: ({ session, user }) => ({
-            ...session,
-            user: {
-                ...session.user,
-                id: user.id,
+    providers: [
+        Credentials({
+            name: "credentials",
+            credentials: {
+                email: {
+                    label: "Email",
+                    type: "email",
+                    placeholder: "jsmith@gmail.com",
+                },
+                password: { label: "Password", type: "password" },
+            },
+            authorize: async (credentials) => {
+                try {
+                    const { emailOrUsername, password } =
+                        await signInInput.parseAsync(credentials);
+
+                    const result = await db.user.findFirst({
+                        where: {
+                            OR: [
+                                { email: emailOrUsername },
+                                { username: emailOrUsername },
+                            ],
+                        },
+                    });
+
+                    if (!result) return null;
+
+                    const isValidPassword = await verify(
+                        result.password,
+                        password,
+                    );
+
+                    if (!isValidPassword) return null;
+
+                    return {
+                        id: result.id,
+                        email: result.email,
+                        username: result.username,
+                        image: result.image,
+                    };
+                } catch {
+                    return null;
+                }
             },
         }),
-    },
-    adapter: PrismaAdapter(db),
-    providers: [
-        GoogleProvider({
-            clientId: env.GOOGLE_CLIENT_ID,
-            clientSecret: env.GOOGLE_CLIENT_SECRET,
-        }),
-        DiscordProvider({
-            clientId: env.DISCORD_CLIENT_ID,
-            clientSecret: env.DISCORD_CLIENT_SECRET,
-        }),
     ],
+    callbacks: {
+        jwt: async ({ token, user }) => {
+            // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- might be undefined
+            if (user) {
+                token.id = user.id;
+                token.email = user.email;
+                token.username = user.username;
+                token.picture = user.image;
+            }
+
+            return token;
+        },
+        session: async ({ session, token }) => {
+            // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- might be undefined
+            if (token) {
+                session.user.id = token.id;
+                session.user.email = token.email;
+                session.user.username = token.username;
+                session.user.image = token.picture;
+            }
+
+            return session;
+        },
+    },
+    jwt: {
+        maxAge: 15 * 24 * 30 * 60, // 15 days
+    },
+    session: {
+        strategy: "jwt",
+        maxAge: 15 * 24 * 30 * 60, // 15 days
+    },
+    secret: env.JWT_SECRET,
     pages: {
         signIn: "/auth/sign-in",
+        newUser: "/auth/sign-up",
     },
 };
 

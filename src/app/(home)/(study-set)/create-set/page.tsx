@@ -9,7 +9,9 @@ export default async function CreateSetPage() {
     const session = await getServerAuthSession();
 
     if (!session) {
-        return redirect("/auth/sign-in");
+        return redirect(
+            `/auth/sign-in?callbackUrl=${encodeURIComponent("/create-set/")}`,
+        );
     }
 
     return (

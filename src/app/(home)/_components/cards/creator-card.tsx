@@ -7,7 +7,7 @@ import { Card } from "@/components/ui/card";
 interface StudySetCardProps {
     user: {
         id: string;
-        name?: string | null;
+        username?: string | null;
         image?: string | null;
     };
     studySetsCount: number;
@@ -21,15 +21,15 @@ export function CreatorCard({ studySetsCount, user }: StudySetCardProps) {
                     <div className="h-14 w-14 shrink-0 overflow-hidden rounded-full bg-muted-foreground/20">
                         {user.image ? (
                             <Image
-                                alt={user.name ?? "User avatar"}
+                                alt={user.username || "User avatar"}
                                 height={56}
                                 src={user.image}
                                 width={56}
                             />
                         ) : (
                             <div className="flex h-full w-full items-center justify-center text-muted-foreground">
-                                <span className="text-2xl">
-                                    {user.name?.charAt(0) ?? "?"}
+                                <span className="text-2xl uppercase">
+                                    {user.username?.charAt(0) || "?"}
                                 </span>
                             </div>
                         )}
@@ -39,7 +39,7 @@ export function CreatorCard({ studySetsCount, user }: StudySetCardProps) {
                     <div className="group flex w-full items-center gap-2 overflow-hidden transition-colors">
                         <div className="flex w-full items-center overflow-hidden text-left">
                             <Card.Title className="w-full truncate text-lg leading-tight">
-                                {user.name ?? "Unknown"}
+                                {user.username ?? "Unknown"}
                             </Card.Title>
                             <Badge className="pointer-events-none bg-primary/20 px-2 py-0 text-xs text-primary">
                                 Teacher

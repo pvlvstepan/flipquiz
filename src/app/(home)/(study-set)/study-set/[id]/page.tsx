@@ -24,7 +24,11 @@ export default async function StudySetPage({ params }: StudySetPageProps) {
     const session = await getServerAuthSession();
 
     if (!session) {
-        return redirect("/auth/sign-in");
+        return redirect(
+            `/auth/sign-in?callbackUrl=${encodeURIComponent(
+                `/study-set/${params.id}`,
+            )}`,
+        );
     }
 
     const studySet = await api.studySet.get.base.query({
@@ -78,7 +82,7 @@ export default async function StudySetPage({ params }: StudySetPageProps) {
                     createdBy={{
                         id: studySet.createdBy.id,
                         image: studySet.createdBy.image,
-                        name: studySet.createdBy.name,
+                        username: studySet.createdBy.username,
                     }}
                     studySetId={studySet.id}
                 />

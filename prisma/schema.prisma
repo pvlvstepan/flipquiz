@@ -1,16 +1,9 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
     provider = "prisma-client-js"
 }
 
 datasource db {
     provider = "mongodb"
-    // NOTE: When using mysql or sqlserver, uncomment the @db.Text annotations in model Account below
-    // Further reading:
-    // https://next-auth.js.org/adapters/prisma#create-the-prisma-schema
-    // https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#string
     url      = env("DATABASE_URL")
 }
 
@@ -32,11 +25,11 @@ model StudySet {
     createdBy   User     @relation(fields: [createdById], references: [id])
     createdById String   @db.ObjectId
 
-    subject   Subject? @relation(fields: [subjectId], references: [id], onDelete: SetNull)
-    subjectId String?  @db.ObjectId
+    subject   Subject @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+    subjectId String  @db.ObjectId
 
-    area   Area?   @relation(fields: [areaId], references: [id], onDelete: SetNull)
-    areaId String? @db.ObjectId
+    area   Area   @relation(fields: [areaId], references: [id], onDelete: Cascade)
+    areaId String @db.ObjectId
 
     deleted   Boolean   @default(false)
     deletedAt DateTime?
@@ -106,53 +99,15 @@ model Subject {
     studySets StudySet[]
 }
 
-// Necessary for Next auth
-model Account {
-    id                String  @id @default(auto()) @map("_id") @db.ObjectId
-    userId            String  @db.ObjectId
-    type              String
-    provider          String
-    providerAccountId String
-    refresh_token     String? // @db.Text
-    access_token      String? // @db.Text
-    expires_at        Int?
-    token_type        String?
-    scope             String?
-    id_token          String? // @db.Text
-    session_state     String?
-    user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-    @@unique([provider, providerAccountId])
-}
-
-model Session {
-    id           String   @id @default(auto()) @map("_id") @db.ObjectId
-    sessionToken String   @unique
-    userId       String   @db.ObjectId
-    expires      DateTime
-    user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
-
 model User {
-    id            String    @id @default(auto()) @map("_id") @db.ObjectId
-    name          String?
-    email         String?   @unique
-    emailVerified DateTime?
-    image         String?
-
-    accounts Account[]
-    sessions Session[]
+    id       String  @id @default(auto()) @map("_id") @db.ObjectId
+    username String  @unique
+    email    String  @unique
+    password String
+    image    String?
 
     studySets StudySet[]
     views     View[]
     ratings   Rating[]
     comments  Comment[]
-}
-
-model VerificationToken {
-    identifier String   @id @default(auto()) @map("_id") @db.ObjectId
-    token      String   @unique
-    expires    DateTime
-
-    @@unique([identifier, token])
 }

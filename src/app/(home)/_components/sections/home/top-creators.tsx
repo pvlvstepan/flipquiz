@@ -15,7 +15,7 @@ export async function TopCreators() {
                         user={{
                             id: creator.id,
                             image: creator.image,
-                            name: creator.name,
+                            username: creator.username,
                         }}
                     />
                 ))}

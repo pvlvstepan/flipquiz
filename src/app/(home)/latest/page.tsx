@@ -13,7 +13,9 @@ export default async function LatestPage() {
     const session = await getServerAuthSession();
 
     if (!session) {
-        return redirect("/auth/sign-in");
+        return redirect(
+            `/auth/sign-in?callbackUrl=${encodeURIComponent("/latest")}`,
+        );
     }
 
     return (
