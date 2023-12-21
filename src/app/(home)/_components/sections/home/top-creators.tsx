@@ -12,11 +12,7 @@ export async function TopCreators() {
                     <CreatorCard
                         key={creator.id}
                         studySetsCount={creator._count.studySets}
-                        user={{
-                            id: creator.id,
-                            image: creator.image,
-                            username: creator.username,
-                        }}
+                        user={creator}
                     />
                 ))}
             </CardSwiper>

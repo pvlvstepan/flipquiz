@@ -4,6 +4,9 @@ import { FlagIcon, Trash2Icon } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 
+import type { Role } from "@prisma/client";
+
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tooltip } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
@@ -16,6 +19,7 @@ export interface Comment {
         id: string;
         username: string | null;
         image: string | null;
+        role: Role;
     };
     id: string;
     createdAt: Date;
@@ -28,8 +32,10 @@ export function Message({
     createdAt,
     user,
     belongsToCurrentUser,
+    userIsCreator,
 }: Comment & {
     belongsToCurrentUser: boolean;
+    userIsCreator: boolean;
 }) {
     const [deleteOpen, setDeleteOpen] = useState(false);
 
@@ -52,7 +58,7 @@ export function Message({
                             />
                         ) : (
                             <div className="flex h-full w-full items-center justify-center text-muted-foreground">
-                                <span className="text-2xl">
+                                <span className="text-2xl uppercase">
                                     {user.username?.charAt(0) || "?"}
                                 </span>
                             </div>
@@ -96,12 +102,17 @@ export function Message({
                             <span className="text-sm text-primary">
                                 {user.username || "Unknown"}
                             </span>
-                            {/* <Badge className="pointer-events-none px-2 py-0 text-xs">
-                                Creator
-                            </Badge>
-                            <Badge className="pointer-events-none bg-primary/20 px-2 py-0 text-xs text-primary">
-                                Teacher
-                            </Badge> */}
+
+                            {userIsCreator ? (
+                                <Badge className="pointer-events-none px-2 py-0 text-xs">
+                                    Creator
+                                </Badge>
+                            ) : null}
+                            {user.role === "TEACHER" ? (
+                                <Badge className="pointer-events-none bg-primary/20 px-2 py-0 text-xs text-primary">
+                                    Teacher
+                                </Badge>
+                            ) : null}
                         </div>
                         <div className="w-full overflow-hidden whitespace-pre-line break-words text-sm font-normal">
                             {content}

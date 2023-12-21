@@ -13,6 +13,9 @@ import Link from "next/link";
 import { useMemo } from "react";
 import QRCode from "react-qr-code";
 
+import type { Role } from "@prisma/client";
+
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Dialog } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
@@ -25,6 +28,7 @@ interface StudySetCreatorInfoProps {
         username: string | null;
         id: string;
         image: string | null;
+        role: Role;
     };
     studySetId: string;
     belongsToCurrentUser: boolean;
@@ -72,9 +76,16 @@ export function StudySetCreatorInfo({
                         <span className="text-xs text-muted-foreground">
                             Created by
                         </span>
-                        <span className="w-full truncate text-sm group-hover:text-primary group-hover:underline">
-                            {createdBy.username || "Unknown"}
-                        </span>
+                        <div className="flex items-center gap-4">
+                            <span className="w-full truncate text-sm group-hover:text-primary group-hover:underline">
+                                {createdBy.username || "Unknown"}
+                            </span>
+                            {createdBy.role === "TEACHER" ? (
+                                <Badge className="pointer-events-none bg-primary/20 px-2 py-0 text-xs text-primary">
+                                    Teacher
+                                </Badge>
+                            ) : null}
+                        </div>
                     </div>
                 </button>
                 <div className="flex gap-2 max-sm:w-full max-sm:flex-row-reverse">

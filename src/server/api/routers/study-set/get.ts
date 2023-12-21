@@ -55,6 +55,7 @@ export const getStudySetRouter = createTRPCRouter({
                         select: {
                             id: true,
                             username: true,
+                            role: true,
                             image: true,
                         },
                     },
@@ -82,6 +83,7 @@ export const getStudySetRouter = createTRPCRouter({
                         createdBy: {
                             select: {
                                 username: true,
+                                role: true,
                                 image: true,
                             },
                         },
@@ -110,6 +112,7 @@ export const getStudySetRouter = createTRPCRouter({
                 createdBy: {
                     select: {
                         username: true,
+                        role: true,
                         image: true,
                     },
                 },
@@ -156,28 +159,33 @@ export const getStudySetRouter = createTRPCRouter({
                     createdBy: {
                         select: {
                             username: true,
+                            role: true,
                             image: true,
                         },
                     },
                 },
-                take: 10,
             })
             .then((studySets) =>
                 studySets
-                    .map((studySet) => ({
-                        ...studySet,
-                        rating: {
-                            average:
-                                studySet.ratings.reduce(
-                                    (sum, rating) => sum + rating.rating,
-                                    0,
-                                ) / studySet.ratings.length,
-                            count: studySet.ratings.length,
-                        },
-                    }))
+                    .map((studySet) => {
+                        const avg =
+                            studySet.ratings.reduce(
+                                (sum, rating) => sum + rating.rating,
+                                0,
+                            ) / studySet.ratings.length;
+
+                        return {
+                            ...studySet,
+                            rating: {
+                                average: avg,
+                                count: studySet.ratings.length,
+                            },
+                        };
+                    })
                     .sort((a, b) =>
                         weightedSort(a, b, weightAverage, weightCount),
-                    ),
+                    )
+                    .slice(0, 10),
             );
     }),
     topCreators: protectedProcedure.query(async ({ ctx }) => {
@@ -203,6 +211,7 @@ export const getStudySetRouter = createTRPCRouter({
             select: {
                 id: true,
                 username: true,
+                role: true,
                 image: true,
                 _count: {
                     select: {

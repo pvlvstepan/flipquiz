@@ -48,11 +48,12 @@ export const studySetCommentRouter = createTRPCRouter({
                             id: true,
                             username: true,
                             image: true,
+                            role: true,
                         },
                     },
                 },
                 orderBy: {
-                    createdAt: "desc",
+                    createdAt: "asc",
                 },
             });
         }),

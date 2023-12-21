@@ -163,13 +163,25 @@ async function main() {
                 prisma.user.create({
                     data: {
                         username: faker.internet.userName(),
-                        password: await hash(faker.internet.password()),
                         email: faker.internet.email(),
                         image: faker.image.avatar(),
+                        password: await hash(faker.internet.password()),
                     },
                 }),
             ),
         ).then(async () => {
+            await prisma.user
+                .create({
+                    data: {
+                        username: "admin",
+                        email: "admin@flipquiz.com",
+                        password: await hash("testtest"),
+                    },
+                })
+                .then(() => {
+                    console.log("Admin created");
+                });
+
             console.log("Users created");
 
             const numberOfStudySets = 100;
@@ -179,10 +191,25 @@ async function main() {
 
             return Promise.all(
                 Array.from({ length: numberOfStudySets }).map(async () => {
+                    const uniqueUsers = faker.helpers.uniqueArray(
+                        users,
+                        faker.number.int({ min: 1, max: numberOfUsers }),
+                    );
+
                     return prisma.studySet.create({
                         data: {
-                            name: faker.company.name(),
-                            description: faker.commerce.productDescription(),
+                            name: faker.word.words({
+                                count: {
+                                    max: 5,
+                                    min: 2,
+                                },
+                            }),
+                            description: faker.word.words({
+                                count: {
+                                    max: 20,
+                                    min: 0,
+                                },
+                            }),
                             area: {
                                 connect: {
                                     id: faker.helpers.arrayElement(subjects)
@@ -199,12 +226,58 @@ async function main() {
                                     id: faker.helpers.arrayElement(users).id,
                                 },
                             },
+                            comments: {
+                                createMany: {
+                                    data: Array.from({
+                                        length: faker.number.int({
+                                            min: 1,
+                                            max: 5,
+                                        }),
+                                    }).map(() => ({
+                                        content: faker.lorem.paragraph({
+                                            max: 2,
+                                            min: 1,
+                                        }),
+                                        userId: faker.helpers.arrayElement(
+                                            users,
+                                        ).id,
+                                    })),
+                                },
+                            },
+                            ratings: {
+                                createMany: {
+                                    data: uniqueUsers.map((u) => ({
+                                        rating: faker.number.int({
+                                            min: 1,
+                                            max: 5,
+                                        }),
+                                        userId: u.id,
+                                    })),
+                                },
+                            },
+                            views: {
+                                createMany: {
+                                    data: uniqueUsers.map((u) => ({
+                                        userId: u.id,
+                                    })),
+                                },
+                            },
                             cards: {
                                 createMany: {
                                     data: Array.from({ length: 10 }).map(() => {
                                         return {
-                                            term: faker.lorem.words(3),
-                                            definition: faker.lorem.words(10),
+                                            term: faker.word.words({
+                                                count: {
+                                                    max: 5,
+                                                    min: 1,
+                                                },
+                                            }),
+                                            definition: faker.word.words({
+                                                count: {
+                                                    max: 20,
+                                                    min: 3,
+                                                },
+                                            }),
                                         };
                                     }),
                                 },

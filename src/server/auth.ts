@@ -2,6 +2,7 @@ import { verify } from "argon2";
 import { getServerSession } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 
+import type { Role } from "@prisma/client";
 import type { NextAuthOptions } from "next-auth";
 
 import { env } from "@/env";
@@ -16,6 +17,7 @@ declare module "next-auth" {
             username: string;
             email?: string | null;
             image?: string | null;
+            role: Role;
         };
     }
 
@@ -24,6 +26,7 @@ declare module "next-auth" {
         username: string;
         email?: string | null;
         image?: string | null;
+        role: Role;
     }
 }
 
@@ -31,6 +34,7 @@ declare module "next-auth/jwt" {
     interface JWT {
         id: string;
         username: string;
+        role: Role;
     }
 }
 
@@ -39,10 +43,8 @@ export const authOptions: NextAuthOptions = {
         Credentials({
             name: "credentials",
             credentials: {
-                email: {
-                    label: "Email",
-                    type: "email",
-                    placeholder: "jsmith@gmail.com",
+                emailOrUsername: {
+                    type: "text",
                 },
                 password: { label: "Password", type: "password" },
             },
@@ -60,6 +62,8 @@ export const authOptions: NextAuthOptions = {
                         },
                     });
 
+                    console.log(result);
+
                     if (!result) return null;
 
                     const isValidPassword = await verify(
@@ -74,6 +78,7 @@ export const authOptions: NextAuthOptions = {
                         email: result.email,
                         username: result.username,
                         image: result.image,
+                        role: result.role,
                     };
                 } catch {
                     return null;
@@ -89,6 +94,7 @@ export const authOptions: NextAuthOptions = {
                 token.email = user.email;
                 token.username = user.username;
                 token.picture = user.image;
+                token.role = user.role;
             }
 
             return token;
@@ -100,6 +106,7 @@ export const authOptions: NextAuthOptions = {
                 session.user.email = token.email;
                 session.user.username = token.username;
                 session.user.image = token.picture;
+                session.user.role = token.role;
             }
 
             return session;

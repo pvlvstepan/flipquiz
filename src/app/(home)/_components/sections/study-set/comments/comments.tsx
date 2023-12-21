@@ -27,12 +27,14 @@ interface StudySetCommentsProps {
     comments: Comment[];
     studySetId: string;
     currentUserId: string;
+    creatorId: string;
 }
 
 export function StudySetComments({
     comments = [],
     studySetId,
     currentUserId,
+    creatorId,
 }: StudySetCommentsProps) {
     const [isLoading, setIsLoading] = useTransition();
 
@@ -95,6 +97,7 @@ export function StudySetComments({
                                 comment.user.id === currentUserId
                             }
                             key={comment.id}
+                            userIsCreator={comment.user.id === creatorId}
                             {...comment}
                         />
                     ))}

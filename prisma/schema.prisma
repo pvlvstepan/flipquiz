@@ -99,12 +99,19 @@ model Subject {
     studySets StudySet[]
 }
 
+enum Role {
+    TEACHER
+    STUDENT
+    ADMIN
+}
+
 model User {
     id       String  @id @default(auto()) @map("_id") @db.ObjectId
     username String  @unique
     email    String  @unique
     password String
     image    String?
+    role     Role    @default(STUDENT)
 
     studySets StudySet[]
     views     View[]

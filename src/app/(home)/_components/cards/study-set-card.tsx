@@ -2,6 +2,8 @@ import { StarIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
+import type { Role } from "@prisma/client";
+
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 
@@ -17,6 +19,7 @@ interface StudySetCardProps {
     createdBy: {
         username?: string | null;
         image?: string | null;
+        role: Role;
     };
 }
 
@@ -56,7 +59,8 @@ export function StudySetCard({
                                     size={16}
                                 />
                                 <span>
-                                    {rating.average} ({rating.count} rating
+                                    {rating.average.toFixed(1)} ({rating.count}{" "}
+                                    rating
                                     {rating.count === 1 ? "" : "s"})
                                 </span>
                             </div>
@@ -83,9 +87,11 @@ export function StudySetCard({
                             <span className="w-full truncate text-sm">
                                 {createdBy.username ?? "Unknown"}
                             </span>
-                            <Badge className="pointer-events-none bg-primary/20 px-2 py-0 text-xs text-primary">
-                                Teacher
-                            </Badge>
+                            {createdBy.role === "TEACHER" ? (
+                                <Badge className="pointer-events-none bg-primary/20 px-2 py-0 text-xs text-primary">
+                                    Teacher
+                                </Badge>
+                            ) : null}
                         </div>
                     </div>
                 </Card.Content>

@@ -79,11 +79,7 @@ export default async function StudySetPage({ params }: StudySetPageProps) {
                 </div>
                 <StudySetCreatorInfo
                     belongsToCurrentUser={belongsToCurrentUser}
-                    createdBy={{
-                        id: studySet.createdBy.id,
-                        image: studySet.createdBy.image,
-                        username: studySet.createdBy.username,
-                    }}
+                    createdBy={studySet.createdBy}
                     studySetId={studySet.id}
                 />
                 {studySet.description ? (
@@ -104,6 +100,7 @@ export default async function StudySetPage({ params }: StudySetPageProps) {
                         id: comment.id,
                         user: comment.user,
                     }))}
+                    creatorId={studySet.createdBy.id}
                     currentUserId={session.user.id}
                     studySetId={studySet.id}
                 />

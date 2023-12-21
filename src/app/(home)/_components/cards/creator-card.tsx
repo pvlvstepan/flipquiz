@@ -1,6 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import type { Role } from "@prisma/client";
+
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 
@@ -9,6 +11,7 @@ interface StudySetCardProps {
         id: string;
         username?: string | null;
         image?: string | null;
+        role: Role;
     };
     studySetsCount: number;
 }
@@ -37,13 +40,15 @@ export function CreatorCard({ studySetsCount, user }: StudySetCardProps) {
                 </Card.Header>
                 <Card.Content className="flex flex-1 flex-col items-start justify-end p-4">
                     <div className="group flex w-full items-center gap-2 overflow-hidden transition-colors">
-                        <div className="flex w-full items-center overflow-hidden text-left">
+                        <div className="flex w-full items-center gap-2 overflow-hidden text-left">
                             <Card.Title className="w-full truncate text-lg leading-tight">
                                 {user.username ?? "Unknown"}
                             </Card.Title>
-                            <Badge className="pointer-events-none bg-primary/20 px-2 py-0 text-xs text-primary">
-                                Teacher
-                            </Badge>
+                            {user.role === "TEACHER" ? (
+                                <Badge className="pointer-events-none bg-primary/20 px-2 py-0 text-xs text-primary">
+                                    Teacher
+                                </Badge>
+                            ) : null}
                         </div>
                     </div>
                     <div className="mt-4 flex items-center gap-2">
