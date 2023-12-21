@@ -84,8 +84,7 @@ export const publicProcedure = t.procedure;
 
 /** Reusable middleware that enforces users are logged in before running the procedure. */
 const enforceUserIsAuthenticated = t.middleware(({ ctx, next }) => {
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- we check for null
-    if (!ctx.session || !ctx.session.user) {
+    if (!ctx.session?.user) {
         throw new TRPCError({ code: "UNAUTHORIZED" });
     }
     return next({
