@@ -1,4 +1,4 @@
-import { revalidateTag } from "next/cache";
+import { revalidatePath } from "next/cache";
 import { notFound, redirect } from "next/navigation";
 
 import {
@@ -35,11 +35,18 @@ export default async function StudySetPage({ params }: StudySetPageProps) {
         return notFound();
     }
 
-    await api.studySet.views.incrementViews
-        .mutate({ studySetId: studySet.id })
-        .then(() => {
-            revalidateTag("");
-        });
+    const incrementViews = async () => {
+        "use server";
+
+        return api.studySet.views.incrementViews
+            .mutate({
+                studySetId: studySet.id,
+            })
+            .then(() => {
+                revalidatePath(`/study-set/${studySet.id}`);
+                revalidatePath("/latest");
+            });
+    };
 
     const comments = await api.studySet.comment.getStudySetComments.query({
         studySetId: params.id,
@@ -62,6 +69,7 @@ export default async function StudySetPage({ params }: StudySetPageProps) {
                     <StudySetModes studySetId={studySet.id} />
                     <CardSwiper
                         cards={studySet.cards}
+                        onViewsIncrement={incrementViews}
                         studySetId={studySet.id}
                     />
                 </div>

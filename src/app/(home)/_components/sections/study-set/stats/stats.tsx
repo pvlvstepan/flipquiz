@@ -29,6 +29,7 @@ export async function StudySetStats({ studySetId }: StudySetStatsProps) {
             })
             .then(() => {
                 revalidatePath(`/study-set/${studySetId}`);
+                revalidatePath("/latest");
             });
     };
 

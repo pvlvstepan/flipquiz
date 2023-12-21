@@ -90,7 +90,7 @@ export function StudySetCreatorInfo({
                         </Dialog.Trigger>
                         <Dialog.Content>
                             <Dialog.Header className="text-xl sm:text-2xl">
-                                Share this study set with your others!
+                                Share this study set with others!
                             </Dialog.Header>
                             <div className="flex flex-col gap-4">
                                 <QRCode

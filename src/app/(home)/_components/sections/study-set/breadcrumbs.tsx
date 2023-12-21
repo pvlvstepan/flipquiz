@@ -4,8 +4,8 @@ import Link from "next/link";
 import { api } from "@/trpc/server";
 
 interface StudySetBreadcrumbsProps {
-    subjectId: string;
-    areaId: string;
+    subjectId: string | null;
+    areaId: string | null;
 }
 
 export async function StudySetBreadcrumbs({
@@ -13,10 +13,10 @@ export async function StudySetBreadcrumbs({
     subjectId,
 }: StudySetBreadcrumbsProps) {
     const area = await api.meta.getArea.query({
-        areaId,
+        areaId: areaId || "",
     });
     const subject = await api.meta.getSubject.query({
-        subjectId,
+        subjectId: subjectId || "",
     });
 
     return (
@@ -33,8 +33,7 @@ export async function StudySetBreadcrumbs({
                     <li>
                         <Link
                             className="hover:text-primary hover:underline"
-                            // href={`/area/${studySet.subject.area.id}`}
-                            href=""
+                            href={`/explore?area=${area.id}`}
                         >
                             {area.name}
                         </Link>
@@ -47,8 +46,7 @@ export async function StudySetBreadcrumbs({
                     <li>
                         <Link
                             className="hover:text-primary hover:underline"
-                            // href={`/subject/${studySet.subject.id}`}
-                            href=""
+                            href={`/explore?subject=${subject.id}`}
                         >
                             {subject.name}
                         </Link>

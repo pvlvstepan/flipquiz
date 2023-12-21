@@ -8,15 +8,10 @@ await import("./src/env.js");
 const config = {
     images: {
         remotePatterns: [
+            // allow all domains and subdomains
             {
                 protocol: "https",
-                hostname: "*.googleusercontent.com",
-                port: "",
-                pathname: "**",
-            },
-            {
-                protocol: "https",
-                hostname: "*.discordapp.com",
+                hostname: "*",
                 port: "",
                 pathname: "**",
             },

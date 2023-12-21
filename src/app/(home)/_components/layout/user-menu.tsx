@@ -3,6 +3,7 @@
 import { LogOutIcon, SettingsIcon, User2Icon } from "lucide-react";
 import { signOut } from "next-auth/react";
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 
 import type { Session } from "next-auth";
@@ -72,13 +73,17 @@ export function UserMenu({ session }: UserMenuProps) {
                     </div>
                 </DropdownMenu.Label>
                 <DropdownMenu.Separator />
-                <DropdownMenu.Item>
-                    <User2Icon size={20} />
-                    <span>Profile</span>
+                <DropdownMenu.Item asChild>
+                    <Link href="/profile">
+                        <User2Icon size={20} />
+                        <span>Profile</span>
+                    </Link>
                 </DropdownMenu.Item>
-                <DropdownMenu.Item>
-                    <SettingsIcon size={20} />
-                    <span>Settings</span>
+                <DropdownMenu.Item asChild>
+                    <Link href="/settings">
+                        <SettingsIcon size={20} />
+                        <span>Settings</span>
+                    </Link>
                 </DropdownMenu.Item>
                 <DropdownMenu.Separator />
                 <DropdownMenu.Item

@@ -15,7 +15,7 @@ import {
     ShuffleIcon,
 } from "lucide-react";
 import Link from "next/link";
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Autoplay, EffectCards } from "swiper/modules";
 
 import type { Swiper as SwiperType } from "swiper";
@@ -32,11 +32,13 @@ interface CardSwiperProps {
         definition: string;
     }[];
     studySetId: string;
+    onViewsIncrement: () => Promise<void>;
 }
 
 export function CardSwiper({
     cards: initialCards = [],
     studySetId,
+    onViewsIncrement,
 }: CardSwiperProps) {
     const [activeIndex, setActiveIndex] = useState(0);
     const [isFlipped, setIsFlipped] = useState(false);
@@ -53,6 +55,11 @@ export function CardSwiper({
 
         return [...initialCards];
     }, [initialCards, shuffled]);
+
+    useEffect(() => {
+        void onViewsIncrement();
+        // eslint-disable-next-line react-hooks/exhaustive-deps -- only run on mount
+    }, []);
 
     return (
         <TooltipProvider>
