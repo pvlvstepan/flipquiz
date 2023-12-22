@@ -1,5 +1,8 @@
 import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
-import { getStudySetInput } from "@/server/schemas/study-set";
+import {
+    getFilteredStudySetsInput,
+    getStudySetInput,
+} from "@/server/schemas/study-set";
 
 interface SortItem {
     rating: {
@@ -226,4 +229,32 @@ export const getStudySetRouter = createTRPCRouter({
             },
         });
     }),
+    filtered: protectedProcedure
+        .input(getFilteredStudySetsInput)
+        .query(async ({ ctx, input }) => {
+            return ctx.db.studySet.findMany({
+                where: {
+                    deleted: false,
+                    areaId: input.areaId,
+                    subjectId: input.subjectId,
+                    createdById: input.userId,
+                },
+                select: {
+                    id: true,
+                    name: true,
+                    _count: {
+                        select: {
+                            views: true,
+                        },
+                    },
+                    createdBy: {
+                        select: {
+                            username: true,
+                            role: true,
+                            image: true,
+                        },
+                    },
+                },
+            });
+        }),
 });

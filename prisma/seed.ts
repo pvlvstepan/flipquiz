@@ -201,6 +201,8 @@ async function main() {
                         faker.number.int({ min: 1, max: numberOfUsers }),
                     );
 
+                    const subject = faker.helpers.arrayElement(subjects);
+
                     return prisma.studySet.create({
                         data: {
                             name: faker.word.words({
@@ -217,13 +219,12 @@ async function main() {
                             }),
                             area: {
                                 connect: {
-                                    id: faker.helpers.arrayElement(subjects)
-                                        .areaId,
+                                    id: subject.areaId,
                                 },
                             },
                             subject: {
                                 connect: {
-                                    id: faker.helpers.arrayElement(subjects).id,
+                                    id: subject.id,
                                 },
                             },
                             createdBy: {

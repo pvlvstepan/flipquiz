@@ -40,3 +40,9 @@ export const getStudySetInput = z.object({
     studySetId: z.string(),
     userId: z.string().optional(),
 });
+
+export const getFilteredStudySetsInput = z.object({
+    subjectId: z.string().optional(),
+    areaId: z.string().optional(),
+    userId: z.string().optional(),
+});
