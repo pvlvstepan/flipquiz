@@ -52,9 +52,9 @@ export function StudySetCreatorInfo({
     return (
         <TooltipProvider>
             <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
-                <button
+                <Link
                     className="group flex w-full items-center gap-4 overflow-hidden transition-colors"
-                    type="button"
+                    href={`/profile/${createdBy.id}`}
                 >
                     <div className="h-12 w-12 shrink-0 overflow-hidden rounded-full bg-muted-foreground/20">
                         {createdBy.image ? (
@@ -72,7 +72,7 @@ export function StudySetCreatorInfo({
                             </div>
                         )}
                     </div>
-                    <div className="flex flex-col items-start overflow-hidden text-left">
+                    <div className="group flex flex-col items-start overflow-hidden text-left">
                         <span className="text-xs text-muted-foreground">
                             Created by
                         </span>
@@ -87,7 +87,7 @@ export function StudySetCreatorInfo({
                             ) : null}
                         </div>
                     </div>
-                </button>
+                </Link>
                 <div className="flex gap-2 max-sm:w-full max-sm:flex-row-reverse">
                     <Dialog>
                         <Dialog.Trigger asChild>

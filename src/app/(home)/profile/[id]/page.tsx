@@ -1,25 +1,49 @@
+import { FlagIcon } from "lucide-react";
 import Image from "next/image";
-import { redirect } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 
 import type { Metadata } from "next";
 
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { getServerAuthSession } from "@/server/auth";
+import { db } from "@/server/db";
 import { api } from "@/trpc/server";
 
-import { StudySetCard } from "../_components/cards";
-import { RecentStudySets } from "../_components/sections/home";
+import { StudySetCard } from "../../_components/cards";
 
-export async function generateMetadata(): Promise<Metadata> {
-    const session = await getServerAuthSession();
-
-    return {
-        title: `${session?.user.username} | FlipQuiz`,
+interface UserProfilePageProps {
+    params: {
+        id: string;
     };
 }
 
-export default async function UserProfile() {
+export async function generateMetadata({
+    params,
+}: UserProfilePageProps): Promise<Metadata> {
+    const user = await db.user.findUnique({
+        where: {
+            id: params.id,
+        },
+        select: {
+            id: true,
+            username: true,
+            image: true,
+            role: true,
+        },
+    });
+
+    if (!user) {
+        return notFound();
+    }
+
+    return {
+        title: `${user.username} | FlipQuiz`,
+    };
+}
+
+export default async function UserProfile({ params }: UserProfilePageProps) {
     const session = await getServerAuthSession();
 
     if (!session) {
@@ -28,9 +52,27 @@ export default async function UserProfile() {
         );
     }
 
-    const { user } = session;
+    if (params.id === session.user.id) {
+        return redirect("/profile");
+    }
 
-    const myStudySets = await api.studySet.get.filtered.query({
+    const user = await db.user.findUnique({
+        where: {
+            id: params.id,
+        },
+        select: {
+            id: true,
+            username: true,
+            image: true,
+            role: true,
+        },
+    });
+
+    if (!user) {
+        return notFound();
+    }
+
+    const userStudySets = await api.studySet.get.filtered.query({
         userId: user.id,
     });
 
@@ -60,14 +102,17 @@ export default async function UserProfile() {
                         </Badge>
                     ) : null}
                 </div>
+                <Button className="shrink-0 sm:ml-auto" variant="outline">
+                    <FlagIcon size={24} />
+                    <span>Report user</span>
+                </Button>
             </div>
             <Separator className="h-0.5" />
-            <RecentStudySets />
-            {myStudySets.length ? (
+            {userStudySets.length ? (
                 <>
-                    <h1 className="text-xl sm:text-2xl">My study sets</h1>
+                    <h1 className="text-xl sm:text-2xl">Study sets</h1>
                     <div className="grid flex-1 grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-                        {myStudySets.map((studySet) => (
+                        {userStudySets.map((studySet) => (
                             <StudySetCard
                                 key={studySet.id}
                                 name={studySet.name}

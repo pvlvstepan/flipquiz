@@ -16,7 +16,7 @@ interface StudySetCardProps {
         count: number;
     };
     name: string;
-    createdBy: {
+    createdBy?: {
         username?: string | null;
         image?: string | null;
         role: Role;
@@ -66,34 +66,39 @@ export function StudySetCard({
                             </div>
                         ) : null}
                     </div>
-                    <div className="group mt-4 flex w-full items-center gap-2 overflow-hidden transition-colors">
-                        <div className="h-6 w-6 shrink-0 overflow-hidden rounded-full bg-muted-foreground/20">
-                            {createdBy.image ? (
-                                <Image
-                                    alt={createdBy.username || "User avatar"}
-                                    height={24}
-                                    src={createdBy.image}
-                                    width={24}
-                                />
-                            ) : (
-                                <div className="flex h-full w-full items-center justify-center text-muted-foreground">
-                                    <span className="text-2xl uppercase">
-                                        {createdBy.username?.charAt(0) || "?"}
-                                    </span>
-                                </div>
-                            )}
+                    {createdBy ? (
+                        <div className="group mt-4 flex w-full items-center gap-2 overflow-hidden transition-colors">
+                            <div className="h-6 w-6 shrink-0 overflow-hidden rounded-full bg-muted-foreground/20">
+                                {createdBy.image ? (
+                                    <Image
+                                        alt={
+                                            createdBy.username || "User avatar"
+                                        }
+                                        height={24}
+                                        src={createdBy.image}
+                                        width={24}
+                                    />
+                                ) : (
+                                    <div className="flex h-full w-full items-center justify-center text-muted-foreground">
+                                        <span className="text-2xl uppercase">
+                                            {createdBy.username?.charAt(0) ||
+                                                "?"}
+                                        </span>
+                                    </div>
+                                )}
+                            </div>
+                            <div className="flex w-full items-center overflow-hidden text-left">
+                                <span className="w-full truncate text-sm">
+                                    {createdBy.username ?? "Unknown"}
+                                </span>
+                                {createdBy.role === "TEACHER" ? (
+                                    <Badge className="pointer-events-none bg-primary/20 px-2 py-0 text-xs text-primary">
+                                        Teacher
+                                    </Badge>
+                                ) : null}
+                            </div>
                         </div>
-                        <div className="flex w-full items-center overflow-hidden text-left">
-                            <span className="w-full truncate text-sm">
-                                {createdBy.username ?? "Unknown"}
-                            </span>
-                            {createdBy.role === "TEACHER" ? (
-                                <Badge className="pointer-events-none bg-primary/20 px-2 py-0 text-xs text-primary">
-                                    Teacher
-                                </Badge>
-                            ) : null}
-                        </div>
-                    </div>
+                    ) : null}
                 </Card.Content>
                 <div className="absolute inset-x-0 bottom-0 h-1 bg-primary opacity-0 transition-opacity group-hover/card:opacity-70" />
             </Card>

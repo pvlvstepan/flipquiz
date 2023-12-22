@@ -2,6 +2,7 @@
 
 import { FlagIcon, Trash2Icon } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 
 import type { Role } from "@prisma/client";
@@ -48,7 +49,14 @@ export function Message({
                 )}
             >
                 <div className="flex flex-col items-center gap-2">
-                    <div className="h-8 w-8 shrink-0 overflow-hidden rounded-full bg-muted-foreground/20">
+                    <Link
+                        className="h-8 w-8 shrink-0 overflow-hidden rounded-full bg-muted-foreground/20"
+                        href={
+                            belongsToCurrentUser
+                                ? "/profile/"
+                                : `/profile/${user.id}`
+                        }
+                    >
                         {user.image ? (
                             <Image
                                 alt={user.username || "User avatar"}
@@ -63,7 +71,7 @@ export function Message({
                                 </span>
                             </div>
                         )}
-                    </div>
+                    </Link>
                     <Tooltip
                         content={
                             belongsToCurrentUser
