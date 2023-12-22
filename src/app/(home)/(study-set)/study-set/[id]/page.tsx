@@ -1,6 +1,8 @@
 import { revalidatePath } from "next/cache";
 import { notFound, redirect } from "next/navigation";
 
+import type { Metadata } from "next";
+
 import {
     CardSwiper,
     StudySetBreadcrumbs,
@@ -17,6 +19,22 @@ import { api } from "@/trpc/server";
 interface StudySetPageProps {
     params: {
         id: string;
+    };
+}
+
+export async function generateMetadata(
+    { params }: StudySetPageProps,
+    // parent: ResolvingMetadata,
+): Promise<Metadata> {
+    // read route params
+    const id = params.id;
+
+    const studySet = await api.studySet.get.base.query({
+        studySetId: id,
+    });
+
+    return {
+        title: `${studySet?.name || "Study set"} | FlipQuiz`,
     };
 }
 

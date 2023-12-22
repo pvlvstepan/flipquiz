@@ -2,11 +2,17 @@ import { ArrowLeftIcon } from "lucide-react";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 
+import type { Metadata } from "next";
+
 import { getServerAuthSession } from "@/server/auth";
 import { api } from "@/trpc/server";
 
 import { StudySetForm } from "../../../_components/forms/study-set";
 import { editStudySet } from "./actions";
+
+export const metadata: Metadata = {
+    title: "FlipQuiz | Edit study set",
+};
 
 interface EditStudySetPageProps {
     params: {

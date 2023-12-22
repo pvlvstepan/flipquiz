@@ -1,5 +1,7 @@
 import { redirect } from "next/navigation";
 
+import type { Metadata } from "next";
+
 import { getServerAuthSession } from "@/server/auth";
 
 import {
@@ -8,6 +10,10 @@ import {
     TopCreators,
     TopRatedStudySets,
 } from "../_components/sections/home";
+
+export const metadata: Metadata = {
+    title: "FlipQuiz | Latest",
+};
 
 export default async function LatestPage() {
     const session = await getServerAuthSession();

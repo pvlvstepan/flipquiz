@@ -1,9 +1,15 @@
 import { redirect } from "next/navigation";
 
+import type { Metadata } from "next";
+
 import { getServerAuthSession } from "@/server/auth";
 
 import { StudySetForm } from "../../_components/forms/study-set";
 import { createStudySet } from "./actions";
+
+export const metadata: Metadata = {
+    title: "FlipQuiz | Create study set",
+};
 
 export default async function CreateSetPage() {
     const session = await getServerAuthSession();
