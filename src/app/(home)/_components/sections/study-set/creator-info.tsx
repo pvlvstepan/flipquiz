@@ -72,7 +72,7 @@ export function StudySetCreatorInfo({
                             </div>
                         )}
                     </div>
-                    <div className="group flex flex-col items-start overflow-hidden text-left">
+                    <div className="group flex flex-col items-start gap-1 overflow-hidden text-left">
                         <span className="text-xs text-muted-foreground">
                             Created by
                         </span>

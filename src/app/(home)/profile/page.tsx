@@ -66,7 +66,7 @@ export default async function UserProfile() {
             {myStudySets.length ? (
                 <>
                     <h1 className="text-xl sm:text-2xl">My study sets</h1>
-                    <div className="grid flex-1 grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+                    <div className="grid flex-1 grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
                         {myStudySets.map((studySet) => (
                             <StudySetCard
                                 key={studySet.id}

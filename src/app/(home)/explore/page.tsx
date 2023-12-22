@@ -55,7 +55,7 @@ export default async function ExplorePage({ searchParams }: ExplorePageProps) {
                 selectedSubject={subjectId}
             />
             <Separator className="my-8 h-0.5" />
-            <div className="grid flex-1 grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="grid flex-1 grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 {studySets.length ? (
                     studySets.map((studySet) => (
                         <StudySetCard

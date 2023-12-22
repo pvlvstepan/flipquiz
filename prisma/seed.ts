@@ -130,9 +130,17 @@ async function main() {
     await prisma.area.deleteMany({}).then(() => {
         console.log("Areas deleted");
     });
-    await prisma.user.deleteMany({}).then(() => {
-        console.log("Users deleted");
-    });
+    await prisma.user
+        .deleteMany({
+            where: {
+                username: {
+                    not: "admin",
+                },
+            },
+        })
+        .then(() => {
+            console.log("Users deleted");
+        });
 
     await Promise.all(
         areas.map(async (area) => {
@@ -174,18 +182,26 @@ async function main() {
                 }),
             ),
         ).then(async () => {
-            await prisma.user
-                .create({
-                    data: {
-                        username: "admin",
-                        email: "admin@flipquiz.com",
-                        password: await hash("testtest"),
-                        role: Role.ADMIN,
-                    },
-                })
-                .then(() => {
-                    console.log("Admin created");
-                });
+            const admin = await prisma.user.findUnique({
+                where: {
+                    username: "admin",
+                },
+            });
+
+            if (!admin) {
+                await prisma.user
+                    .create({
+                        data: {
+                            username: "admin",
+                            email: "admin@flipquiz.com",
+                            password: await hash("testtest"),
+                            role: Role.ADMIN,
+                        },
+                    })
+                    .then(() => {
+                        console.log("Admin created");
+                    });
+            }
 
             console.log("Users created");
 

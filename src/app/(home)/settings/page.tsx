@@ -4,6 +4,14 @@ import type { Metadata } from "next";
 
 import { getServerAuthSession } from "@/server/auth";
 
+import {
+    ChangeAccountType,
+    ChangeEmail,
+    ChangePassword,
+    ChangeUsername,
+    DeleteAccount,
+} from "../_components/forms/settings";
+
 export const metadata: Metadata = {
     title: "FlipQuiz | Settings",
 };
@@ -17,5 +25,13 @@ export default async function SettingsPage() {
         );
     }
 
-    return <div>Settings page</div>;
+    return (
+        <div className="flex flex-col gap-8">
+            <ChangeAccountType />
+            <ChangeEmail />
+            <ChangePassword />
+            <ChangeUsername />
+            <DeleteAccount />
+        </div>
+    );
 }

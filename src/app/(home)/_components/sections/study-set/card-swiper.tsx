@@ -12,6 +12,7 @@ import {
     FullscreenIcon,
     PauseIcon,
     PlayIcon,
+    RefreshCcw,
     ShuffleIcon,
 } from "lucide-react";
 import Link from "next/link";
@@ -242,6 +243,33 @@ export function CardSwiper({
                         </Tooltip>
                     </div>
                     <div className="ml-auto flex gap-4">
+                        <Tooltip
+                            content={
+                                !isFlipped ? "Show definition" : "Show term"
+                            }
+                        >
+                            <Button
+                                onClick={() => {
+                                    setIsFlipped((s) => !s);
+                                }}
+                                size="icon"
+                                variant="outline"
+                            >
+                                <RefreshCcw
+                                    className={cn(
+                                        "transition-transform duration-500",
+                                        isFlipped && "rotate-[360deg]",
+                                    )}
+                                    size={24}
+                                />
+                                <span className="sr-only">
+                                    {" "}
+                                    {!isFlipped
+                                        ? "Show definition"
+                                        : "Show term"}
+                                </span>
+                            </Button>
+                        </Tooltip>
                         <Tooltip content="Fullscreen">
                             <Button asChild size="icon" variant="outline">
                                 <Link
