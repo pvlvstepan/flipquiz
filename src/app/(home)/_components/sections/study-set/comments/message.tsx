@@ -1,6 +1,6 @@
 "use client";
 
-import { FlagIcon, Trash2Icon } from "lucide-react";
+import { Trash2Icon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -94,9 +94,7 @@ export function Message({
                         >
                             {belongsToCurrentUser ? (
                                 <Trash2Icon size={16} />
-                            ) : (
-                                <FlagIcon size={16} />
-                            )}
+                            ) : null}
                         </Button>
                     </Tooltip>
                 </div>

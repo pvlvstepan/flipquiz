@@ -10,6 +10,7 @@ import { api } from "@/trpc/server";
 
 import { StudySetCard } from "../_components/cards";
 import { RecentStudySets } from "../_components/sections/home";
+import { Achievements, StudyStreak } from "../_components/sections/profile";
 
 export async function generateMetadata(): Promise<Metadata> {
     const session = await getServerAuthSession();
@@ -62,6 +63,8 @@ export default async function UserProfile() {
                 </div>
             </div>
             <Separator className="h-0.5" />
+            <StudyStreak />
+            <Achievements />
             <RecentStudySets />
             {myStudySets.length ? (
                 <>

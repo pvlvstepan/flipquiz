@@ -48,8 +48,6 @@ interface HeaderLinksProps {
 export function HeaderLinks({ signedIn }: HeaderLinksProps) {
     const pathname = usePathname();
 
-    console.log(pathname);
-
     const areasMeta = api.meta.getAreas.useQuery(undefined, {
         staleTime: Infinity,
     });

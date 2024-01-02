@@ -1,11 +1,9 @@
-import { FlagIcon } from "lucide-react";
 import Image from "next/image";
 import { notFound, redirect } from "next/navigation";
 
 import type { Metadata } from "next";
 
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { getServerAuthSession } from "@/server/auth";
 import { db } from "@/server/db";
@@ -102,10 +100,6 @@ export default async function UserProfile({ params }: UserProfilePageProps) {
                         </Badge>
                     ) : null}
                 </div>
-                <Button className="shrink-0 sm:ml-auto" variant="outline">
-                    <FlagIcon size={24} />
-                    <span>Report user</span>
-                </Button>
             </div>
             <Separator className="h-0.5" />
             {userStudySets.length ? (

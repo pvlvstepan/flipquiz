@@ -61,6 +61,12 @@ export default {
                     DEFAULT: "hsl(var(--card))",
                     foreground: "hsl(var(--card-foreground))",
                 },
+                achievement: {
+                    bronze: "var(--bronze)",
+                    silver: "var(--silver)",
+                    gold: "var(--gold)",
+                    diamond: "var(--diamond)",
+                },
             },
             borderRadius: {
                 lg: "var(--radius)",

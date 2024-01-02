@@ -1,7 +1,7 @@
 "use client";
 
 import { StarIcon } from "lucide-react";
-import { useState, useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Dialog } from "@/components/ui/dialog";
@@ -27,6 +27,17 @@ export function StudySetRatingControl({
 
     const [ratingValue, setRatingValue] = useState(0);
     const [hoverValue, setHoverValue] = useState(0);
+
+    useEffect(() => {
+        const handleOpen = () => {
+            setOpen(true);
+        };
+
+        window.addEventListener("open-rating", handleOpen);
+        return () => {
+            window.removeEventListener("open-rating", handleOpen);
+        };
+    }, []);
 
     return (
         <Dialog onOpenChange={setOpen} open={open}>

@@ -1,4 +1,8 @@
-import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
+import {
+    createTRPCRouter,
+    protectedProcedure,
+    publicProcedure,
+} from "@/server/api/trpc";
 import {
     getFilteredStudySetsInput,
     getStudySetInput,
@@ -29,7 +33,7 @@ const weightAverage = 0.8; // Adjust this value based on the importance of avera
 const weightCount = 0.2; // Adjust this value based on the importance of count
 
 export const getStudySetRouter = createTRPCRouter({
-    base: protectedProcedure
+    base: publicProcedure
         .input(getStudySetInput)
         .query(async ({ ctx, input }) => {
             return ctx.db.studySet.findUnique({
@@ -229,7 +233,7 @@ export const getStudySetRouter = createTRPCRouter({
             },
         });
     }),
-    filtered: protectedProcedure
+    filtered: publicProcedure
         .input(getFilteredStudySetsInput)
         .query(async ({ ctx, input }) => {
             return ctx.db.studySet.findMany({

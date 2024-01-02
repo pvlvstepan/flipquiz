@@ -7,6 +7,7 @@ import { getServerAuthSession } from "@/server/auth";
 import {
     PopularStudySets,
     RecentStudySets,
+    StudyStreak,
     TopCreators,
     TopRatedStudySets,
 } from "../_components/sections/home";
@@ -26,6 +27,7 @@ export default async function LatestPage() {
 
     return (
         <div className="flex flex-col gap-y-8 sm:gap-y-16">
+            <StudyStreak />
             <RecentStudySets />
             <PopularStudySets />
             <TopRatedStudySets />

@@ -78,7 +78,7 @@ export function StudySetComments({
         <TooltipProvider>
             <Collapsible
                 className="flex flex-col gap-8"
-                defaultOpen={!comments.length}
+                defaultOpen
                 id="comments"
             >
                 <CollapsibleTrigger className="group/terms flex w-full items-center justify-between transition-colors hover:text-primary">

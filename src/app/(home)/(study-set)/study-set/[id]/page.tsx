@@ -7,7 +7,6 @@ import {
     CardSwiper,
     StudySetBreadcrumbs,
     StudySetCreatorInfo,
-    StudySetModes,
     StudySetStats,
     StudySetTerms,
 } from "@/app/(home)/_components/sections/study-set";
@@ -88,11 +87,11 @@ export default async function StudySetPage({ params }: StudySetPageProps) {
                     <StudySetStats studySetId={studySet.id} />
                 </div>
                 <div className="flex flex-col-reverse gap-8 md:flex-col">
-                    <StudySetModes studySetId={studySet.id} />
+                    {/* <StudySetModes studySetId={studySet.id} /> */}
                     <CardSwiper
                         cards={studySet.cards}
                         onViewsIncrement={incrementViews}
-                        studySetId={studySet.id}
+                        studySetName={studySet.name}
                     />
                 </div>
                 <StudySetCreatorInfo

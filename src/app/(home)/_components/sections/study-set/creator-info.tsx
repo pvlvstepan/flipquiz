@@ -1,13 +1,7 @@
 "use client";
 
 import { TooltipProvider } from "@radix-ui/react-tooltip";
-import {
-    CopyIcon,
-    FlagIcon,
-    PencilIcon,
-    Share2Icon,
-    Trash2Icon,
-} from "lucide-react";
+import { CopyIcon, PencilIcon, Share2Icon, Trash2Icon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useMemo } from "react";
@@ -51,9 +45,9 @@ export function StudySetCreatorInfo({
 
     return (
         <TooltipProvider>
-            <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
+            <div className="flex flex-wrap items-start justify-between gap-8 sm:gap-4">
                 <Link
-                    className="group flex w-full items-center gap-4 overflow-hidden transition-colors"
+                    className="group flex items-center gap-4 overflow-hidden transition-colors"
                     href={`/profile/${createdBy.id}`}
                 >
                     <div className="h-12 w-12 shrink-0 overflow-hidden rounded-full bg-muted-foreground/20">
@@ -88,7 +82,7 @@ export function StudySetCreatorInfo({
                         </div>
                     </div>
                 </Link>
-                <div className="flex gap-2 max-sm:w-full max-sm:flex-row-reverse">
+                <div className="flex gap-2">
                     <Dialog>
                         <Dialog.Trigger asChild>
                             <Button
@@ -171,20 +165,7 @@ export function StudySetCreatorInfo({
                             </Button>
                         </Tooltip>
                     ) : null}
-                    {!belongsToCurrentUser ? (
-                        <Tooltip content="Report">
-                            <Button
-                                className="shrink-0"
-                                size="icon"
-                                variant="outline"
-                            >
-                                <FlagIcon size={24} />
-                                <span className="sr-only">
-                                    Report study set
-                                </span>
-                            </Button>
-                        </Tooltip>
-                    ) : (
+                    {belongsToCurrentUser ? (
                         <Tooltip content="Delete">
                             <Button
                                 className="shrink-0"
@@ -197,7 +178,7 @@ export function StudySetCreatorInfo({
                                 </span>
                             </Button>
                         </Tooltip>
-                    )}
+                    ) : null}
                 </div>
             </div>
         </TooltipProvider>
