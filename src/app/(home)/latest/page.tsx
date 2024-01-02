@@ -10,7 +10,7 @@ import {
     StudyStreak,
     TopCreators,
     TopRatedStudySets,
-} from "../_components/sections/home";
+} from "../_components/sections/latest";
 
 export const metadata: Metadata = {
     title: "FlipQuiz | Latest",
@@ -26,7 +26,7 @@ export default async function LatestPage() {
     }
 
     return (
-        <div className="flex flex-col gap-y-8 sm:gap-y-16">
+        <div className="container flex flex-col gap-y-8 sm:gap-y-16">
             <StudyStreak />
             <RecentStudySets />
             <PopularStudySets />

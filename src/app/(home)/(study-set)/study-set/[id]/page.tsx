@@ -76,51 +76,55 @@ export default async function StudySetPage({ params }: StudySetPageProps) {
     const belongsToCurrentUser = studySet.createdBy.id === session.user.id;
 
     return (
-        <div className="container max-w-3xl p-0">
-            <div className="flex flex-col gap-8">
-                <div className="flex flex-col gap-4">
-                    <StudySetBreadcrumbs
-                        areaId={studySet.areaId}
-                        subjectId={studySet.subjectId}
+        <div className="container">
+            <div className="container max-w-3xl p-0">
+                <div className="flex flex-col gap-8">
+                    <div className="flex flex-col gap-4">
+                        <StudySetBreadcrumbs
+                            areaId={studySet.areaId}
+                            subjectId={studySet.subjectId}
+                        />
+                        <h1 className="text-2xl sm:text-3xl">
+                            {studySet.name}
+                        </h1>
+                        <StudySetStats studySetId={studySet.id} />
+                    </div>
+                    <div className="flex flex-col-reverse gap-8 md:flex-col">
+                        {/* <StudySetModes studySetId={studySet.id} /> */}
+                        <CardSwiper
+                            cards={studySet.cards}
+                            onViewsIncrement={incrementViews}
+                            studySetName={studySet.name}
+                        />
+                    </div>
+                    <StudySetCreatorInfo
+                        belongsToCurrentUser={belongsToCurrentUser}
+                        createdBy={studySet.createdBy}
+                        studySetId={studySet.id}
                     />
-                    <h1 className="text-2xl sm:text-3xl">{studySet.name}</h1>
-                    <StudySetStats studySetId={studySet.id} />
-                </div>
-                <div className="flex flex-col-reverse gap-8 md:flex-col">
-                    {/* <StudySetModes studySetId={studySet.id} /> */}
-                    <CardSwiper
+                    {studySet.description ? (
+                        <p className="whitespace-pre-line text-base font-normal text-muted-foreground">
+                            {studySet.description}
+                        </p>
+                    ) : null}
+                    <StudySetTerms
+                        belongsToCurrentUser={belongsToCurrentUser}
                         cards={studySet.cards}
-                        onViewsIncrement={incrementViews}
-                        studySetName={studySet.name}
+                        studySetId={studySet.id}
+                    />
+                    <Separator className="h-0.5" />
+                    <StudySetComments
+                        comments={comments.map((comment) => ({
+                            content: comment.content,
+                            createdAt: comment.createdAt,
+                            id: comment.id,
+                            user: comment.user,
+                        }))}
+                        creatorId={studySet.createdBy.id}
+                        currentUserId={session.user.id}
+                        studySetId={studySet.id}
                     />
                 </div>
-                <StudySetCreatorInfo
-                    belongsToCurrentUser={belongsToCurrentUser}
-                    createdBy={studySet.createdBy}
-                    studySetId={studySet.id}
-                />
-                {studySet.description ? (
-                    <p className="whitespace-pre-line text-base font-normal text-muted-foreground">
-                        {studySet.description}
-                    </p>
-                ) : null}
-                <StudySetTerms
-                    belongsToCurrentUser={belongsToCurrentUser}
-                    cards={studySet.cards}
-                    studySetId={studySet.id}
-                />
-                <Separator className="h-0.5" />
-                <StudySetComments
-                    comments={comments.map((comment) => ({
-                        content: comment.content,
-                        createdAt: comment.createdAt,
-                        id: comment.id,
-                        user: comment.user,
-                    }))}
-                    creatorId={studySet.createdBy.id}
-                    currentUserId={session.user.id}
-                    studySetId={studySet.id}
-                />
             </div>
         </div>
     );

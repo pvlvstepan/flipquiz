@@ -43,7 +43,7 @@ export default async function EditStudySetPage({
     }
 
     return (
-        <div>
+        <div className="container">
             <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
                 <Link
                     className="flex items-center gap-2 text-primary hover:underline"

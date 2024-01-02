@@ -21,7 +21,7 @@ export default async function CreateSetPage() {
     }
 
     return (
-        <div>
+        <div className="container">
             <h1 className="mb-8 text-xl sm:text-2xl">Create a new study set</h1>
             <StudySetForm mode="create" onSubmit={createStudySet} />
         </div>

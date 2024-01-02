@@ -1,5 +1,4 @@
-export * from "./recent-sets";
-export * from "./top-studied";
-export * from "./top-rated";
-export * from "./top-creators";
-export * from "./study-streak";
+export { SubjectsSection } from "./subjects";
+export { FeaturedSection } from "./featured";
+export { CommunitySection } from "./community";
+export { HeroSection } from "./hero";

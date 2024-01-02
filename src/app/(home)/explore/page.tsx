@@ -46,7 +46,7 @@ export default async function ExplorePage({ searchParams }: ExplorePageProps) {
         : areas.find((a) => a.id === areaId)?.name;
 
     return (
-        <div className="flex h-full flex-col">
+        <div className="container flex h-full flex-col">
             <h1 className="mb-8 text-xl sm:text-2xl">
                 {title ? `${title} study sets` : "Explore study sets"}
             </h1>

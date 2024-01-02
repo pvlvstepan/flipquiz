@@ -33,7 +33,7 @@ export default async function SettingsPage() {
     }
 
     return (
-        <div className="flex flex-col gap-8">
+        <div className="container flex flex-col gap-8">
             <ChangeAccountType
                 defaultRole={session.user.role}
                 onSubmit={changeAccountType}
