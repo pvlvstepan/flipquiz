@@ -12,7 +12,7 @@ export function HeroSection() {
                 backgroundSize: "cover",
             }}
         >
-            <section className="container">
+            <section className="container max-sm:backdrop-blur-md">
                 <div className="flex flex-col items-center justify-center gap-8 py-16 text-center">
                     <h1 className="max-w-2xl text-4xl font-extrabold leading-none tracking-tight md:text-5xl xl:text-6xl">
                         Empowering Learning Through Interactive Study Sets
