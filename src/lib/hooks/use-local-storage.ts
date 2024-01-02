@@ -1,7 +1,8 @@
 /* eslint-disable no-console -- necessary for debugging purposes */
 
-import type { Dispatch, SetStateAction } from "react";
 import { useCallback, useEffect, useState } from "react";
+
+import type { Dispatch, SetStateAction } from "react";
 
 import { useEventCallback } from "./use-event-callback";
 import { useEventListener } from "./use-event-listener";

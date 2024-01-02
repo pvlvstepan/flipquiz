@@ -13,6 +13,7 @@ model StudySetCard {
     definition String
     createdAt  DateTime @default(now())
     order      Int      @default(0)
+
     studySet   StudySet @relation(fields: [studySetId], references: [id], onDelete: Cascade)
     studySetId String   @db.ObjectId
 }
@@ -22,17 +23,15 @@ model StudySet {
     name        String
     description String?
     createdAt   DateTime @default(now())
-    createdBy   User     @relation(fields: [createdById], references: [id])
-    createdById String   @db.ObjectId
+
+    createdBy   User   @relation(fields: [createdById], references: [id], onDelete: Cascade)
+    createdById String @db.ObjectId
 
     subject   Subject @relation(fields: [subjectId], references: [id], onDelete: Cascade)
     subjectId String  @db.ObjectId
 
     area   Area   @relation(fields: [areaId], references: [id], onDelete: Cascade)
     areaId String @db.ObjectId
-
-    deleted   Boolean   @default(false)
-    deletedAt DateTime?
 
     cards    StudySetCard[]
     views    View[]
@@ -43,23 +42,27 @@ model StudySet {
 }
 
 model View {
-    id         String   @id @default(auto()) @map("_id") @db.ObjectId
-    createdAt  DateTime @default(now())
+    id        String   @id @default(auto()) @map("_id") @db.ObjectId
+    createdAt DateTime @default(now())
+
     studySet   StudySet @relation(fields: [studySetId], references: [id], onDelete: Cascade)
     studySetId String   @db.ObjectId
-    user       User     @relation(fields: [userId], references: [id])
-    userId     String   @db.ObjectId
+
+    user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId String @db.ObjectId
 
     @@unique([userId, studySetId])
 }
 
 model Rating {
-    id         String   @id @default(auto()) @map("_id") @db.ObjectId
-    createdAt  DateTime @default(now())
+    id        String   @id @default(auto()) @map("_id") @db.ObjectId
+    createdAt DateTime @default(now())
+
     studySet   StudySet @relation(fields: [studySetId], references: [id], onDelete: Cascade)
     studySetId String   @db.ObjectId
-    user       User     @relation(fields: [userId], references: [id])
-    userId     String   @db.ObjectId
+
+    user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId String @db.ObjectId
 
     rating Int
 
@@ -73,12 +76,10 @@ model Comment {
     studySet   StudySet @relation(fields: [studySetId], references: [id], onDelete: Cascade)
     studySetId String   @db.ObjectId
 
-    user   User   @relation(fields: [userId], references: [id])
+    user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
     userId String @db.ObjectId
 
-    content   String
-    deleted   Boolean   @default(false)
-    deletedAt DateTime?
+    content String
 }
 
 model Area {
@@ -102,8 +103,9 @@ model Subject {
 model StudyStreak {
     id        String   @id @default(auto()) @map("_id") @db.ObjectId
     createdAt DateTime @default(now())
-    user      User     @relation(fields: [userId], references: [id])
-    userId    String   @db.ObjectId
+
+    user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId String @db.ObjectId
 }
 
 enum Role {
@@ -124,10 +126,12 @@ enum Achievement {
 }
 
 model UserAchievement {
-    id          String      @id @default(auto()) @map("_id") @db.ObjectId
-    createdAt   DateTime    @default(now())
-    user        User        @relation(fields: [userId], references: [id])
-    userId      String      @db.ObjectId
+    id        String   @id @default(auto()) @map("_id") @db.ObjectId
+    createdAt DateTime @default(now())
+
+    user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId String @db.ObjectId
+
     achievement Achievement
 
     @@unique([userId, achievement])

@@ -11,6 +11,13 @@ import {
     ChangeUsername,
     DeleteAccount,
 } from "../_components/forms/settings";
+import {
+    changeAccountType,
+    changeEmail,
+    changePassword,
+    changeUsername,
+    deleteAccount,
+} from "./actions";
 
 export const metadata: Metadata = {
     title: "FlipQuiz | Settings",
@@ -27,11 +34,20 @@ export default async function SettingsPage() {
 
     return (
         <div className="flex flex-col gap-8">
-            <ChangeAccountType />
-            <ChangeEmail />
-            <ChangePassword />
-            <ChangeUsername />
-            <DeleteAccount />
+            <ChangeAccountType
+                defaultRole={session.user.role}
+                onSubmit={changeAccountType}
+            />
+            <ChangeEmail
+                defaultEmail={session.user.email}
+                onSubmit={changeEmail}
+            />
+            <ChangePassword onSubmit={changePassword} />
+            <ChangeUsername
+                defaultUsername={session.user.username}
+                onSubmit={changeUsername}
+            />
+            <DeleteAccount onSubmit={deleteAccount} />
         </div>
     );
 }

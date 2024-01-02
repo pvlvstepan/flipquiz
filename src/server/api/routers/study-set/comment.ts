@@ -20,12 +20,8 @@ export const studySetCommentRouter = createTRPCRouter({
     deleteComment: protectedProcedure
         .input(deleteCommentInput)
         .mutation(async ({ ctx, input }) => {
-            return ctx.db.comment.update({
+            return ctx.db.comment.delete({
                 where: { id: input.commentId, userId: ctx.session.user.id },
-                data: {
-                    deleted: true,
-                    deletedAt: new Date(),
-                },
             });
         }),
     getStudySetComments: protectedProcedure
@@ -35,9 +31,7 @@ export const studySetCommentRouter = createTRPCRouter({
                 where: {
                     studySet: {
                         id: input.studySetId,
-                        deleted: false,
                     },
-                    deleted: false,
                 },
                 select: {
                     id: true,

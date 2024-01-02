@@ -22,9 +22,7 @@ export const studySetStatsRouter = protectedProcedure
                     _count: {
                         select: {
                             comments: {
-                                where: {
-                                    deleted: false,
-                                },
+                                where: {},
                             },
                             ratings: true,
                             views: true,

@@ -51,6 +51,7 @@ export function SignInForm() {
                     });
                 } else {
                     router.replace(callbackUrl || "/latest");
+                    window.location.reload();
                 }
             });
         });

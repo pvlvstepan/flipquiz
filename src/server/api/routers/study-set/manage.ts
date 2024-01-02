@@ -56,14 +56,10 @@ export const studySetManageRouter = createTRPCRouter({
     delete: protectedProcedure
         .input(deleteStudySetInput)
         .mutation(async ({ ctx, input }) => {
-            return ctx.db.studySet.update({
+            return ctx.db.studySet.delete({
                 where: {
                     id: input.studySetId,
                     createdById: ctx.session.user.id,
-                },
-                data: {
-                    deleted: true,
-                    deletedAt: new Date(),
                 },
             });
         }),

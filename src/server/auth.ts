@@ -102,11 +102,25 @@ export const authOptions: NextAuthOptions = {
         session: async ({ session, token }) => {
             // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- might be undefined
             if (token) {
-                session.user.id = token.id;
-                session.user.email = token.email;
-                session.user.username = token.username;
-                session.user.image = token.picture;
-                session.user.role = token.role;
+                const user = await db.user.findUnique({
+                    where: {
+                        id: token.id,
+                    },
+                });
+
+                if (user) {
+                    session.user = {
+                        id: user.id,
+                        email: user.email,
+                        username: user.username,
+                        image: user.image,
+                        role: user.role,
+                    };
+                } else {
+                    // @ts-expect-error -- mutate session
+                    // eslint-disable-next-line no-param-reassign -- mutate session
+                    session = undefined;
+                }
             }
 
             return session;

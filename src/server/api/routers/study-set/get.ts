@@ -40,7 +40,6 @@ export const getStudySetRouter = createTRPCRouter({
                 where: {
                     id: input.studySetId,
                     createdById: input.userId,
-                    deleted: false,
                 },
                 select: {
                     id: true,
@@ -73,9 +72,7 @@ export const getStudySetRouter = createTRPCRouter({
         return ctx.db.view.findMany({
             where: {
                 userId: ctx.session.user.id,
-                studySet: {
-                    deleted: false,
-                },
+                studySet: {},
             },
             select: {
                 studySet: {
@@ -105,9 +102,7 @@ export const getStudySetRouter = createTRPCRouter({
     }),
     popular: protectedProcedure.query(async ({ ctx }) => {
         return ctx.db.studySet.findMany({
-            where: {
-                deleted: false,
-            },
+            where: {},
             select: {
                 id: true,
                 name: true,
@@ -136,9 +131,7 @@ export const getStudySetRouter = createTRPCRouter({
         const topRated = await ctx.db.rating.groupBy({
             by: ["studySetId"],
             where: {
-                studySet: {
-                    deleted: false,
-                },
+                studySet: {},
             },
             orderBy: {
                 _avg: {
@@ -153,7 +146,6 @@ export const getStudySetRouter = createTRPCRouter({
                     id: {
                         in: topRated.map((rating) => rating.studySetId),
                     },
-                    deleted: false,
                 },
                 select: {
                     id: true,
@@ -198,9 +190,7 @@ export const getStudySetRouter = createTRPCRouter({
     topCreators: protectedProcedure.query(async ({ ctx }) => {
         const topCreators = await ctx.db.studySet.groupBy({
             by: ["createdById"],
-            where: {
-                deleted: false,
-            },
+            where: {},
             orderBy: {
                 _count: {
                     createdById: "desc",
@@ -238,7 +228,6 @@ export const getStudySetRouter = createTRPCRouter({
         .query(async ({ ctx, input }) => {
             return ctx.db.studySet.findMany({
                 where: {
-                    deleted: false,
                     areaId: input.areaId,
                     subjectId: input.subjectId,
                     createdById: input.userId,
