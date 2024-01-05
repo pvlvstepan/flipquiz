@@ -17,8 +17,8 @@ export default async function AuthLayout({ children }: AuthLayoutProps) {
     }
 
     return (
-        <div className="flex h-full flex-col lg:overflow-hidden">
-            <div className="flex-1 lg:grid lg:grid-cols-2 lg:overflow-hidden">
+        <div className="flex flex-1 flex-col lg:overflow-hidden">
+            <div className="grid flex-1 lg:grid-cols-2 lg:overflow-hidden">
                 <div className="relative hidden flex-col justify-between bg-muted p-10 lg:flex">
                     <Image
                         alt=""
@@ -41,7 +41,7 @@ export default async function AuthLayout({ children }: AuthLayoutProps) {
                         FlipQuiz
                     </Link>
                 </div>
-                <div className="flex h-full flex-col overflow-y-auto p-4 pb-10 sm:p-10">
+                <div className="flex flex-col overflow-y-auto p-4 pb-10 sm:p-10">
                     <div className="mx-auto flex w-full max-w-lg flex-1 flex-col">
                         {children}
                     </div>

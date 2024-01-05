@@ -5,14 +5,14 @@ import { Button } from "@/components/ui/button";
 export function HeroSection() {
     return (
         <div
-            className="-mt-8 bg-left-bottom sm:bg-center"
+            className="-mt-8 flex flex-col bg-left-bottom max-sm:min-h-[calc(100vh-55px)] sm:bg-center"
             style={{
                 backgroundImage: "url(/images/blob-scene.svg)",
                 backgroundRepeat: "no-repeat",
                 backgroundSize: "cover",
             }}
         >
-            <section className="container max-sm:backdrop-blur-md">
+            <section className="container flex-1 max-sm:flex max-sm:backdrop-blur-md">
                 <div className="flex flex-col items-center justify-center gap-8 py-16 text-center">
                     <h1 className="max-w-2xl text-4xl font-extrabold leading-none tracking-tight md:text-5xl xl:text-6xl">
                         Empowering Learning Through Interactive Study Sets
