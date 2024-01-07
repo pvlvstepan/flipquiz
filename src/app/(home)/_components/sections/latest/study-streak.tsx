@@ -7,6 +7,21 @@ import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { api } from "@/trpc/server";
 
+function getMondayOfCurrentWeek() {
+    const today = new Date();
+    const dayOfWeek = today.getDay();
+    const diff = today.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1); // adjust when day is Sunday
+    const monday = new Date(today.setDate(diff));
+
+    // Set the time to midnight to get only the date part
+    monday.setHours(0, 0, 0, 0);
+
+    return monday;
+}
+
+const now = new Date();
+const monday = getMondayOfCurrentWeek();
+
 export async function StudyStreak() {
     const { streakCount, streaks } =
         await api.studyStreak.getStudyStreak.query();
@@ -28,9 +43,9 @@ export async function StudyStreak() {
                     <div className="relative grid flex-1 grid-cols-7">
                         <div className="absolute inset-x-0 top-8 h-4 rounded-full bg-primary/10" />
                         {Array.from({ length: 7 }).map((el, i) => {
-                            const now = new Date();
-                            const first = now.getDate() - now.getDay() + 1; // This will get the Monday of the week
-                            const day = new Date(now.setDate(first + i));
+                            const day = new Date(
+                                now.setDate(monday.getDate() + i),
+                            );
                             const isToday =
                                 format(day, "yyyy-MM-dd") ===
                                 format(new Date(), "yyyy-MM-dd");
