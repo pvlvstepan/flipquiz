@@ -4,7 +4,7 @@ import { TooltipProvider } from "@radix-ui/react-tooltip";
 import { CopyIcon, PencilIcon, Share2Icon, Trash2Icon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useMemo } from "react";
+import { useMemo, useState, useTransition } from "react";
 import QRCode from "react-qr-code";
 
 import type { Role } from "@prisma/client";
@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/button";
 import { Dialog } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
+import { Spinner } from "@/components/ui/spinner";
 import { Tooltip } from "@/components/ui/tooltip";
 import { useToast } from "@/components/ui/use-toast";
 
@@ -26,14 +27,38 @@ interface StudySetCreatorInfoProps {
     };
     studySetId: string;
     belongsToCurrentUser: boolean;
+    onDelete: () => Promise<void>;
 }
 
 export function StudySetCreatorInfo({
     createdBy,
     studySetId,
     belongsToCurrentUser,
+    onDelete,
 }: StudySetCreatorInfoProps) {
+    const [isLoading, setIsLoading] = useTransition();
+
+    const [deleteOpen, setDeleteOpen] = useState(false);
+
     const { toast } = useToast();
+
+    const handleDelete = () => {
+        setIsLoading(() =>
+            onDelete()
+                .then(() => {
+                    setDeleteOpen(false);
+                    toast({
+                        title: "Study set deleted",
+                    });
+                })
+                .catch(() => {
+                    toast({
+                        title: "Failed to delete study set",
+                        variant: "destructive",
+                    });
+                }),
+        );
+    };
 
     const studySetUrl = useMemo(
         () =>
@@ -166,18 +191,56 @@ export function StudySetCreatorInfo({
                         </Tooltip>
                     ) : null}
                     {belongsToCurrentUser ? (
-                        <Tooltip content="Delete">
-                            <Button
-                                className="shrink-0"
-                                size="icon"
-                                variant="outline"
+                        <>
+                            <Tooltip content="Delete">
+                                <Button
+                                    className="shrink-0"
+                                    onClick={() => {
+                                        setDeleteOpen(true);
+                                    }}
+                                    size="icon"
+                                    variant="outline"
+                                >
+                                    <Trash2Icon size={24} />
+                                    <span className="sr-only">
+                                        Delete study set
+                                    </span>
+                                </Button>
+                            </Tooltip>
+                            <Dialog
+                                onOpenChange={setDeleteOpen}
+                                open={deleteOpen}
                             >
-                                <Trash2Icon size={24} />
-                                <span className="sr-only">
-                                    Delete study set
-                                </span>
-                            </Button>
-                        </Tooltip>
+                                <Dialog.Content className="max-w-full sm:max-w-lg">
+                                    <Dialog.Header className="text-xl sm:text-2xl">
+                                        Are you sure you want to delete this
+                                        study set?
+                                    </Dialog.Header>
+                                    <Dialog.Description>
+                                        This action cannot be undone. This will
+                                        permanently delete this study set.
+                                    </Dialog.Description>
+                                    <Dialog.Footer className="gap-y-2">
+                                        <Button
+                                            onClick={() => {
+                                                handleDelete();
+                                            }}
+                                            variant="outline"
+                                        >
+                                            Cancel
+                                        </Button>
+                                        <Button
+                                            className="min-w-[85px]"
+                                            disabled={isLoading}
+                                            onClick={handleDelete}
+                                            variant="destructive"
+                                        >
+                                            {isLoading ? <Spinner /> : "Delete"}
+                                        </Button>
+                                    </Dialog.Footer>
+                                </Dialog.Content>
+                            </Dialog>
+                        </>
                     ) : null}
                 </div>
             </div>

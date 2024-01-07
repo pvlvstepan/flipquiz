@@ -69,6 +69,18 @@ export default async function StudySetPage({ params }: StudySetPageProps) {
             });
     };
 
+    const deleteStudySet = async () => {
+        "use server";
+
+        return api.studySet.manage.delete
+            .mutate({
+                studySetId: studySet.id,
+            })
+            .then(() => {
+                redirect("/profile");
+            });
+    };
+
     const comments = await api.studySet.comment.getStudySetComments.query({
         studySetId: params.id,
     });
@@ -100,6 +112,7 @@ export default async function StudySetPage({ params }: StudySetPageProps) {
                     <StudySetCreatorInfo
                         belongsToCurrentUser={belongsToCurrentUser}
                         createdBy={studySet.createdBy}
+                        onDelete={deleteStudySet}
                         studySetId={studySet.id}
                     />
                     {studySet.description ? (
