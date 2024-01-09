@@ -7,23 +7,49 @@ export const studySetViewsRouter = createTRPCRouter({
     incrementViews: protectedProcedure
         .input(incrementViewInput)
         .mutation(async ({ ctx, input }) => {
-            return ctx.db.view
-                .upsert({
+            const view = await ctx.db.view.findUnique({
+                where: {
+                    userId_studySetId: {
+                        studySetId: input.studySetId,
+                        userId: ctx.session.user.id,
+                    },
+                },
+            });
+
+            if (view) {
+                return ctx.db.view.update({
                     where: {
                         userId_studySetId: {
                             studySetId: input.studySetId,
                             userId: ctx.session.user.id,
                         },
                     },
-                    update: {
+                    data: {
                         createdAt: new Date(),
                     },
-                    create: {
+                });
+            }
+
+            return ctx.db.view
+                .create({
+                    data: {
                         userId: ctx.session.user.id,
                         studySetId: input.studySetId,
                         createdAt: new Date(),
                     },
                 })
+                .then(() =>
+                    ctx.db.studySet.update({
+                        where: {
+                            id: input.studySetId,
+                        },
+                        data: {
+                            viewsCount: {
+                                increment: 1,
+                            },
+                        },
+                    }),
+                )
                 .then(async () => {
                     const studySetsCount = await ctx.db.view.count({
                         where: {

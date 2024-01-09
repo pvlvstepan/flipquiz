@@ -9,10 +9,8 @@ import {
 } from "@/server/schemas/study-set";
 
 interface SortItem {
-    rating: {
-        average: number;
-        count: number;
-    };
+    rating: number;
+    ratingsCount: number;
 }
 
 const weightedSort = (
@@ -22,9 +20,9 @@ const weightedSort = (
     weightCount: number,
 ) => {
     const weightedScoreA =
-        a.rating.average * weightAverage + a.rating.count * weightCount;
+        a.rating * weightAverage + a.ratingsCount * weightCount;
     const weightedScoreB =
-        b.rating.average * weightAverage + b.rating.count * weightCount;
+        b.rating * weightAverage + b.ratingsCount * weightCount;
 
     return weightedScoreB - weightedScoreA;
 };
@@ -106,11 +104,7 @@ export const getStudySetRouter = createTRPCRouter({
             select: {
                 id: true,
                 name: true,
-                _count: {
-                    select: {
-                        views: true,
-                    },
-                },
+                viewsCount: true,
                 createdBy: {
                     select: {
                         username: true,
@@ -120,41 +114,17 @@ export const getStudySetRouter = createTRPCRouter({
                 },
             },
             orderBy: {
-                views: {
-                    _count: "desc",
-                },
+                viewsCount: "desc",
             },
             take: 10,
         });
     }),
     topRated: protectedProcedure.query(async ({ ctx }) => {
-        const topRated = await ctx.db.rating.groupBy({
-            by: ["studySetId"],
-            where: {
-                studySet: {},
-            },
-            orderBy: {
-                _avg: {
-                    rating: "desc",
-                },
-            },
-        });
-
         return ctx.db.studySet
             .findMany({
-                where: {
-                    id: {
-                        in: topRated.map((rating) => rating.studySetId),
-                    },
-                },
                 select: {
                     id: true,
                     name: true,
-                    ratings: {
-                        select: {
-                            rating: true,
-                        },
-                    },
                     createdBy: {
                         select: {
                             username: true,
@@ -162,25 +132,12 @@ export const getStudySetRouter = createTRPCRouter({
                             image: true,
                         },
                     },
+                    rating: true,
+                    ratingsCount: true,
                 },
             })
             .then((studySets) =>
                 studySets
-                    .map((studySet) => {
-                        const avg =
-                            studySet.ratings.reduce(
-                                (sum, rating) => sum + rating.rating,
-                                0,
-                            ) / studySet.ratings.length;
-
-                        return {
-                            ...studySet,
-                            rating: {
-                                average: avg,
-                                count: studySet.ratings.length,
-                            },
-                        };
-                    })
                     .sort((a, b) =>
                         weightedSort(a, b, weightAverage, weightCount),
                     )
@@ -237,7 +194,7 @@ export const getStudySetRouter = createTRPCRouter({
                     name: true,
                     _count: {
                         select: {
-                            views: true,
+                            cards: true,
                         },
                     },
                     createdBy: {

@@ -64,11 +64,7 @@ export const studyStreakRouter = createTRPCRouter({
                 });
         }
 
-        console.log(parsed);
-
         const streakCount = calculateCurrentStreak(parsed);
-
-        console.log(streakCount);
 
         if (streakCount >= 30) {
             await ctx.db.userAchievement.upsert({

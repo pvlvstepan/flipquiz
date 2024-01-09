@@ -62,8 +62,6 @@ export const authOptions: NextAuthOptions = {
                         },
                     });
 
-                    console.log(result);
-
                     if (!result) return null;
 
                     const isValidPassword = await verify(

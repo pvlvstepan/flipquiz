@@ -38,14 +38,14 @@ export async function StudySetStats({ studySetId }: StudySetStatsProps) {
             <div className="flex items-center gap-2 text-muted-foreground">
                 <UsersIcon size={16} />
                 <span>
-                    {stats.views} {stats.views === 1 ? "person" : "people"}{" "}
-                    studied this
+                    {stats.viewsCount}{" "}
+                    {stats.viewsCount === 1 ? "person" : "people"} studied this
                 </span>
             </div>
             <StudySetRatingControl
-                averageRating={stats.averageRating}
+                averageRating={stats.rating.toFixed(1)}
                 onSubmit={handleRatingSubmit}
-                ratings={stats.ratings}
+                ratings={stats.ratingsCount}
             />
             <Link
                 className="flex items-center gap-2 text-muted-foreground transition-colors hover:text-primary hover:underline"
@@ -56,7 +56,7 @@ export async function StudySetStats({ studySetId }: StudySetStatsProps) {
                     className="fill-primary text-primary"
                     size={16}
                 />
-                <span>({stats.comments}) comments</span>
+                <span>({stats.commentsCount}) comments</span>
             </Link>
         </div>
     );

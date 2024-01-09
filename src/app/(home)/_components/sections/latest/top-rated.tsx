@@ -14,8 +14,8 @@ export async function TopRatedStudySets() {
                         key={studySet.id}
                         name={studySet.name}
                         rating={{
-                            average: studySet.rating.average,
-                            count: studySet.rating.count,
+                            average: studySet.rating,
+                            count: studySet.ratingsCount,
                         }}
                         studySetId={studySet.id}
                     />

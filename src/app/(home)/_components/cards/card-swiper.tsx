@@ -5,7 +5,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/scrollbar";
 
-import { Children, useState } from "react";
+import { Children } from "react";
 import { Mousewheel } from "swiper/modules";
 
 import { cn } from "@/lib/utils";
@@ -15,26 +15,19 @@ interface CardSwiperProps {
 }
 
 export function CardSwiper({ children }: CardSwiperProps) {
-    const [initialized, setInitialized] = useState(false);
-
     return (
         <Swiper
-            className={cn(
-                "group/swiper relative !overflow-visible",
-                !initialized && "opacity-0",
-            )}
+            className={cn("group/swiper relative !overflow-visible")}
             modules={[Mousewheel]}
             mousewheel={{
                 forceToAxis: true,
             }}
-            onInit={() => {
-                setInitialized(true);
-            }}
             slidesPerView="auto"
-            spaceBetween={16}
         >
             {Children.map(children, (child) => (
-                <SwiperSlide className="max-w-[280px]">{child}</SwiperSlide>
+                <SwiperSlide className="mr-4 max-w-[280px] last:mr-0">
+                    {child}
+                </SwiperSlide>
             ))}
         </Swiper>
     );

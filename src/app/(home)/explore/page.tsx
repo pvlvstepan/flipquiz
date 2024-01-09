@@ -63,7 +63,7 @@ export default async function ExplorePage({ searchParams }: ExplorePageProps) {
                             key={studySet.id}
                             name={studySet.name}
                             studySetId={studySet.id}
-                            termsCount={studySet._count.views}
+                            termsCount={studySet._count.cards}
                         />
                     ))
                 ) : (

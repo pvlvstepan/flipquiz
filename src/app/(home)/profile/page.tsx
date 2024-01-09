@@ -75,7 +75,7 @@ export default async function UserProfile() {
                                 key={studySet.id}
                                 name={studySet.name}
                                 studySetId={studySet.id}
-                                termsCount={studySet._count.views}
+                                termsCount={studySet._count.cards}
                             />
                         ))}
                     </div>

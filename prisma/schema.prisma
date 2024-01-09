@@ -33,6 +33,11 @@ model StudySet {
     area   Area   @relation(fields: [areaId], references: [id], onDelete: Cascade)
     areaId String @db.ObjectId
 
+    viewsCount    Int   @default(0)
+    commentsCount Int   @default(0)
+    ratingsCount  Int   @default(0)
+    rating        Float @default(0)
+
     cards    StudySetCard[]
     views    View[]
     ratings  Rating[]

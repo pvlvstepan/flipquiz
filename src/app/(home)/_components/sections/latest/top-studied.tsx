@@ -14,7 +14,7 @@ export async function PopularStudySets() {
                         key={studySet.id}
                         name={studySet.name}
                         studySetId={studySet.id}
-                        viewsCount={studySet._count.views}
+                        viewsCount={studySet.viewsCount}
                     />
                 ))}
             </CardSwiper>

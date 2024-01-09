@@ -9,20 +9,42 @@ export const studySetCommentRouter = createTRPCRouter({
     addComment: protectedProcedure
         .input(addCommentInput)
         .mutation(async ({ ctx, input }) => {
-            return ctx.db.comment.create({
-                data: {
-                    userId: ctx.session.user.id,
-                    studySetId: input.studySetId,
-                    content: input.content,
-                },
-            });
+            return ctx.db.comment
+                .create({
+                    data: {
+                        userId: ctx.session.user.id,
+                        studySetId: input.studySetId,
+                        content: input.content,
+                    },
+                })
+                .then((comment) => {
+                    return ctx.db.studySet.update({
+                        where: { id: comment.studySetId },
+                        data: {
+                            commentsCount: {
+                                increment: 1,
+                            },
+                        },
+                    });
+                });
         }),
     deleteComment: protectedProcedure
         .input(deleteCommentInput)
         .mutation(async ({ ctx, input }) => {
-            return ctx.db.comment.delete({
-                where: { id: input.commentId, userId: ctx.session.user.id },
-            });
+            return ctx.db.comment
+                .delete({
+                    where: { id: input.commentId, userId: ctx.session.user.id },
+                })
+                .then((comment) => {
+                    return ctx.db.studySet.update({
+                        where: { id: comment.studySetId },
+                        data: {
+                            commentsCount: {
+                                decrement: 1,
+                            },
+                        },
+                    });
+                });
         }),
     getStudySetComments: protectedProcedure
         .input(getStudySetCommentsInput)

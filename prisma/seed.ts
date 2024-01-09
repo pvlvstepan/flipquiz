@@ -130,17 +130,9 @@ async function main() {
     await prisma.area.deleteMany({}).then(() => {
         console.log("Areas deleted");
     });
-    await prisma.user
-        .deleteMany({
-            where: {
-                username: {
-                    not: "admin",
-                },
-            },
-        })
-        .then(() => {
-            console.log("Users deleted");
-        });
+    await prisma.user.deleteMany({}).then(() => {
+        console.log("Users deleted");
+    });
 
     await Promise.all(
         areas.map(async (area) => {
@@ -219,6 +211,31 @@ async function main() {
 
                     const subject = faker.helpers.arrayElement(subjects);
 
+                    const fakeComments = Array.from({
+                        length: faker.number.int({
+                            min: 1,
+                            max: 5,
+                        }),
+                    }).map(() => ({
+                        content: faker.lorem.paragraph({
+                            max: 2,
+                            min: 1,
+                        }),
+                        userId: faker.helpers.arrayElement(users).id,
+                    }));
+
+                    const fakeRatings = uniqueUsers.map((u) => ({
+                        rating: faker.number.int({
+                            min: 1,
+                            max: 5,
+                        }),
+                        userId: u.id,
+                    }));
+
+                    const fakeViews = uniqueUsers.map((u) => ({
+                        userId: u.id,
+                    }));
+
                     return prisma.studySet.create({
                         data: {
                             name: faker.word.words({
@@ -250,40 +267,27 @@ async function main() {
                             },
                             comments: {
                                 createMany: {
-                                    data: Array.from({
-                                        length: faker.number.int({
-                                            min: 1,
-                                            max: 5,
-                                        }),
-                                    }).map(() => ({
-                                        content: faker.lorem.paragraph({
-                                            max: 2,
-                                            min: 1,
-                                        }),
-                                        userId: faker.helpers.arrayElement(
-                                            users,
-                                        ).id,
-                                    })),
+                                    data: fakeComments,
                                 },
                             },
+                            commentsCount: fakeComments.length,
                             ratings: {
                                 createMany: {
-                                    data: uniqueUsers.map((u) => ({
-                                        rating: faker.number.int({
-                                            min: 1,
-                                            max: 5,
-                                        }),
-                                        userId: u.id,
-                                    })),
+                                    data: fakeRatings,
                                 },
                             },
+                            ratingsCount: fakeRatings.length,
+                            rating:
+                                fakeRatings.reduce(
+                                    (acc, curr) => acc + curr.rating,
+                                    0,
+                                ) / fakeRatings.length,
                             views: {
                                 createMany: {
-                                    data: uniqueUsers.map((u) => ({
-                                        userId: u.id,
-                                    })),
+                                    data: fakeViews,
                                 },
                             },
+                            viewsCount: fakeViews.length,
                             cards: {
                                 createMany: {
                                     data: Array.from({ length: 10 }).map(() => {
