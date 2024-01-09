@@ -2,34 +2,33 @@ import { Achievement } from "@prisma/client";
 
 import { createTRPCRouter, protectedProcedure } from "../../trpc";
 
-const calculateConsecutiveDays = (datesArray: string[]): number => {
-    // Convert dates to timestamp for easy comparison
+const calculateCurrentStreak = (datesArray: string[]): number => {
     const timestamps = datesArray.map((date) => new Date(date).getTime());
 
-    // Sort timestamps in descending order
-    timestamps.sort((a, b) => b - a);
+    // Sort timestamps in ascending order
+    timestamps.sort((a, b) => a - b);
 
-    // Calculate consecutive days using reduce
-    const consecutiveDays = timestamps.reduce(
-        (count, timestamp, index, array) => {
-            // prettier-ignore
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- we know that array[index + 1] exists
-            if (index < array.length - 1 && (timestamp - (array[index + 1]!)) / (24 * 60 * 60 * 1000) === 1) { 
-            return count + 1; 
+    let streak = 1;
+
+    const day = 86400000;
+
+    for (let i = timestamps.length - 1; i > 0; i--) {
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- we know it's not null
+        if ((timestamps[i]! - timestamps[i - 1]!) / day === 1) {
+            streak++;
+        } else {
+            break;
         }
-            return count;
-        },
-        1,
-    );
+    }
 
-    return consecutiveDays;
+    return streak;
 };
 
 export const studyStreakRouter = createTRPCRouter({
     getStudyStreak: protectedProcedure.query(async ({ ctx }) => {
         const { user } = ctx.session;
 
-        const streaks = await ctx.db.studyStreak.findMany({
+        let streaks = await ctx.db.studyStreak.findMany({
             where: {
                 userId: user.id,
             },
@@ -48,15 +47,28 @@ export const studyStreakRouter = createTRPCRouter({
         const today = new Date().toISOString().slice(0, 10);
 
         if (!parsed.includes(today)) {
-            await ctx.db.studyStreak.create({
-                data: {
-                    createdAt: new Date(),
-                    userId: user.id,
-                },
-            });
+            await ctx.db.studyStreak
+                .create({
+                    data: {
+                        createdAt: new Date(),
+                        userId: user.id,
+                    },
+                })
+                .then((s) => {
+                    streaks = [
+                        ...streaks,
+                        {
+                            createdAt: s.createdAt,
+                        },
+                    ];
+                });
         }
 
-        const streakCount = calculateConsecutiveDays(parsed);
+        console.log(parsed);
+
+        const streakCount = calculateCurrentStreak(parsed);
+
+        console.log(streakCount);
 
         if (streakCount >= 30) {
             await ctx.db.userAchievement.upsert({
