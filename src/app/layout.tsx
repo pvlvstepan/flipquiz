@@ -18,14 +18,7 @@ export const metadata: Metadata = {
     title: "FlipQuiz",
     openGraph: {
         siteName: "FlipQuiz",
-        images: [
-            {
-                url: "/cover.png",
-                width: 1280,
-                height: 640,
-                alt: "FlipQuiz",
-            },
-        ],
+        images: ["cover.png"],
     },
     description:
         "Revolutionizing online education through gamified learning experiences and collaborative study sets",
