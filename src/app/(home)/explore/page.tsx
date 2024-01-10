@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 import type { Metadata } from "next";
 
 import { Separator } from "@/components/ui/separator";
@@ -68,7 +70,17 @@ export default async function ExplorePage({ searchParams }: ExplorePageProps) {
                     ))
                 ) : (
                     <div className="col-span-3 flex h-full items-center justify-center text-xl">
-                        No study sets found :(
+                        <div className="flex flex-1 flex-col items-center justify-center gap-8">
+                            <Image
+                                alt="Empty"
+                                height={300}
+                                src="/images/empty.svg"
+                                width={300}
+                            />
+                            <h1 className="text-lg sm:text-xl">
+                                No study sets found
+                            </h1>
+                        </div>
                     </div>
                 )}
             </div>

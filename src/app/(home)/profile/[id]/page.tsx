@@ -75,7 +75,7 @@ export default async function UserProfile({ params }: UserProfilePageProps) {
     });
 
     return (
-        <div className="container flex flex-col gap-8">
+        <div className="container flex flex-1 flex-col gap-8">
             <div className="flex flex-col items-center gap-8 sm:flex-row sm:gap-4">
                 <div className="relative h-32 w-32 shrink-0 overflow-hidden rounded-full bg-muted-foreground/20 sm:h-16 sm:w-16">
                     {user.image ? (
@@ -116,7 +116,19 @@ export default async function UserProfile({ params }: UserProfilePageProps) {
                         ))}
                     </div>
                 </>
-            ) : null}
+            ) : (
+                <div className="flex flex-1 flex-col items-center justify-center gap-8">
+                    <Image
+                        alt="Empty"
+                        height={300}
+                        src="/images/empty.svg"
+                        width={300}
+                    />
+                    <h1 className="text-lg sm:text-xl">
+                        This user has no study sets yet
+                    </h1>
+                </div>
+            )}
         </div>
     );
 }
