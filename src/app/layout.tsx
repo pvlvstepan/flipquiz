@@ -16,6 +16,19 @@ const fontOutfit = Outfit({
 
 export const metadata: Metadata = {
     title: "FlipQuiz",
+    openGraph: {
+        siteName: "FlipQuiz",
+        images: [
+            {
+                url: "/cover.png",
+                width: 1280,
+                height: 640,
+                alt: "FlipQuiz",
+            },
+        ],
+    },
+    description:
+        "Revolutionizing online education through gamified learning experiences and collaborative study sets",
     icons: [
         { rel: "icon", url: "/favicon.ico" },
         {
