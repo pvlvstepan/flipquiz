@@ -13,8 +13,8 @@ import { api } from "@/trpc/server";
 export const deleteComment = async (
     data: z.infer<typeof deleteCommentInput>,
 ) => {
-    void api.studySet.comment.deleteComment.mutate(data).then(() => {
-        revalidatePath("");
+    void api.studySet.comment.deleteComment.mutate(data).then((comment) => {
+        revalidatePath(`/study-set/${comment.studySetId}`);
     });
 };
 
@@ -24,7 +24,7 @@ export const addComment = async (data: z.infer<typeof addCommentInput>) => {
             content: data.content.replace(/\n{2,}/g, "\n"),
             studySetId: data.studySetId,
         })
-        .then(() => {
-            revalidatePath("");
+        .then((comment) => {
+            revalidatePath(`/study-set/${comment.studySetId}`);
         });
 };

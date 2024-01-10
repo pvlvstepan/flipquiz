@@ -18,7 +18,7 @@ export const studySetCommentRouter = createTRPCRouter({
                     },
                 })
                 .then((comment) => {
-                    return ctx.db.studySet.update({
+                    void ctx.db.studySet.update({
                         where: { id: comment.studySetId },
                         data: {
                             commentsCount: {
@@ -26,6 +26,8 @@ export const studySetCommentRouter = createTRPCRouter({
                             },
                         },
                     });
+
+                    return comment;
                 });
         }),
     deleteComment: protectedProcedure
@@ -36,7 +38,7 @@ export const studySetCommentRouter = createTRPCRouter({
                     where: { id: input.commentId, userId: ctx.session.user.id },
                 })
                 .then((comment) => {
-                    return ctx.db.studySet.update({
+                    void ctx.db.studySet.update({
                         where: { id: comment.studySetId },
                         data: {
                             commentsCount: {
@@ -44,6 +46,8 @@ export const studySetCommentRouter = createTRPCRouter({
                             },
                         },
                     });
+
+                    return comment;
                 });
         }),
     getStudySetComments: protectedProcedure
